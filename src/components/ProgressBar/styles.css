@@ -1,0 +1,13 @@
+/* ver o porque ele não está trazendo o css  */
+#bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#bar #link{
+    color:#000;
+    width:5.5em;
+   
+}
+
