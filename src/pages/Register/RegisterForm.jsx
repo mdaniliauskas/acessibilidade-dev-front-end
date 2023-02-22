@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 
+import { useEffect } from "react";
+
 import styles from "./styles.module.css";
 
 import {
@@ -20,10 +22,23 @@ function RegisterForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm();
+    formState: { errors,  dirtyFields },
+  } = useForm({
+    defaultValues:{
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmedPass:'',
+      haveDesability: '',
+      isSpecialist: '',
+      checkbox: false,
+    }
+  });
 
   const onSubmit = (data) => {
+    console.log("Dirty fields");
+    console.log(dirtyFields);
     console.log(data);
   };
 
@@ -64,6 +79,14 @@ function RegisterForm() {
     },
   };
 
+
+  useEffect(()=>{
+    console.log('Chamou Dirty', dirtyFields);
+    const fieldsFilled = [Object.keys(dirtyFields).length];
+    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 8) * 100) : 0
+    console.log(completedPorcentage);
+  }, [Object.keys(dirtyFields).length])
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl isRequired isInvalid={errors.firstName}>
@@ -77,10 +100,11 @@ function RegisterForm() {
           {...register("firstName", {
             ...errorValidation.names,
             ...errorValidation.filled,
-          })}
+          })
+        }
         />
         {!errors.firstName ? (
-          <FormHelperText>asdadad</FormHelperText>
+          <FormHelperText>O campo deve possui no mínimo 2 de caracteres.</FormHelperText>
         ) : (
           <FormErrorMessage>{errors.firstName.message}</FormErrorMessage>
         )}
@@ -215,6 +239,8 @@ function RegisterForm() {
         value="Enviar"
         color="blue"
       />
+
+      <button type="button" onClick={()=>{console.log('Dirty Botao', dirtyFields)}}>Teste do Dirty</button>
     </form>
   );
 }
