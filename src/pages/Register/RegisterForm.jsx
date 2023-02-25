@@ -6,6 +6,8 @@ import {Eye, EyeOff} from 'react-feather'
 
 import styles from "./styles.module.css";
 
+import errorValidation from './ErrorValidation'
+
 import {
   Box,
   Button,
@@ -48,44 +50,6 @@ function RegisterForm() {
   const onSubmit = (data) => {
     console.log(data);
   };
-
-  const errorValidation = {
-    names: {
-      minLength: {
-        value: 2,
-        message: "O campo não possui o mínimo de caracteres.",
-      },
-      maxLength: {
-        value: 60,
-        message: "O campo ultrapassa o limite de caracteres.",
-      },
-    },
-    email: {
-      pattern: {
-        value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
-        message: "O e-mail está fora do padrão. Exemplo: exemplo@email.com.br",
-      },
-      minLength: {
-        value: 4,
-        message: "O campo não possui o mínimo de caracteres.",
-      },
-      maxLength: {
-        value: 40,
-        message: "O campo ultrapassa o limite de caracteres.",
-      },
-    },
-    password: {
-      pattern: {
-        value:
-          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/,
-        message: "A senha está fora do padrão sugerido.",
-      },
-    },
-    filled: {
-      required: "Este campo é obrigatório!",
-    },
-  };
-
 
   useEffect(()=>{
     const fieldsFilled = [Object.keys(dirtyFields).length];
