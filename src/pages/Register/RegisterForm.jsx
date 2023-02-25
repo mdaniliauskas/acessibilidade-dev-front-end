@@ -1,14 +1,14 @@
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
 
-import { useEffect } from "react";
+// icones
+import {Eye, EyeOff} from 'react-feather'
 
 import styles from "./styles.module.css";
 
 import {
-  Alert,
-  AlertIcon,
-  AlertDescription,
   Box,
+  Button,
   Checkbox,
   Flex,
   FormControl,
@@ -16,9 +16,18 @@ import {
   FormHelperText,
   FormLabel,
   Input,
+  InputGroup,
+  InputRightElement,
 } from "@chakra-ui/react";
 
+
 function RegisterForm() {
+
+  const [show, setShow] = useState(false);
+  const handleClick = () =>{
+    setShow(!show)
+  }
+
   const {
     register,
     handleSubmit,
@@ -37,8 +46,6 @@ function RegisterForm() {
   });
 
   const onSubmit = (data) => {
-    console.log("Dirty fields");
-    console.log(dirtyFields);
     console.log(data);
   };
 
@@ -81,10 +88,8 @@ function RegisterForm() {
 
 
   useEffect(()=>{
-    console.log('Chamou Dirty', dirtyFields);
     const fieldsFilled = [Object.keys(dirtyFields).length];
-    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 8) * 100) : 0
-    console.log(completedPorcentage);
+    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 8) * 100) : 0;
   }, [Object.keys(dirtyFields).length])
 
   return (
@@ -159,15 +164,22 @@ function RegisterForm() {
             <FormLabel htmlFor="password" className={styles.registerLabels}>
               Senha
             </FormLabel>
-            <Input
-              isInvalid={errors.password ? true : false}
-              id="password"
-              type="password"
-              {...register("password", {
-                ...errorValidation.password,
-                ...errorValidation.filled,
-              })}
-            />
+            <InputGroup>
+              <Input
+                isInvalid={errors.password ? true : false}
+                id="password"
+                type={show ? 'text' : 'password'}
+                {...register("password", {
+                  ...errorValidation.password,
+                  ...errorValidation.filled,
+                })}
+              />
+              <InputRightElement width='4.5rem'>
+                <Button h='1.75rem' size='sm' onClick={(e) => handleClick(e)}>
+                  {show ? (<EyeOff/>) : (<Eye/>)}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             {!errors.password ? (
               <FormHelperText>
                 A senha deve conter no mínimo 8 caracteres.
@@ -185,15 +197,22 @@ function RegisterForm() {
             >
               Confirme a senha
             </FormLabel>
-            <Input
-              isInvalid={errors.confirmedPass ? true : false}
-              {...register("confirmedPass", {
-                ...errorValidation.password,
-                ...errorValidation.filled,
-              })}
-              id="confirmedPass"
-              type="password"
-            />
+            <InputGroup>
+              <Input
+                isInvalid={errors.confirmedPass ? true : false}
+                {...register("confirmedPass", {
+                  ...errorValidation.password,
+                  ...errorValidation.filled,
+                })}
+                id="confirmedPass"
+                type={show ? 'text' : 'password'}
+              />
+              <InputRightElement width='4.5rem'>
+                <Button h='1.75rem' size='sm' onClick={handleClick} name='eyeConfirmedPassword'>
+                  {show ? (<EyeOff/>) : (<Eye/>)}
+                </Button>
+              </InputRightElement>
+            </InputGroup>
             {!errors.password ? (
               <FormHelperText>
                 A senha deve conter no mínimo 8 caracteres.
@@ -239,8 +258,6 @@ function RegisterForm() {
         value="Enviar"
         color="blue"
       />
-
-      <button type="button" onClick={()=>{console.log('Dirty Botao', dirtyFields)}}>Teste do Dirty</button>
     </form>
   );
 }
