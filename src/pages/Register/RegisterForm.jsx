@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 
+import CustomButton from '../../components/CustomButton';
+
 // icones
 import {Eye, EyeOff} from 'react-feather'
 
@@ -216,13 +218,16 @@ function RegisterForm({handlePorcentage}) {
           Li e aceito os termos e políticas do Portal Acessibilidade Dev
         </Checkbox>
       </FormControl>
-
-      <Input
+              
+      <CustomButton
         className={styles.registerLabels}
         type="submit"
         value="Enviar"
-        color="blue"
-      />
+        bg='green'
+        bgHover='green.600'    
+      > 
+        Cadastrar
+      </CustomButton>
     </form>
   );
 }

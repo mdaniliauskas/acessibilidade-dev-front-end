@@ -4,12 +4,6 @@ import ProgressBar from '../../components/ProgressBar/'
 import RegisterForm from './RegisterForm';
 import { Heading } from '@chakra-ui/react'
 
-
-// TODO:
-// 2. Pass hardcoded data from the common parent.
-// 3. Add state to the common parent and pass it down together with the event handlers.
-
-
 function RegisterPage () {
 
   const [porcentage, setPorcentage] = useState(0)
