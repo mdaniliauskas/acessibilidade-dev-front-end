@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 
 
-function RegisterForm() {
+function RegisterForm({handlePorcentage}) {
 
   const [show, setShow] = useState(false);
   const handleClick = () =>{
@@ -54,6 +54,7 @@ function RegisterForm() {
   useEffect(()=>{
     const fieldsFilled = [Object.keys(dirtyFields).length];
     const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 8) * 100) : 0;
+    handlePorcentage(completedPorcentage)
   }, [Object.keys(dirtyFields).length])
 
   return (
