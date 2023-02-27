@@ -1,29 +1,30 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './App.css'
 import RegisterPage from './pages/Register/'
-
 import useFetch from './hooks/useFetch';
 
 
 function App() {
   const URL = `https://rickandmortyapi.com/api/character`;
   
-  const { data } = useFetch(`${URL}/204`);
+  const { data, isPending ,error } = useFetch(`${URL}/204`);
+
 
   return (
     <div>
-      {!data ? (
+      {isPending ? (
           <p>Carregando infos da api</p>
         ) :
         (
           <div>
             <p>{data.id}</p>
-            <p>{data.name}</p>s
+            <p>{data.name}</p>
             <p>{data.status}</p>
             <p>{data.species}</p>
           </div>
         )
       }
+      <p>{error}</p>
     </div>
   )  
 }
