@@ -7,12 +7,13 @@ import useFetch from './hooks/useFetch';
 function App() {
   const URL = `https://rickandmortyapi.com/api/character`;
   
-  const { data, isPending ,error } = useFetch(`${URL}/204`);
+  const { data, isPending, error } = useFetch(`${URL}/204`, );
 
 
   return (
     <div>
-      {isPending ? (
+      <RegisterPage/>
+      {/* {isPending ? (
           <p>Carregando infos da api</p>
         ) :
         (
@@ -24,7 +25,7 @@ function App() {
           </div>
         )
       }
-      <p>{error}</p>
+      <p>{error}</p> */}
     </div>
   )  
 }

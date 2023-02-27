@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 
+import useFetch from '../../hooks/useFetch';
+
 import CustomButton from '../../components/CustomButton';
 
 // icones
@@ -28,6 +30,7 @@ import {
 function RegisterForm({handlePorcentage}) {
 
   const [show, setShow] = useState(false);
+
   const handleClick = () =>{
     setShow(!show)
   }
@@ -38,72 +41,94 @@ function RegisterForm({handlePorcentage}) {
     formState: { errors,  dirtyFields },
   } = useForm({
     defaultValues:{
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
+      birth_date: '',
       email: '',
       password: '',
       confirmedPass:'',
-      haveDesability: '',
-      isSpecialist: '',
+      disability: '',
+      specialist_area: '',
       checkbox: false,
-    }
+    },
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const URL = 'https://acessibilidade-dev-back-end.herokuapp.com/user/signup'
+
+
+  const onSubmit = async (_data) => {
+    console.log(_data);
+    const {data, error} = useFetch(URL, {
+      method: 'POST',
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(_data)
+    }
+  );
+}
 
   useEffect(()=>{
     const fieldsFilled = [Object.keys(dirtyFields).length];
-    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 8) * 100) : 0;
+    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 9) * 100) : 0;
     handlePorcentage(completedPorcentage)
   }, [Object.keys(dirtyFields).length])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isRequired isInvalid={errors.firstName}>
-        <FormLabel htmlFor="firstName" className={styles.registerLabels}>
+      <FormControl isRequired isInvalid={errors.first_name}>
+        <FormLabel htmlFor="first_name" className={styles.registerLabels}>
           Nome
         </FormLabel>
         <Input
           id="firstName"
           placeholder="Digite o seu nome"
-          isInvalid={errors.firstName ? true : false}
-          {...register("firstName", {
+          isInvalid={errors.first_name ? true : false}
+          {...register("first_name", {
             ...errorValidation.names,
             ...errorValidation.filled,
           })
         }
         />
-        {!errors.firstName ? (
+        {!errors.first_name ? (
           <FormHelperText>O campo deve possui no mínimo 2 de caracteres.</FormHelperText>
         ) : (
-          <FormErrorMessage>{errors.firstName.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.first_name.message}</FormErrorMessage>
         )}
       </FormControl>
 
-      <FormControl isRequired isInvalid={errors.lastName}>
+      <FormControl isRequired isInvalid={errors.last_name}>
         <FormLabel htmlFor="lastName" className={styles.registerLabels}>
           Sobrenome
         </FormLabel>
         <Input
           id="lastName"
           placeholder="Digite o seu sobrenome"
-          isInvalid={errors.lastName ? true : false}
-          {...register("lastName", {
+          isInvalid={errors.last_name ? true : false}
+          {...register("last_name", {
             ...errorValidation.names,
             ...errorValidation.filled,
           })}
         />
-        {!errors.lastName ? (
+        {!errors.last_name ? (
           <FormHelperText>
             O campo deve possui no mínimo 2 de caracteres.
           </FormHelperText>
         ) : (
-          <FormErrorMessage>{errors.lastName.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.last_name.message}</FormErrorMessage> 
         )}
       </FormControl>
-
+      
+      <FormControl isRequired isInvalid={errors.birth_date}>
+          <FormLabel htmlFor="birth_date">Data de Nascimento</FormLabel>
+          <Input 
+            id="birth_date" 
+            type="date"
+            isInvalid={errors.birth_date ? true : false}
+            {... register("birth_date", {
+              ...errorValidation.filled
+            })}
+          />
+      </FormControl>     
+          
       <FormControl isRequired isInvalid={errors.email}>
         <FormLabel htmlFor="email" className={styles.registerLabels}>
           E-mail
@@ -119,7 +144,7 @@ function RegisterForm({handlePorcentage}) {
           })}
         />
         {!errors.email ? (
-          <FormHelperText>Exemplo: exemplo@email.com.br</FormHelperText>
+          <FormHelperText>exemplo@email.com.br</FormHelperText>
         ) : (
           <FormErrorMessage>{errors.email.message}</FormErrorMessage>
         )}
@@ -192,21 +217,21 @@ function RegisterForm({handlePorcentage}) {
       </Flex>
 
       <FormControl>
-        <FormLabel htmlFor="haveDisability" className={styles.registerLabels}>
+        <FormLabel htmlFor="disability" className={styles.registerLabels}>
           Possui deficiência? Se sim, qual?
         </FormLabel>
         <Input
-          {...register("haveDisability")}
-          id="haveDisability"
+          {...register("disability")}
+          id="disability"
           type="text"
         />
       </FormControl>
 
       <FormControl>
-        <FormLabel htmlFor="isSpecialist" className={styles.registerLabels}>
+        <FormLabel htmlFor="specialist_area" className={styles.registerLabels}>
           É especialista em alguma deficiência? Se sim, qual?
         </FormLabel>
-        <Input {...register("isSpecialist")} id="isSpecialist" type="text" />
+        <Input {...register("specialist_area")} id="isSpecialist" type="text" />
       </FormControl>
 
       <FormControl>
@@ -222,7 +247,6 @@ function RegisterForm({handlePorcentage}) {
       <CustomButton
         className={styles.registerLabels}
         type="submit"
-        value="Enviar"
         bg='green'
         bgHover='green.600'    
       > 

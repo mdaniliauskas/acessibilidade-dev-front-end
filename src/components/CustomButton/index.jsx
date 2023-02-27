@@ -5,6 +5,7 @@ import styles from "./styles.module.css"
 function CustomButton (props) {
     return (
       <Button 
+        type={props.type}
         borderRadius={30} 
         width={200}
         boxShadow='lg'
