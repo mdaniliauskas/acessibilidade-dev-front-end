@@ -1,16 +1,16 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 
-import useFetch from '../../hooks/useFetch';
+import CustomButton from "../../components/CustomButton";
 
-import CustomButton from '../../components/CustomButton';
+import { SIGNUP } from "../../utils/constants/api";
 
 // icones
-import {Eye, EyeOff} from 'react-feather'
+import { Eye, EyeOff } from "react-feather";
 
 import styles from "./styles.module.css";
 
-import errorValidation from './ErrorValidation'
+import errorValidation from "./ErrorValidation";
 
 import {
   Box,
@@ -26,51 +26,55 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 
-
-function RegisterForm({handlePorcentage}) {
-
+function RegisterForm({ handlePorcentage }) {
   const [show, setShow] = useState(false);
 
-  const handleClick = () =>{
-    setShow(!show)
-  }
+  const handleClick = () => {
+    setShow(!show);
+  };
 
   const {
     register,
     handleSubmit,
-    formState: { errors,  dirtyFields },
+    formState: { errors, dirtyFields },
   } = useForm({
-    defaultValues:{
-      first_name: '',
-      last_name: '',
-      birth_date: '',
-      email: '',
-      password: '',
-      confirmedPass:'',
-      disability: '',
-      specialist_area: '',
+    defaultValues: {
+      first_name: "",
+      last_name: "",
+      birth_date: "",
+      email: "",
+      password: "",
+      confirmedPass: "",
+      disability: "",
+      specialist_area: "",
       checkbox: false,
     },
   });
 
-  const URL = 'https://acessibilidade-dev-back-end.herokuapp.com/user/signup'
+  const onSubmit = async (formData) => {
+    console.log(formData);
+    fetch(SIGNUP, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) throw Error("Deu ruim");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Cadastrou o usuário");
+        console.log("Usuário cadastrado:", data);
+      })
+      .catch((err) => console.error("Deu erro na requisicao ", err));
+  };
 
-
-  const onSubmit = async (_data) => {
-    console.log(_data);
-    const {data, error} = useFetch(URL, {
-      method: 'POST',
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(_data)
-    }
-  );
-}
-
-  useEffect(()=>{
+  useEffect(() => {
     const fieldsFilled = [Object.keys(dirtyFields).length];
-    const completedPorcentage  = fieldsFilled > 0 ? Math.round((fieldsFilled / 9) * 100) : 0;
-    handlePorcentage(completedPorcentage)
-  }, [Object.keys(dirtyFields).length])
+    const completedPorcentage =
+      fieldsFilled > 0 ? Math.round((fieldsFilled / 9) * 100) : 0;
+    handlePorcentage(completedPorcentage);
+  }, [Object.keys(dirtyFields).length]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,11 +89,12 @@ function RegisterForm({handlePorcentage}) {
           {...register("first_name", {
             ...errorValidation.names,
             ...errorValidation.filled,
-          })
-        }
+          })}
         />
         {!errors.first_name ? (
-          <FormHelperText>O campo deve possui no mínimo 2 de caracteres.</FormHelperText>
+          <FormHelperText>
+            O campo deve possui no mínimo 2 de caracteres.
+          </FormHelperText>
         ) : (
           <FormErrorMessage>{errors.first_name.message}</FormErrorMessage>
         )}
@@ -113,22 +118,22 @@ function RegisterForm({handlePorcentage}) {
             O campo deve possui no mínimo 2 de caracteres.
           </FormHelperText>
         ) : (
-          <FormErrorMessage>{errors.last_name.message}</FormErrorMessage> 
+          <FormErrorMessage>{errors.last_name.message}</FormErrorMessage>
         )}
       </FormControl>
-      
+
       <FormControl isRequired isInvalid={errors.birth_date}>
-          <FormLabel htmlFor="birth_date">Data de Nascimento</FormLabel>
-          <Input 
-            id="birth_date" 
-            type="date"
-            isInvalid={errors.birth_date ? true : false}
-            {... register("birth_date", {
-              ...errorValidation.filled
-            })}
-          />
-      </FormControl>     
-          
+        <FormLabel htmlFor="birth_date">Data de Nascimento</FormLabel>
+        <Input
+          id="birth_date"
+          type="date"
+          isInvalid={errors.birth_date ? true : false}
+          {...register("birth_date", {
+            ...errorValidation.filled,
+          })}
+        />
+      </FormControl>
+
       <FormControl isRequired isInvalid={errors.email}>
         <FormLabel htmlFor="email" className={styles.registerLabels}>
           E-mail
@@ -160,15 +165,15 @@ function RegisterForm({handlePorcentage}) {
               <Input
                 isInvalid={errors.password ? true : false}
                 id="password"
-                type={show ? 'text' : 'password'}
+                type={show ? "text" : "password"}
                 {...register("password", {
                   ...errorValidation.password,
                   ...errorValidation.filled,
                 })}
               />
-              <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' onClick={(e) => handleClick(e)}>
-                  {show ? (<EyeOff/>) : (<Eye/>)}
+              <InputRightElement width="4.5rem">
+                <Button h="1.75rem" size="sm" onClick={(e) => handleClick(e)}>
+                  {show ? <EyeOff /> : <Eye />}
                 </Button>
               </InputRightElement>
             </InputGroup>
@@ -197,11 +202,16 @@ function RegisterForm({handlePorcentage}) {
                   ...errorValidation.filled,
                 })}
                 id="confirmedPass"
-                type={show ? 'text' : 'password'}
+                type={show ? "text" : "password"}
               />
-              <InputRightElement width='4.5rem'>
-                <Button h='1.75rem' size='sm' onClick={handleClick} name='eyeConfirmedPassword'>
-                  {show ? (<EyeOff/>) : (<Eye/>)}
+              <InputRightElement width="4.5rem">
+                <Button
+                  h="1.75rem"
+                  size="sm"
+                  onClick={handleClick}
+                  name="eyeConfirmedPassword"
+                >
+                  {show ? <EyeOff /> : <Eye />}
                 </Button>
               </InputRightElement>
             </InputGroup>
@@ -220,11 +230,7 @@ function RegisterForm({handlePorcentage}) {
         <FormLabel htmlFor="disability" className={styles.registerLabels}>
           Possui deficiência? Se sim, qual?
         </FormLabel>
-        <Input
-          {...register("disability")}
-          id="disability"
-          type="text"
-        />
+        <Input {...register("disability")} id="disability" type="text" />
       </FormControl>
 
       <FormControl>
@@ -243,13 +249,13 @@ function RegisterForm({handlePorcentage}) {
           Li e aceito os termos e políticas do Portal Acessibilidade Dev
         </Checkbox>
       </FormControl>
-              
+
       <CustomButton
         className={styles.registerLabels}
         type="submit"
-        bg='green'
-        bgHover='green.600'    
-      > 
+        bg="green"
+        bgHover="green.600"
+      >
         Cadastrar
       </CustomButton>
     </form>
