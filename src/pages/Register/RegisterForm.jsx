@@ -27,15 +27,18 @@ import {
 } from "@chakra-ui/react";
 
 function RegisterForm({ handlePorcentage }) {
+
   const [show, setShow] = useState(false);
 
   const handleClick = () => {
     setShow(!show);
   };
 
+
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, dirtyFields },
   } = useForm({
     defaultValues: {
@@ -50,6 +53,8 @@ function RegisterForm({ handlePorcentage }) {
       checkbox: false,
     },
   });
+
+  let password = watch("password", "");
 
   const onSubmit = async (formData) => {
     console.log(formData);
@@ -187,7 +192,7 @@ function RegisterForm({ handlePorcentage }) {
           </FormControl>
         </Box>
         <Box flex="1">
-          <FormControl isRequired isInvalid={errors.password}>
+          <FormControl isRequired isInvalid={errors.confirmedPass}>
             <FormLabel
               htmlFor="confirmedPass"
               className={styles.registerLabels}
@@ -200,8 +205,9 @@ function RegisterForm({ handlePorcentage }) {
                 {...register("confirmedPass", {
                   ...errorValidation.password,
                   ...errorValidation.filled,
+                  validate: value => value === password || "As senhas não coincidem."
                 })}
-                id="confirmedPass"
+                id="confirmedPass"d
                 type={show ? "text" : "password"}
               />
               <InputRightElement width="4.5rem">
@@ -215,12 +221,12 @@ function RegisterForm({ handlePorcentage }) {
                 </Button>
               </InputRightElement>
             </InputGroup>
-            {!errors.password ? (
+            {!errors.confirmedPass ? (
               <FormHelperText>
                 A senha deve conter no mínimo 8 caracteres.
               </FormHelperText>
             ) : (
-              <FormErrorMessage>{errors.password.message}</FormErrorMessage>
+              <FormErrorMessage>{errors.confirmedPass.message}</FormErrorMessage>
             )}
           </FormControl>
         </Box>
