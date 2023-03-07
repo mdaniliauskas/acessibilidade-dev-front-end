@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import './App.css'
-import RegisterPage from './pages/Register/'
+//import RegisterPage from './pages/Register/'
+import LoginForm from './pages/Login/LoginForm'
 import useFetch from './hooks/useFetch';
 
 
@@ -12,20 +13,8 @@ function App() {
 
   return (
     <div>
-      <RegisterPage/>
-      {/* {isPending ? (
-          <p>Carregando infos da api</p>
-        ) :
-        (
-          <div>
-            <p>{data.id}</p>
-            <p>{data.name}</p>
-            <p>{data.status}</p>
-            <p>{data.species}</p>
-          </div>
-        )
-      }
-      <p>{error}</p> */}
+      <LoginForm/>
+      {/* <RegisterPage/> */}
     </div>
   )  
 }

@@ -59,8 +59,12 @@ function RegisterForm({ handlePorcentage }) {
   const onSubmit = async (formData) => {
     console.log(formData);
     fetch(SIGNUP, {
+      mode: 'no-cors',
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
+      },
       body: JSON.stringify(formData),
     })
       .then((res) => {
@@ -207,7 +211,7 @@ function RegisterForm({ handlePorcentage }) {
                   ...errorValidation.filled,
                   validate: value => value === password || "As senhas não coincidem."
                 })}
-                id="confirmedPass"d
+                id="confirmedPass"
                 type={show ? "text" : "password"}
               />
               <InputRightElement width="4.5rem">
