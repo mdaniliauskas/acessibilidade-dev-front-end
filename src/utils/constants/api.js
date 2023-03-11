@@ -2,3 +2,4 @@
 const BASE_URL = `http://localhost:3000`;
 
 export const SIGNUP = BASE_URL + "/user/signup";
+

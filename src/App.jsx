@@ -3,7 +3,7 @@ import './App.css'
 //import RegisterPage from './pages/Register/'
 import LoginForm from './pages/Login/LoginForm'
 import useFetch from './hooks/useFetch';
-
+import Navbar from './components/Navbar';
 
 function App() {
   const URL = `https://rickandmortyapi.com/api/character`;
@@ -13,7 +13,8 @@ function App() {
 
   return (
     <div>
-      <LoginForm/>
+      <Navbar/>
+      {/* <LoginForm/> */}
       {/* <RegisterPage/> */}
     </div>
   )  

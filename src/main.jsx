@@ -4,6 +4,7 @@ import App from './App'
 import './App.css'
 import './components/ProgressBar/index.jsx'
 import './pages/Register/RegisterForm.jsx'
+import './components/Navbar/index.jsx'
 
 import { ChakraProvider } from '@chakra-ui/react'
 
