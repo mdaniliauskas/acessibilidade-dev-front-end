@@ -1,5 +1,7 @@
 import React from 'react'
 
+import MenuSideBar from '../MenuSideBar/'
+
 import { 
   Box,
   Divider,
@@ -17,9 +19,7 @@ const index = () => {
           Acessibilidade Dev
         </Heading>
         <Spacer/>
-        <Box h='50' w='50' bg='yellow'>
-          Menu
-        </Box>
+        <MenuSideBar/>
       </Flex>
       <Divider orientation='horizontal'/>
     </Box>
