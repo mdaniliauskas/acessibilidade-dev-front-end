@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "react-feather";
 
 import styles from "./styles.module.css";
 
-import errorValidation from "./ErrorValidation";
+import errorValidation from "../../utils/validations/ErrorValidation";
 
 import {
   Box,

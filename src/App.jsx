@@ -4,6 +4,7 @@ import './App.css'
 import LoginForm from './pages/Login/LoginForm'
 import useFetch from './hooks/useFetch';
 import Navbar from './components/Navbar';
+import NewTopicForm from './pages/Forum/NewTopic/NewTopicForm';
 
 function App() {
   const URL = `https://rickandmortyapi.com/api/character`;
@@ -14,6 +15,7 @@ function App() {
   return (
     <div>
       <Navbar/>
+      <NewTopicForm/>
       {/* <LoginForm/> */}
       {/* <RegisterPage/> */}
     </div>
