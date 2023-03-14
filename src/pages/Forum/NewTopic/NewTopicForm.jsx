@@ -1,5 +1,7 @@
+import React, {useState} from 'react'
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import MDEditor, {commands} from '@uiw/react-md-editor';
+
 
 
 import { NEWTOPIC } from "../../../utils/constants/api";
@@ -13,6 +15,8 @@ import errorValidation from "../../../utils/validations/ErrorValidation";
 import {
   Box,
   Button,
+  Card,
+  CardBody,
   Checkbox,
   Flex,
   FormControl,
@@ -22,9 +26,17 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel,
+  TabPanels,
 } from "@chakra-ui/react";
 
 const NewTopicForm = () => {
+
+  const [value, setValue] = React.useState("Teste");
+
   const {
     register,
     handleSubmit,
@@ -62,7 +74,7 @@ const NewTopicForm = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormControl isRequired isInvalid={errors.first_name}>
         <FormLabel htmlFor="title" className={styles.registerLabels}>
-          Nome
+          Título
         </FormLabel>
         <Input
           id="title"
@@ -73,29 +85,29 @@ const NewTopicForm = () => {
             ...errorValidation.filled,
           })}
         />
-        {!errors.first_name ? (
+        {!errors.title ? (
           <FormHelperText>
             O campo deve possui no mínimo 2 de caracteres.
           </FormHelperText>
         ) : (
-          <FormErrorMessage>{errors.first_name.message}</FormErrorMessage>
+          <FormErrorMessage>{errors.title.title}</FormErrorMessage>
         )}
       </FormControl>
 
-      <FormControl isRequired isInvalid={errors.last_name}>
-        <FormLabel htmlFor="lastName" className={styles.registerLabels}>
+      <FormControl isRequired isInvalid={errors.description}>
+        <FormLabel htmlFor="description" className={styles.registerLabels}>
           Sobrenome
         </FormLabel>
         <Input
-          id="lastName"
+          id="description"
           placeholder="Digite o seu sobrenome"
-          isInvalid={errors.last_name ? true : false}
+          isInvalid={errors.description ? true : false}
           {...register("last_name", {
-            ...errorValidation.names,
+            ...errorValidation.description,
             ...errorValidation.filled,
           })}
         />
-        {!errors.last_name ? (
+        {!errors.description ? (
           <FormHelperText>
             O campo deve possui no mínimo 2 de caracteres.
           </FormHelperText>
@@ -103,6 +115,30 @@ const NewTopicForm = () => {
           <FormErrorMessage>{errors.last_name.message}</FormErrorMessage>
         )}
       </FormControl>
+
+      <Tabs>
+        <TabList>
+          <Tab>Editor</Tab>
+          <Tab>Visualização</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <MDEditor
+              value={value}
+              onChange={setValue}
+              translate="pt-BR"
+              preview="edit"
+            />
+          </TabPanel>
+          <TabPanel>
+            <Card variant='outline'>
+              <CardBody>
+                <MDEditor.Markdown source={value} />
+              </CardBody>
+            </Card>
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </form>
   );
 }
