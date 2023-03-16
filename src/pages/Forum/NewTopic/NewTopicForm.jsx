@@ -1,8 +1,6 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import MDEditor, {commands} from '@uiw/react-md-editor';
-
-
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import { NEWTOPIC } from "../../../utils/constants/api";
 
@@ -31,10 +29,12 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  Select,
+  Spacer,
 } from "@chakra-ui/react";
+import CustomButton from "../../../components/CustomButton";
 
 const NewTopicForm = () => {
-
   const [value, setValue] = React.useState("Teste");
 
   const {
@@ -51,11 +51,11 @@ const NewTopicForm = () => {
   const onSubmit = async (formData) => {
     console.log(formData);
     fetch(NEWTOPIC, {
-      mode: 'no-cors',
+      mode: "no-cors",
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(formData),
     })
@@ -87,32 +87,10 @@ const NewTopicForm = () => {
         />
         {!errors.title ? (
           <FormHelperText>
-            O campo deve possui no mínimo 2 de caracteres.
+            O campo deve possui no mínimo 20 de caracteres.
           </FormHelperText>
         ) : (
           <FormErrorMessage>{errors.title.title}</FormErrorMessage>
-        )}
-      </FormControl>
-
-      <FormControl isRequired isInvalid={errors.description}>
-        <FormLabel htmlFor="description" className={styles.registerLabels}>
-          Sobrenome
-        </FormLabel>
-        <Input
-          id="description"
-          placeholder="Digite o seu sobrenome"
-          isInvalid={errors.description ? true : false}
-          {...register("last_name", {
-            ...errorValidation.description,
-            ...errorValidation.filled,
-          })}
-        />
-        {!errors.description ? (
-          <FormHelperText>
-            O campo deve possui no mínimo 2 de caracteres.
-          </FormHelperText>
-        ) : (
-          <FormErrorMessage>{errors.last_name.message}</FormErrorMessage>
         )}
       </FormControl>
 
@@ -131,7 +109,7 @@ const NewTopicForm = () => {
             />
           </TabPanel>
           <TabPanel>
-            <Card variant='outline'>
+            <Card variant="outline">
               <CardBody>
                 <MDEditor.Markdown source={value} />
               </CardBody>
@@ -139,8 +117,18 @@ const NewTopicForm = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+      <Flex>
+        <Select>
+          <option></option>
+          <option></option>
+          <option></option>
+          <option></option>
+        </Select>
+        <Spacer />
+        <CustomButton>Publicar</CustomButton>
+      </Flex>
     </form>
   );
-}
+};
 
 export default NewTopicForm;

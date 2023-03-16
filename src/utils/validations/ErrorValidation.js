@@ -25,12 +25,17 @@ export default {
   },
   password: {
     pattern: {
-      value:
-        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/,
+      value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/,
       message: "A senha está fora do padrão sugerido.",
     },
   },
   filled: {
     required: "Este campo é obrigatório!",
+  },
+  title: {
+    minLength: {
+      value: 20,
+      message: "O título não possui o mínimo de caracteres",
+    },
   },
 };
