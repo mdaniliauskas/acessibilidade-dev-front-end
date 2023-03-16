@@ -112,11 +112,14 @@ const NewTopicForm = () => {
       </Tabs>
 
       <Flex justify={"space-between"}>
-        <Select size={"md"} w={280}>
-          <option></option>
-          <option></option>
-          <option></option>
-          <option></option>
+        <Select size={"md"} w={280} id="SelectOption">
+          <option value="0" disabled selected>
+            Selecione uma categoria
+          </option>
+          <option value="1">Deficiência Motora</option>
+          <option value="2">Deficiência Visual</option>
+          <option value="3">Deficiência Auditiva</option>
+          <option value="4">Deficiência Intelectual</option>
         </Select>
         <CustomButton>Publicar</CustomButton>
       </Flex>
