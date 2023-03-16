@@ -33,6 +33,8 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import CustomButton from "../../../components/CustomButton";
+import Editor from "../../../components/Markdown/Editor";
+import Preview from "../../../components/Markdown/Preview";
 
 const NewTopicForm = () => {
   const [value, setValue] = React.useState("Teste");
@@ -101,30 +103,21 @@ const NewTopicForm = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <MDEditor
-              value={value}
-              onChange={setValue}
-              translate="pt-BR"
-              preview="edit"
-            />
+            <Editor text={value} handleText={setValue} />
           </TabPanel>
           <TabPanel>
-            <Card variant="outline">
-              <CardBody>
-                <MDEditor.Markdown source={value} />
-              </CardBody>
-            </Card>
+            <Preview text={value} />
           </TabPanel>
         </TabPanels>
       </Tabs>
-      <Flex>
-        <Select>
+
+      <Flex justify={"space-between"}>
+        <Select size={"md"} w={280}>
           <option></option>
           <option></option>
           <option></option>
           <option></option>
         </Select>
-        <Spacer />
         <CustomButton>Publicar</CustomButton>
       </Flex>
     </form>

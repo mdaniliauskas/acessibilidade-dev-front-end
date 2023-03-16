@@ -23,4 +23,6 @@ function CustomButton({
   );
 }
 
+<CustomButton>Publicar</CustomButton>;
+
 export default CustomButton;

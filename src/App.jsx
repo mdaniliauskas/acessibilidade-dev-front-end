@@ -14,9 +14,9 @@ function App() {
   return (
     <div>
       <Navbar />
-      {/* <NewTopicForm/> */}
+      <NewTopicForm />
       {/* <LoginForm/> */}
-      <RegisterPage />
+      {/* <RegisterPage /> */}
     </div>
   );
 }
