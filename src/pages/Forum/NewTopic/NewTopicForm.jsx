@@ -74,7 +74,7 @@ const NewTopicForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <FormControl isRequired isInvalid={errors.first_name}>
+      <FormControl isRequired isInvalid={errors.title}>
         <FormLabel htmlFor="title" className={styles.registerLabels}>
           Título
         </FormLabel>
@@ -92,7 +92,7 @@ const NewTopicForm = () => {
             O campo deve possui no mínimo 20 de caracteres.
           </FormHelperText>
         ) : (
-          <FormErrorMessage>{errors.title.title}</FormErrorMessage>
+          <FormErrorMessage>{errors.title.message}</FormErrorMessage>
         )}
       </FormControl>
 
@@ -112,15 +112,27 @@ const NewTopicForm = () => {
       </Tabs>
 
       <Flex justify={"space-between"}>
-        <Select size={"md"} w={280} id="SelectOption">
-          <option value="0" disabled selected>
-            Selecione uma categoria
-          </option>
-          <option value="1">Deficiência Motora</option>
-          <option value="2">Deficiência Visual</option>
-          <option value="3">Deficiência Auditiva</option>
-          <option value="4">Deficiência Intelectual</option>
-        </Select>
+        <FormControl isRequired isInvalid={errors.categorie}>
+          <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
+          <Select
+            size={"md"}
+            w={280}
+            id="SelectOption"
+            {...register("categorie", {
+              ...errorValidation.filled,
+              validate: (value) => console.log(value),
+            })}
+            placeholder="Selecione uma categoria"
+          >
+            <option value="1">Deficiência Motora</option>
+            <option value="2">Deficiência Visual</option>
+            <option value="3">Deficiência Auditiva</option>
+            <option value="4">Deficiência Intelectual</option>
+          </Select>
+          {errors.categorie ? (
+            <FormErrorMessage>{errors.categorie.message}</FormErrorMessage>
+          ) : null}
+        </FormControl>
         <CustomButton>Publicar</CustomButton>
       </Flex>
     </form>

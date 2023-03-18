@@ -23,4 +23,4 @@ const Editor = () => {
   );
 };
 
-export default Ed;
+export default Editor;
