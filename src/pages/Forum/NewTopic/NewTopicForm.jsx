@@ -113,10 +113,9 @@ const NewTopicForm = () => {
             })}
             placeholder="Selecione uma categoria"
           >
-            <option value="1">Deficiência Motora</option>
-            <option value="2">Deficiência Visual</option>
-            <option value="3">Deficiência Auditiva</option>
-            <option value="4">Deficiência Intelectual</option>
+            <option value="1">Deficiência Auditiva</option>
+            <option value="2">Deficiência Motora</option>
+            <option value="3">Deficiência Visual</option>
           </Select>
           {errors.category ? (
             <FormErrorMessage>{errors.category.message}</FormErrorMessage>
