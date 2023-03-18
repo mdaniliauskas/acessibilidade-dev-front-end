@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import MDEditor, { commands } from "@uiw/react-md-editor";
 
 import { NEWTOPIC } from "../../../utils/constants/api";
 
@@ -11,33 +10,25 @@ import styles from "./styles.module.css";
 import errorValidation from "../../../utils/validations/ErrorValidation";
 
 import {
-  Box,
-  Button,
-  Card,
-  CardBody,
-  Checkbox,
   Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
-  InputGroup,
-  InputRightElement,
   Tab,
   Tabs,
   TabList,
   TabPanel,
   TabPanels,
   Select,
-  Spacer,
 } from "@chakra-ui/react";
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
 import Preview from "../../../components/Markdown/Preview";
 
 const NewTopicForm = () => {
-  const [value, setValue] = React.useState("Teste");
+  const [value, setValue] = useState("");
 
   const {
     register,
@@ -46,30 +37,29 @@ const NewTopicForm = () => {
   } = useForm({
     defaultValues: {
       title: "",
-      description: "",
     },
   });
 
   const onSubmit = async (formData) => {
-    console.log(formData);
-    fetch(NEWTOPIC, {
-      mode: "no-cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) throw Error("Deu ruim");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Cadastrou o usuário");
-        console.log("Usuário cadastrado:", data);
-      })
-      .catch((err) => console.error("Deu erro na requisicao ", err));
+    console.log({ ...formData, description: value });
+    // fetch(NEWTOPIC, {
+    //   mode: "no-cors",
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "*",
+    //   },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((res) => {
+    //     if (!res.ok) throw Error("Deu ruim");
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Cadastrou o usuário");
+    //     console.log("Usuário cadastrado:", data);
+    //   })
+    //   .catch((err) => console.error("Deu erro na requisicao ", err));
   };
 
   return (
@@ -112,15 +102,14 @@ const NewTopicForm = () => {
       </Tabs>
 
       <Flex justify={"space-between"}>
-        <FormControl isRequired isInvalid={errors.categorie}>
+        <FormControl isRequired isInvalid={errors.category}>
           <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
           <Select
             size={"md"}
             w={280}
             id="SelectOption"
-            {...register("categorie", {
+            {...register("category", {
               ...errorValidation.filled,
-              validate: (value) => console.log(value),
             })}
             placeholder="Selecione uma categoria"
           >
@@ -129,8 +118,8 @@ const NewTopicForm = () => {
             <option value="3">Deficiência Auditiva</option>
             <option value="4">Deficiência Intelectual</option>
           </Select>
-          {errors.categorie ? (
-            <FormErrorMessage>{errors.categorie.message}</FormErrorMessage>
+          {errors.category ? (
+            <FormErrorMessage>{errors.category.message}</FormErrorMessage>
           ) : null}
         </FormControl>
         <CustomButton>Publicar</CustomButton>
