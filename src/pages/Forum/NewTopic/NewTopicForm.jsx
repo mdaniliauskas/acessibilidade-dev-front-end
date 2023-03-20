@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 
 import { NEWTOPIC } from "../../../utils/constants/api";
 
-// icones
-
 import styles from "./styles.module.css";
 
 import errorValidation from "../../../utils/validations/ErrorValidation";
@@ -42,24 +40,24 @@ const NewTopicForm = () => {
 
   const onSubmit = async (formData) => {
     console.log({ ...formData, description: value });
-    // fetch(NEWTOPIC, {
-    //   mode: "no-cors",
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "Access-Control-Allow-Origin": "*",
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((res) => {
-    //     if (!res.ok) throw Error("Deu ruim");
-    //     return res.json();
-    //   })
-    //   .then((data) => {
-    //     console.log("Cadastrou o usuário");
-    //     console.log("Usuário cadastrado:", data);
-    //   })
-    //   .catch((err) => console.error("Deu erro na requisicao ", err));
+    fetch(NEWTOPIC, {
+      mode: "no-cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => {
+        if (!res.ok) throw Error("Deu ruim");
+        return res.json();
+      })
+      .then((data) => {
+        console.log("Tópico salvo");
+        console.log("Tópico salvo:", data);
+      })
+      .catch((err) => console.error("Deu erro na requisicao ", err));
   };
 
   return (

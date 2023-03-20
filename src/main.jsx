@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import './App.css'
 import './components/ProgressBar/index.jsx'
 import './pages/Register/RegisterForm.jsx'
 import './components/Navbar/index.jsx'

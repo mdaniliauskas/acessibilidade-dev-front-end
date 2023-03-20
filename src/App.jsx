@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import "./App.css";
 import RegisterPage from "./pages/Register/";
-import LoginForm from "./pages/Login/LoginForm";
+// import LoginForm from "./pages/Login/LoginForm";
 import useFetch from "./hooks/useFetch";
 import Navbar from "./components/Navbar";
 import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
+import styles from '../src/App.module.css'
+
 
 function App() {
   const URL = `https://rickandmortyapi.com/api/character`;
@@ -14,9 +15,11 @@ function App() {
   return (
     <div>
       <Navbar />
-      <NewTopicForm />
-      {/* <LoginForm/> */}
-      {/* <RegisterPage /> */}
+      <div className={styles.body}>
+        <NewTopicForm />
+        {/* <LoginForm/> */}
+        {/* <RegisterPage /> */}
+      </div>
     </div>
   );
 }
