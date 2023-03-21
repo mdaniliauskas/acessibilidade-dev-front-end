@@ -24,6 +24,7 @@ import {
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
 import Preview from "../../../components/Markdown/Preview";
+import InputTags from '../../../components/InputTags';
 
 const NewTopicForm = () => {
   const [value, setValue] = useState("");
@@ -118,6 +119,7 @@ const NewTopicForm = () => {
           {errors.category ? (
             <FormErrorMessage>{errors.category.message}</FormErrorMessage>
           ) : null}
+          <InputTags />
         </FormControl>
         <CustomButton>Publicar</CustomButton>
       </Flex>

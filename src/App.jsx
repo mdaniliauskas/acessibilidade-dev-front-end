@@ -8,11 +8,7 @@ import styles from '../src/App.module.css'
 
 
 function App() {
-  const URL = `https://rickandmortyapi.com/api/character`;
-
-  const { data, isPending, error } = useFetch(`${URL}/204`);
-
-  return (
+    return (
     <div>
       <Navbar />
       <div className={styles.body}>
