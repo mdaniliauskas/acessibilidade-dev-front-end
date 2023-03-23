@@ -24,10 +24,10 @@ import {
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
 import Preview from "../../../components/Markdown/Preview";
-import InputTags from '../../../components/InputTags';
+import InputTags from "../../../components/InputTags";
 
 const NewTopicForm = () => {
-  const [value, setValue] = useState("");
+  const [mdText, setMdText] = useState("");
 
   const {
     register,
@@ -92,13 +92,15 @@ const NewTopicForm = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Editor text={value} handleText={setValue} />
+            <Editor text={mdText} handleText={setMdText} />
           </TabPanel>
           <TabPanel>
-            <Preview text={value} />
+            <Preview text={mdText} />
           </TabPanel>
         </TabPanels>
       </Tabs>
+
+      <InputTags textLabel={"Tags"} />
 
       <Flex justify={"space-between"}>
         <FormControl isRequired isInvalid={errors.category}>
@@ -119,7 +121,6 @@ const NewTopicForm = () => {
           {errors.category ? (
             <FormErrorMessage>{errors.category.message}</FormErrorMessage>
           ) : null}
-          <InputTags />
         </FormControl>
         <CustomButton>Publicar</CustomButton>
       </Flex>
