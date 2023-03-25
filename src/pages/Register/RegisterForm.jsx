@@ -10,7 +10,7 @@ import { Eye, EyeOff } from "react-feather";
 
 import styles from "./styles.module.css";
 
-import errorValidation from "./ErrorValidation";
+import errorValidation from "../../utils/validations/ErrorValidation";
 
 import {
   Box,
@@ -27,13 +27,11 @@ import {
 } from "@chakra-ui/react";
 
 function RegisterForm({ handlePorcentage }) {
-
   const [show, setShow] = useState(false);
 
   const handleClick = () => {
     setShow(!show);
   };
-
 
   const {
     register,
@@ -59,11 +57,11 @@ function RegisterForm({ handlePorcentage }) {
   const onSubmit = async (formData) => {
     console.log(formData);
     fetch(SIGNUP, {
-      mode: 'no-cors',
+      mode: "no-cors",
       method: "POST",
-      headers: { 
+      headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
       },
       body: JSON.stringify(formData),
     })
@@ -209,7 +207,8 @@ function RegisterForm({ handlePorcentage }) {
                 {...register("confirmedPass", {
                   ...errorValidation.password,
                   ...errorValidation.filled,
-                  validate: value => value === password || "As senhas não coincidem."
+                  validate: (value) =>
+                    value === password || "As senhas não coincidem.",
                 })}
                 id="confirmedPass"
                 type={show ? "text" : "password"}
@@ -230,7 +229,9 @@ function RegisterForm({ handlePorcentage }) {
                 A senha deve conter no mínimo 8 caracteres.
               </FormHelperText>
             ) : (
-              <FormErrorMessage>{errors.confirmedPass.message}</FormErrorMessage>
+              <FormErrorMessage>
+                {errors.confirmedPass.message}
+              </FormErrorMessage>
             )}
           </FormControl>
         </Box>
@@ -260,14 +261,7 @@ function RegisterForm({ handlePorcentage }) {
         </Checkbox>
       </FormControl>
 
-      <CustomButton
-        className={styles.registerLabels}
-        type="submit"
-        bg="green"
-        bgHover="green.600"
-      >
-        Cadastrar
-      </CustomButton>
+      <CustomButton className={styles.registerLabels}>Cadastrar</CustomButton>
     </form>
   );
 }
