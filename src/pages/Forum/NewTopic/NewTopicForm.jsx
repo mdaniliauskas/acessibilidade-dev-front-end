@@ -29,9 +29,11 @@ import InputTags from "../../../components/InputTags";
 const NewTopicForm = () => {
   const [mdText, setMdText] = useState("");
 
+  const [tags, setTags] = useState([]);
+
   const {
     register,
-    handleSubmit,
+    handleSubmit, //Esta função receberá os dados do formulário se a validação do formulário for bem sucedida.
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -40,7 +42,7 @@ const NewTopicForm = () => {
   });
 
   const onSubmit = async (formData) => {
-    console.log({ ...formData, description: value });
+    console.log({ ...formData, description: mdText, tags });
     fetch(NEWTOPIC, {
       mode: "no-cors",
       method: "POST",
@@ -100,7 +102,7 @@ const NewTopicForm = () => {
         </TabPanels>
       </Tabs>
 
-      <InputTags textLabel={"Tags"} />
+      <InputTags onAddTag={setTags} tags={tags} textLabel={"Tags"} />
 
       <Flex justify={"space-between"}>
         <FormControl isRequired isInvalid={errors.category}>

@@ -14,30 +14,28 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
-const InputTags = ({ textLabel }) => {
+const InputTags = ({ textLabel, onAddTag, tags }) => {
   const { register, getFieldState } = useForm();
 
   const { isTouched } = getFieldState("tags");
 
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
 
   const handleInput = (e) => {
     let tag = e.target.value.toUpperCase().trim();
     if (e.keyCode !== 32) return false;
 
     if (!tags.includes(tag) && tag !== "") {
-      setTags([...tags, tag]);
+      onAddTag([...tags, tag]);
     }
     e.target.value = " ";
   };
 
   const onDeleteTag = (elemt) => {
-    setTags(tags.filter((t) => t !== elemt));
+    onAddTag(tags.filter((t) => t !== elemt));
   };
 
   const isInvalidTagsAmount = isTouched && tags.length < 1;
-
-  console.log(isInvalidTagsAmount);
 
   return (
     <Card>
