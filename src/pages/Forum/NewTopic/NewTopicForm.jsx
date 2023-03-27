@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
+//titulo 
+import { Heading } from '@chakra-ui/react'
+
+
+
 import { NEWTOPIC } from "../../../utils/constants/api";
 
 import styles from "./styles.module.css";
@@ -20,6 +25,7 @@ import {
   TabPanel,
   TabPanels,
   Select,
+  
 } from "@chakra-ui/react";
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
@@ -63,8 +69,14 @@ const NewTopicForm = () => {
       .catch((err) => console.error("Deu erro na requisicao ", err));
   };
 
+
   return (
+    
     <form onSubmit={handleSubmit(onSubmit)}>
+     
+          <Heading>Novo tópico</Heading>
+      
+      <br></br>
       <FormControl isRequired isInvalid={errors.title}>
         <FormLabel htmlFor="title" className={styles.registerLabels}>
           Título

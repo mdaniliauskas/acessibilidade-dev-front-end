@@ -3,7 +3,8 @@ import RegisterPage from "./pages/Register/";
 // import LoginForm from "./pages/Login/LoginForm";
 import useFetch from "./hooks/useFetch";
 import Navbar from "./components/Navbar";
-import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
+// import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
+import TopicForm from "./pages/Forum/Topic/TopicForm";
 import styles from '../src/App.module.css'
 
 
@@ -12,7 +13,8 @@ function App() {
     <div>
       <Navbar />
       <div className={styles.body}>
-        <NewTopicForm />
+        <TopicForm/>
+        {/* <NewTopicForm /> */}
         {/* <LoginForm/> */}
         {/* <RegisterPage /> */}
       </div>
