@@ -4,7 +4,7 @@ import RegisterPage from "./pages/Register/";
 import useFetch from "./hooks/useFetch";
 import Navbar from "./components/Navbar";
 // import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
-import TopicForm from "./pages/Forum/Topic/TopicForm";
+import TopicForm from "./pages/Forum/Topic/TopicCard";
 import styles from '../src/App.module.css'
 
 
