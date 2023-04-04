@@ -4,7 +4,7 @@ import RegisterPage from "./pages/Register/";
 import useFetch from "./hooks/useFetch";
 import Navbar from "./components/Navbar";
 // import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
-import TopicForm from "./pages/Forum/Topic/TopicCard";
+import TextCard from "./components/TextCard/TextCard";
 import styles from '../src/App.module.css'
 
 
@@ -13,7 +13,7 @@ function App() {
     <div>
       <Navbar />
       <div className={styles.body}>
-        <TopicForm/>
+        <TextCard/>
         {/* <NewTopicForm /> */}
         {/* <LoginForm/> */}
         {/* <RegisterPage /> */}
