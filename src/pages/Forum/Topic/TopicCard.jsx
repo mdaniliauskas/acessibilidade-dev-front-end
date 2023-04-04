@@ -9,6 +9,7 @@ import {MessageSquare} from 'react-feather'
     Card, 
     CardHeader, 
     CardBody, 
+    Flex,
     Heading,
     Text,
   } from '@chakra-ui/react'
@@ -17,10 +18,11 @@ import {MessageSquare} from 'react-feather'
 function TopicCard() {
   return (
   
-    <Card bg='gray.400' p='2'>    
+    <Card bg='gray.400' p='2'>
+      <Box>
         <CardHeader>
           <Heading>Titulo do topico</Heading>
-        </CardHeader>
+          </CardHeader>
         <CardBody>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum optio quis deleniti, esse inventore itaque facilis excepturi autem nulla quos ipsam molestiae pariatur debitis suscipit! Fugit ipsa neque debitis accusantium!
         </CardBody>
@@ -30,11 +32,12 @@ function TopicCard() {
           </Text>
           <Text fontSize='sm'>Especialista em Acessibilidade</Text>
         </Box>
-        <Box position='relative'>
-          <MessageSquare width='48' height='48'/>
-          <span className={styles.teste}>10</span>
-        </Box>
-    </Card>
+      </Box>
+      <Box position='relative'>
+        <MessageSquare width='48' height='48'/>
+        <span className={styles.teste}>10</span>
+      </Box>
+    </Card> 
   )
 }
 
