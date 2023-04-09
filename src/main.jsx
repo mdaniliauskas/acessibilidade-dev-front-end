@@ -12,7 +12,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Auth0Provider
     domain="dev-tuds50i1sq2z02tu.us.auth0.com"
-    clientId="jcgNpQ4D5oGabBep7jqV7Wl465e3YD8n"
+    clientId="5NUUvBUkwrP1BnjL3RxeUnz5xnwX3ad0"
     authorizationParams={{
       redirect_uri: window.location.origin,
     }}
