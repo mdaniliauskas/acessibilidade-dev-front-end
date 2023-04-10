@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
@@ -7,11 +6,6 @@ import './components/ProgressBar/index.jsx'
 import './pages/Register/RegisterForm.jsx'
 import './components/Navbar/index.jsx'
 import './index.css'
-=======
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
->>>>>>> origin/auth0
 
 import "./components/ProgressBar/index.jsx";
 import "./pages/Register/RegisterForm.jsx";

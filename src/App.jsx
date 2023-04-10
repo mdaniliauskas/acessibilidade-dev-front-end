@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar";
 import TextCard from "./components/TextCard/TextCard";
 import styles from '../src/App.module.css'
 
-import Navbar from "./components/Navbar";
 
 function App() {
   return (
