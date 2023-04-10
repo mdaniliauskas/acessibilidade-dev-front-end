@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Menu } from "react-feather";
 import CustomButton from "../CustomButton";
 
-import LoginButton from "../LoginButton";
-
 import {
   Button,
   Drawer,
@@ -22,9 +20,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 const index = () => {
   const { user, isAuthenticated, error, loginWithRedirect, logout } =
     useAuth0();
-
-  console.log(isAuthenticated);
-  console.log(error);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const btnRef = React.useRef();
 
@@ -42,8 +37,7 @@ const index = () => {
         <DrawerOverlay />
         <DrawerContent>
           <DrawerHeader>
-            <Text>Menu ou Foto do user</Text>
-            {error ? <p>{error.message}</p> : null}
+            {isAuthenticated ? <Text>{user.nickname}</Text> : <Text>Menu</Text>}
             <DrawerCloseButton size="lg" />
           </DrawerHeader>
 
@@ -59,11 +53,10 @@ const index = () => {
               </>
             ) : (
               <>
-                {/* <LoginButton /> */}
                 <br />
-                <Link onClick={() => loginWithRedirect()}>Entrar</Link>
-                <br />
-                <Link>Cadastrar</Link>
+                <Link onClick={() => loginWithRedirect()}>
+                  Entrar/Cadastrar
+                </Link>
                 <br />
               </>
             )}
@@ -71,21 +64,19 @@ const index = () => {
             <Link>Sobre o projeto</Link>
             <br />
             <Link>Ajuda</Link>
-
-            {JSON.stringify(user)}
           </DrawerBody>
 
           <DrawerFooter justifyContent="center">
-            <Link onClick={logout}>sair aaaaaa</Link>
-
-            <CustomButton
-              onClick={logout}
-              type="button"
-              bg="red"
-              bgHover="red.500"
-            >
-              Sair
-            </CustomButton>
+            {isAuthenticated ? (
+              <CustomButton
+                onClick={logout}
+                type="button"
+                bg="red"
+                bgHover="red.500"
+              >
+                Sair
+              </CustomButton>
+            ) : null}
           </DrawerFooter>
         </DrawerContent>
       </Drawer>

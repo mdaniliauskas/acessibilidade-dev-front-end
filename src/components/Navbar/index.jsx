@@ -19,7 +19,9 @@ import {
   Tab,
   Tabs,
   TabList,
+  Link,
 } from "@chakra-ui/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -28,14 +30,27 @@ const Navbar = () => {
     console.log();
   };
 
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+
   return (
     <Box w="100%" bg="gray.400">
-      <Flex justify="center">
-        <Spacer />
-        <Heading as="h4" size="md">
+      <Flex justify="center" align="center">
+        <Heading as="h4" size="lg" marginLeft={5}>
           Acessibilidade Dev
         </Heading>
         <Spacer />
+        {isAuthenticated ? (
+          <Heading as="h4" size="sm">
+            Olá, {user.nickname}
+          </Heading>
+        ) : (
+          <Link>
+            <Heading as="h4" size="sm" onClick={() => loginWithRedirect()}>
+              Olá, faça Login/Cadastro
+            </Heading>
+          </Link>
+        )}
+
         <MenuSideBar />
       </Flex>
       <Divider orientation="horizontal" />
