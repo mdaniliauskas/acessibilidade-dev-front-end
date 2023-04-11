@@ -22,7 +22,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Outlet } from "react-router-dom";
+import { Outlet, Link as LinkRouter } from "react-router-dom";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -59,18 +59,26 @@ const Navbar = () => {
         <Flex pt={3} pr={2}>
           <Tabs flex={1}>
             <TabList>
-              <Tab color="red" fontWeight="bold">
-                Artigos
-              </Tab>
-              <Tab color="green" fontWeight="bold">
-                Ferramentas
-              </Tab>
-              <Tab color="blue" fontWeight="bold">
-                Fórum
-              </Tab>
-              <Tab color="yellow" fontWeight="bold">
-                Notícias
-              </Tab>
+              <LinkRouter to="artigos">
+                <Tab color="red" fontWeight="bold">
+                  Artigos
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="ferramentas">
+                <Tab color="green" fontWeight="bold">
+                  Ferramentas
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="forum">
+                <Tab color="blue" fontWeight="bold">
+                  Fórum
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="noticias">
+                <Tab color="yellow" fontWeight="bold">
+                  Notícias
+                </Tab>
+              </LinkRouter>
             </TabList>
           </Tabs>
           <Spacer />
