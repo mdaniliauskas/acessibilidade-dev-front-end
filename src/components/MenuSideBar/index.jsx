@@ -17,6 +17,8 @@ import {
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
+import { Link as LinkRouter } from "react-router-dom";
+
 const index = () => {
   const { user, isAuthenticated, error, loginWithRedirect, logout } =
     useAuth0();
@@ -50,6 +52,14 @@ const index = () => {
                 <br />
                 <Link>Minhas perguntas</Link>
                 <br />
+                {!user.completedProfile ? (
+                  <>
+                    <LinkRouter to="/completarCadastro">
+                      Completar cadastro
+                    </LinkRouter>
+                    <br />
+                  </>
+                ) : null}
               </>
             ) : (
               <>

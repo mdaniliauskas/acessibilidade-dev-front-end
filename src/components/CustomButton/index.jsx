@@ -7,7 +7,7 @@ function CustomButton({
   children,
   bg = "green",
   bgHover = "green.600",
-  onClick: handleClick,
+  ...rest
 }) {
   return (
     <Button
@@ -18,7 +18,7 @@ function CustomButton({
       bg={bg}
       color="white"
       _hover={{ bg: bgHover ? bgHover : bg }}
-      onClick={() => handleClick()}
+      {...rest}
     >
       {children}
     </Button>

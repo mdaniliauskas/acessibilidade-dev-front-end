@@ -1,21 +1,18 @@
+import React, { useState } from "react";
+import ProgressBar from "../../components/ProgressBar/";
+import RegisterForm from "./RegisterForm";
+import { Heading } from "@chakra-ui/react";
 
-import React, {useState} from 'react'
-import ProgressBar from '../../components/ProgressBar/'
-import RegisterForm from './RegisterForm';
-import { Heading } from '@chakra-ui/react'
-
-function RegisterPage () {
-
-  const [porcentage, setPorcentage] = useState(0)
+function RegisterPage() {
+  const [porcentage, setPorcentage] = useState(0);
 
   return (
     <div>
-      <ProgressBar number={porcentage}/>
-        <Heading>Cadastro</Heading>      
-      <RegisterForm handlePorcentage={(p => setPorcentage(p))}/>
-      
+      <Heading>Cadastro</Heading>
+      <ProgressBar number={porcentage} />
+      <RegisterForm handlePorcentage={(p) => setPorcentage(p)} />
     </div>
-  )
+  );
 }
 
 export default RegisterPage;

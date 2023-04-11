@@ -3,83 +3,93 @@ import { useState, useEffect } from "react";
 
 import CustomButton from "../../components/CustomButton";
 
-import { SIGNUP } from "../../utils/constants/api";
-
-// icones
-import { Eye, EyeOff } from "react-feather";
+import { COMPLETED_PROFILE } from "../../utils/constants/api";
 
 import styles from "./styles.module.css";
 
 import errorValidation from "../../utils/validations/ErrorValidation";
 
+import { useNavigate } from "react-router-dom";
+
 import {
-  Box,
-  Button,
   Checkbox,
-  Flex,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Input,
-  InputGroup,
-  InputRightElement,
 } from "@chakra-ui/react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function RegisterForm({ handlePorcentage }) {
-  const [show, setShow] = useState(false);
-
-  const handleClick = () => {
-    setShow(!show);
-  };
-
+  const { user } = useAuth0();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors, dirtyFields },
   } = useForm({
     defaultValues: {
       first_name: "",
       last_name: "",
       birth_date: "",
-      email: "",
-      password: "",
-      confirmedPass: "",
       disability: "",
       specialist_area: "",
       checkbox: false,
     },
   });
 
-  let password = watch("password", "");
-
   const onSubmit = async (formData) => {
-    console.log(formData);
-    fetch(SIGNUP, {
-      mode: "no-cors",
-      method: "POST",
+    const body = {
+      id: user.id,
+      completedProfile: true,
+      first_name: formData.first_name,
+      last_name: formData.last_name,
+      specialist_area: formData.specialist_area,
+      disability: formData.disability,
+      birth_date: new Date(formData.birth_date + " 00:00:00"),
+    };
+
+    const res = await fetch(COMPLETED_PROFILE, {
+      method: "PUT",
+      body: JSON.stringify(body),
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
+        Accept: "application/json",
       },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) throw Error("Deu ruim");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Cadastrou o usuário");
-        console.log("Usuário cadastrado:", data);
-      })
-      .catch((err) => console.error("Deu erro na requisicao ", err));
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      user.completedProfile = true;
+      navigate("/", { replace: true });
+    }
+
+    // fetch(SIGNUP, {
+    //   mode: "no-cors",
+    //   method: "POST",
+    // headers: {
+    //   "Content-Type": "application/json",
+    //   "Access-Control-Allow-Origin": "*",
+    // },
+    //   body: JSON.stringify(formData),
+    // })
+    //   .then((res) => {
+    //     if (!res.ok) throw Error("Deu ruim");
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     console.log("Cadastrou o usuário");
+    //     console.log("Usuário cadastrado:", data);
+    //   })
+    //   .catch((err) => console.error("Deu erro na requisicao ", err));
   };
 
   useEffect(() => {
     const fieldsFilled = [Object.keys(dirtyFields).length];
     const completedPorcentage =
-      fieldsFilled > 0 ? Math.round((fieldsFilled / 9) * 100) : 0;
+      fieldsFilled > 0 ? Math.round((fieldsFilled / 6) * 100) : 0;
     handlePorcentage(completedPorcentage);
   }, [Object.keys(dirtyFields).length]);
 
@@ -141,7 +151,7 @@ function RegisterForm({ handlePorcentage }) {
         />
       </FormControl>
 
-      <FormControl isRequired isInvalid={errors.email}>
+      {/* <FormControl isRequired isInvalid={errors.email}>
         <FormLabel htmlFor="email" className={styles.registerLabels}>
           E-mail
         </FormLabel>
@@ -160,9 +170,9 @@ function RegisterForm({ handlePorcentage }) {
         ) : (
           <FormErrorMessage>{errors.email.message}</FormErrorMessage>
         )}
-      </FormControl>
+      </FormControl> */}
 
-      <Flex gap="2">
+      {/* <Flex gap="2">
         <Box flex="1">
           <FormControl isRequired isInvalid={errors.password}>
             <FormLabel htmlFor="password" className={styles.registerLabels}>
@@ -235,7 +245,7 @@ function RegisterForm({ handlePorcentage }) {
             )}
           </FormControl>
         </Box>
-      </Flex>
+      </Flex> */}
 
       <FormControl>
         <FormLabel htmlFor="disability" className={styles.registerLabels}>
