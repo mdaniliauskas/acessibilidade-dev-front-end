@@ -1,18 +1,15 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import './App.module.css'
-import './components/ProgressBar/index.jsx'
-import './pages/Register/RegisterForm.jsx'
-import './components/Navbar/index.jsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./App.module.css";
+import "./index.css";
 
-import "./components/ProgressBar/index.jsx";
-import "./pages/Register/RegisterForm.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
-import "./components/Navbar/index.jsx";
-
 import { ChakraProvider } from "@chakra-ui/react";
+import { RouterProvider } from "react-router-dom";
+
+// rotas
+import routes from "./routes";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Auth0Provider
@@ -24,7 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   >
     <React.StrictMode>
       <ChakraProvider>
-        <App />
+        <RouterProvider router={routes} />
       </ChakraProvider>
     </React.StrictMode>
   </Auth0Provider>

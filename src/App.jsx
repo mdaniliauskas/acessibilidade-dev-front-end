@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import RegisterPage from "./pages/Register/";
 // import LoginForm from "./pages/Login/LoginForm";
-import useFetch from "./hooks/useFetch";
-import Navbar from "./components/Navbar";
+
 // import NewTopicForm from "./pages/Forum/NewTopic/NewTopicForm";
 import TextCard from "./components/TextCard/TextCard";
-import styles from '../src/App.module.css'
-
+import styles from "../src/App.module.css";
 
 function App() {
   return (
     <div>
       <Navbar />
       <div className={styles.body}>
-        <TextCard/>
+        <TextCard />
         {/* <NewTopicForm /> */}
         {/* <LoginForm/> */}
         {/* <RegisterPage /> */}
