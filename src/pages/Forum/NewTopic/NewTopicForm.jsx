@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
-//titulo 
-import { Heading } from '@chakra-ui/react'
-
-
+//titulo
+import { Heading } from "@chakra-ui/react";
 
 import { NEWTOPIC } from "../../../utils/constants/api";
 
@@ -25,17 +23,24 @@ import {
   TabPanel,
   TabPanels,
   Select,
-  
 } from "@chakra-ui/react";
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
 import Preview from "../../../components/Markdown/Preview";
 import InputTags from "../../../components/InputTags";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { useNavigate } from "react-router-dom";
+
 const NewTopicForm = () => {
+  const { user } = useAuth0();
+
   const [mdText, setMdText] = useState("");
 
   const [tags, setTags] = useState([]);
+
+  const navigate = useNavigate();
 
   const {
     register,
@@ -48,34 +53,34 @@ const NewTopicForm = () => {
   });
 
   const onSubmit = async (formData) => {
-    console.log({ ...formData, description: mdText, tags });
-    fetch(NEWTOPIC, {
-      mode: "no-cors",
+    const body = {
+      title: formData.title,
+      description: mdText,
+      authorId: user.id,
+      categoryId: parseInt(formData.category),
+      tags,
+    };
+
+    console.log(body);
+    const res = await fetch(NEWTOPIC, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => {
-        if (!res.ok) throw Error("Deu ruim");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Tópico salvo");
-        console.log("Tópico salvo:", data);
-      })
-      .catch((err) => console.error("Deu erro na requisicao ", err));
+      body: JSON.stringify(body),
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      navigate("/forum", { replace: true });
+    }
   };
 
-
   return (
-    
     <form onSubmit={handleSubmit(onSubmit)}>
-     
-          <Heading>Novo tópico</Heading>
-      
+      <Heading>Novo tópico</Heading>
+
       <br></br>
       <FormControl isRequired isInvalid={errors.title}>
         <FormLabel htmlFor="title" className={styles.registerLabels}>
