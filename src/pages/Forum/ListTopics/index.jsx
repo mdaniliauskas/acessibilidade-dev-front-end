@@ -11,8 +11,12 @@ import { LIST_TOPICS } from "../../../utils/constants/api";
 import { useNavigate } from "react-router-dom";
 import CustomButton from "../../../components/CustomButton";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 const ListTopics = () => {
   const { data, error, isPending } = useFetch(LIST_TOPICS);
+
+  const { isAuthenticated, user } = useAuth0();
 
   const navigate = useNavigate();
 
@@ -20,11 +24,13 @@ const ListTopics = () => {
     <div>
       <Flex justify="space-between" alignItems="center">
         <Heading>Fórum</Heading>
-        <CustomButton
-          onClick={() => navigate("/forum/novo-topico", { replace: true })}
-        >
-          Novo Tópico
-        </CustomButton>
+        {isAuthenticated && user.completedProfile ? (
+          <CustomButton
+            onClick={() => navigate("/forum/novo-topico", { replace: true })}
+          >
+            Novo Tópico
+          </CustomButton>
+        ) : null}
       </Flex>
       <Flex wrap={"wrap"}>
         {isPending ? (
