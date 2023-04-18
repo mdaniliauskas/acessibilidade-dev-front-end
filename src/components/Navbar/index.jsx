@@ -22,16 +22,24 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Outlet, Link as LinkRouter } from "react-router-dom";
+import { Outlet, Link as LinkRouter, useMatches } from "react-router-dom";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
+
+  const matches = useMatches();
+
+  const activeTab = {
+    "/artigos": 0,
+    "/ferramentas": 1,
+    "/forum": 2,
+    "/noticias": 3,
+  };
 
   const handleSearchTerm = () => {
     console.log();
   };
-
-  const { user, isAuthenticated, loginWithRedirect } = useAuth0();
 
   return (
     <>
@@ -57,7 +65,10 @@ const Navbar = () => {
         </Flex>
         <Divider orientation="horizontal" />
         <Flex pt={3} pr={2}>
-          <Tabs flex={1}>
+          <Tabs
+            flex={1}
+            index={matches.length > 1 ? activeTab[matches[1].pathname] : null}
+          >
             <TabList>
               <LinkRouter to="artigos">
                 <Tab color="red" fontWeight="bold">
