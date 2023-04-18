@@ -8,12 +8,24 @@ import { Spinner } from "@chakra-ui/react";
 
 import { LIST_TOPICS } from "../../../utils/constants/api";
 
+import { useNavigate } from "react-router-dom";
+import CustomButton from "../../../components/CustomButton";
+
 const ListTopics = () => {
   const { data, error, isPending } = useFetch(LIST_TOPICS);
 
+  const navigate = useNavigate();
+
   return (
     <div>
-      <Heading>Fórum</Heading>
+      <Flex justify="space-between" alignItems="center">
+        <Heading>Fórum</Heading>
+        <CustomButton
+          onClick={() => navigate("/forum/novo-topico", { replace: true })}
+        >
+          Novo Tópico
+        </CustomButton>
+      </Flex>
       <Flex wrap={"wrap"}>
         {isPending ? (
           <Spinner />
