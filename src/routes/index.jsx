@@ -11,6 +11,7 @@ import Navbar from "../components/Navbar";
 import Register from "../pages/Register";
 import NewTopic from "../pages/Forum/NewTopic";
 import ListTopics from "../pages/Forum/ListTopics";
+import TopicDetails from "../pages/Forum/TopicDetails";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ export default createBrowserRouter(
 
       <Route path="/forum" element={<ListTopics />} />
       <Route path="/forum/novo-topico" element={<NewTopic />} />
+      <Route path="/forum/topico/:topicId" element={<TopicDetails />} />
 
       <Route path="/noticias" element={<p>Noticias</p>} />
       <Route path="/completarCadastro" element={<Register />} />
