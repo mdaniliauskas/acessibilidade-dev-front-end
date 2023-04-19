@@ -28,12 +28,14 @@ const TopicDetails = () => {
   } = useFetch(TOPIC_DETAILS + "/" + params.topicId);
 
   return (
-    <div>
+    <div className="md:container mx-auto">
       {isPending ? <SpinnerLoading /> : null}
 
       {!isPending && !error ? (
         <>
-          <Heading size="lg">{topic.title}</Heading>
+          <Heading size="lg" mt={10}>
+            {topic.title}
+          </Heading>
           <Text>
             Publicada em: {dateFormatted(new Date(topic.date_published))}
           </Text>
@@ -46,8 +48,9 @@ const TopicDetails = () => {
           <Box p={7}>
             <Preview text={topic.description} />
           </Box>
-
-          <Heading size="sm">Autor: Luan Silva</Heading>
+          <Flex justify="flex-end">
+            <Heading size="sm">Autor: Luan Silva</Heading>
+          </Flex>
         </>
       ) : null}
 
