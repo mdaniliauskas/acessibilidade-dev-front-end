@@ -13,6 +13,7 @@ import { useNavigate, Link } from "react-router-dom";
 import CustomButton from "../../../components/CustomButton";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import SpinnerLoading from "../../../components/SpinnerLoading";
 
 const ListTopics = () => {
   const { data, error, isPending } = useFetch(LIST_TOPICS);
@@ -35,7 +36,7 @@ const ListTopics = () => {
       </div>
 
       {isPending ? (
-        <Spinner />
+        <SpinnerLoading />
       ) : error ? (
         JSON.stringify(error)
       ) : (
@@ -48,6 +49,7 @@ const ListTopics = () => {
                   body={t.description}
                   date_published={t.date_published}
                   replies={t.replies}
+                  author={t.author}
                 />
               </Link>
             </Box>

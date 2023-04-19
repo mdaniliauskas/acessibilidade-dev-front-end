@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 
 import { dateFormatted } from "../../utils/formatters/datetime";
-function TextCard({ title, body, date_published, replies, ...rest }) {
+function TextCard({ title, body, date_published, replies, author, ...rest }) {
   return (
     <Card bg="gray.400" p="2" {...rest}>
       <Box className="grid grid-cols-12">
@@ -33,9 +33,9 @@ function TextCard({ title, body, date_published, replies, ...rest }) {
             amet consectetur adipisicing elit. */}
           {/* <Preview text={body} /> */}
           {/* </CardBody> */}
-          <Box ml="3">
-            <Text fontWeight="bold">Ana Paula</Text>
-            <Text fontSize="sm">Especialista em Acessibilidade</Text>
+          <Box ml="5">
+            <Text fontWeight="bold">{`${author.first_name} ${author.last_name}`}</Text>
+            <Text fontSize="sm">{author.specialist_area}</Text>
           </Box>
         </Box>
         <Box className="col-span-2">

@@ -16,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import Preview from "../../../components/Markdown/Preview";
 import { dateFormatted } from "../../../utils/formatters/datetime";
+import SpinnerLoading from "../../../components/SpinnerLoading";
 
 const TopicDetails = () => {
   const params = useParams();
@@ -28,11 +29,7 @@ const TopicDetails = () => {
 
   return (
     <div>
-      {isPending ? (
-        <Flex justify="center" align="center">
-          <Spinner m={10} />
-        </Flex>
-      ) : null}
+      {isPending ? <SpinnerLoading /> : null}
 
       {!isPending && !error ? (
         <>
