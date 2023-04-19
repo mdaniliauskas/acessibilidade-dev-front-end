@@ -47,6 +47,7 @@ const ListTopics = () => {
                   title={t.title}
                   body={t.description}
                   date_published={t.date_published}
+                  replies={t.replies}
                 />
               </Link>
             </Box>

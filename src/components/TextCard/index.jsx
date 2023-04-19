@@ -1,7 +1,5 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import styles from "./styles.module.css";
-import CustomButton from "../CustomButton";
 import { MessageSquare } from "react-feather";
 import { ThumbsUp } from "react-feather";
 import { ThumbsDown } from "react-feather";
@@ -16,9 +14,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-import Preview from "../Markdown/Preview";
 import { dateFormatted } from "../../utils/formatters/datetime";
-function TextCard({ title, body, date_published, ...rest }) {
+function TextCard({ title, body, date_published, replies, ...rest }) {
   return (
     <Card bg="gray.400" p="2" {...rest}>
       <Box className="grid grid-cols-12">
@@ -29,12 +26,13 @@ function TextCard({ title, body, date_published, ...rest }) {
               Publicada em: {dateFormatted(new Date(date_published))}
             </small>
           </CardHeader>
-          <CardBody>
-            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
+
+          {/* <CardBody> */}
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
             dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit
             amet consectetur adipisicing elit. */}
-            {/* <Preview text={body} /> */}
-          </CardBody>
+          {/* <Preview text={body} /> */}
+          {/* </CardBody> */}
           <Box ml="3">
             <Text fontWeight="bold">Ana Paula</Text>
             <Text fontSize="sm">Especialista em Acessibilidade</Text>
@@ -42,17 +40,16 @@ function TextCard({ title, body, date_published, ...rest }) {
         </Box>
         <Box className="col-span-2">
           <Flex
-            justifyContent="space-evenly"
+            justifyContent="center"
             alignItems="center"
             h="100%"
-            marginTop="18%"
             direction="column"
           >
             <Box position="relative">
               <MessageSquare width="50" height="50" />
-              <span className={styles.comment}>20</span>
+              <span className={styles.comment}>{replies}</span>
             </Box>
-            <Flex justifyContent="right">
+            {/* <Flex justifyContent="right">
               <Box marginRight="15%" display="flex">
                 <ThumbsUp width="30" height="30" display="inline" />
                 <span className={styles.like}>20</span>
@@ -62,7 +59,7 @@ function TextCard({ title, body, date_published, ...rest }) {
                 <ThumbsDown width="30" height="30" />
                 <span className={styles.deslike}>20</span>
               </Box>
-            </Flex>
+            </Flex> */}
           </Flex>
         </Box>
       </Box>
