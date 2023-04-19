@@ -16,18 +16,24 @@ import {
   Text,
 } from "@chakra-ui/react";
 
-function TextCard() {
+import Preview from "../Markdown/Preview";
+import { dateFormatted } from "../../utils/formatters/datetime";
+function TextCard({ title, body, date_published, ...rest }) {
   return (
-    <Card bg="gray.400" p="2">
+    <Card bg="gray.400" p="2" {...rest}>
       <Box className="grid grid-cols-12">
         <Box className="col-span-10">
           <CardHeader>
-            <Heading>Titulo do topico</Heading>
+            <Heading size="md">{title}</Heading>
+            <small>
+              Publicada em: {dateFormatted(new Date(date_published))}
+            </small>
           </CardHeader>
           <CardBody>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
+            {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum
             dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit
-            amet consectetur adipisicing elit.
+            amet consectetur adipisicing elit. */}
+            {/* <Preview text={body} /> */}
           </CardBody>
           <Box ml="3">
             <Text fontWeight="bold">Ana Paula</Text>

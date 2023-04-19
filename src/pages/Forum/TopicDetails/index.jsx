@@ -46,7 +46,9 @@ const TopicDetails = () => {
             ))}
           </Box>
           <Divider />
-          <Preview text={topic.description} />
+          <Box p={7}>
+            <Preview text={topic.description} />
+          </Box>
 
           <Heading size="sm">Autor: Luan Silva</Heading>
         </>

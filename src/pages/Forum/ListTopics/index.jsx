@@ -8,7 +8,8 @@ import { Spinner } from "@chakra-ui/react";
 
 import { LIST_TOPICS } from "../../../utils/constants/api";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import CustomButton from "../../../components/CustomButton";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -21,8 +22,8 @@ const ListTopics = () => {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <Flex justify="space-between" alignItems="center">
+    <div className="md:container mx-auto">
+      <div className="flex mt-5 justify-between items-center">
         <Heading>Fórum</Heading>
         {isAuthenticated && user.completedProfile ? (
           <CustomButton
@@ -31,20 +32,27 @@ const ListTopics = () => {
             Novo Tópico
           </CustomButton>
         ) : null}
-      </Flex>
-      <Flex wrap={"wrap"}>
-        {isPending ? (
-          <Spinner />
-        ) : error ? (
-          JSON.stringify(error)
-        ) : (
-          data.message.map((t) => (
-            <Box flex={1} minWidth="50%" px={10} py={3} key={t.id}>
-              <TextCard />
+      </div>
+
+      {isPending ? (
+        <Spinner />
+      ) : error ? (
+        JSON.stringify(error)
+      ) : (
+        <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
+          {data.message.map((t) => (
+            <Box px={10} py={3} key={t.id}>
+              <Link to={`/forum/topico/${t.id}`}>
+                <TextCard
+                  title={t.title}
+                  body={t.description}
+                  date_published={t.date_published}
+                />
+              </Link>
             </Box>
-          ))
-        )}
-      </Flex>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
