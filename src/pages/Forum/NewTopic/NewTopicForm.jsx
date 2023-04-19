@@ -79,70 +79,72 @@ const NewTopicForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Heading>Novo tópico</Heading>
+      <div className="md:container mx-auto">
+        <Heading mt={10}>Novo tópico</Heading>
 
-      <br></br>
-      <FormControl isRequired isInvalid={errors.title}>
-        <FormLabel htmlFor="title" className={styles.registerLabels}>
-          Título
-        </FormLabel>
-        <Input
-          id="title"
-          placeholder="Digite o título do tópico"
-          isInvalid={errors.title ? true : false}
-          {...register("title", {
-            ...errorValidation.title,
-            ...errorValidation.filled,
-          })}
-        />
-        {!errors.title ? (
-          <FormHelperText>
-            O campo deve possui no mínimo 20 de caracteres.
-          </FormHelperText>
-        ) : (
-          <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-        )}
-      </FormControl>
-
-      <Tabs>
-        <TabList>
-          <Tab>Editor</Tab>
-          <Tab>Visualização</Tab>
-        </TabList>
-        <TabPanels>
-          <TabPanel>
-            <Editor text={mdText} handleText={setMdText} />
-          </TabPanel>
-          <TabPanel>
-            <Preview text={mdText} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-
-      <InputTags onAddTag={setTags} tags={tags} textLabel={"Tags"} />
-
-      <Flex justify={"space-between"}>
-        <FormControl isRequired isInvalid={errors.category}>
-          <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
-          <Select
-            size={"md"}
-            w={280}
-            id="SelectOption"
-            {...register("category", {
+        <br></br>
+        <FormControl isRequired isInvalid={errors.title}>
+          <FormLabel htmlFor="title" className={styles.registerLabels}>
+            Título
+          </FormLabel>
+          <Input
+            id="title"
+            placeholder="Digite o título do tópico"
+            isInvalid={errors.title ? true : false}
+            {...register("title", {
+              ...errorValidation.title,
               ...errorValidation.filled,
             })}
-            placeholder="Selecione uma categoria"
-          >
-            <option value="1">Deficiência Auditiva</option>
-            <option value="2">Deficiência Motora</option>
-            <option value="3">Deficiência Visual</option>
-          </Select>
-          {errors.category ? (
-            <FormErrorMessage>{errors.category.message}</FormErrorMessage>
-          ) : null}
+          />
+          {!errors.title ? (
+            <FormHelperText>
+              O campo deve possui no mínimo 20 de caracteres.
+            </FormHelperText>
+          ) : (
+            <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+          )}
         </FormControl>
-        <CustomButton>Publicar</CustomButton>
-      </Flex>
+
+        <Tabs my={10}>
+          <TabList>
+            <Tab>Editor</Tab>
+            <Tab>Visualização</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Editor text={mdText} handleText={setMdText} />
+            </TabPanel>
+            <TabPanel>
+              <Preview text={mdText} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+
+        <InputTags onAddTag={setTags} tags={tags} textLabel={"Tags"} />
+
+        <Flex justify={"space-between"} my={10}>
+          <FormControl isRequired isInvalid={errors.category}>
+            <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
+            <Select
+              size={"md"}
+              w={280}
+              id="SelectOption"
+              {...register("category", {
+                ...errorValidation.filled,
+              })}
+              placeholder="Selecione uma categoria"
+            >
+              <option value="1">Deficiência Auditiva</option>
+              <option value="2">Deficiência Motora</option>
+              <option value="3">Deficiência Visual</option>
+            </Select>
+            {errors.category ? (
+              <FormErrorMessage>{errors.category.message}</FormErrorMessage>
+            ) : null}
+          </FormControl>
+          <CustomButton>Publicar</CustomButton>
+        </Flex>
+      </div>
     </form>
   );
 };
