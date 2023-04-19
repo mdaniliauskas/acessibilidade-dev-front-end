@@ -21,7 +21,9 @@ function TextCard({ title, body, date_published, replies, author, ...rest }) {
       <Box className="grid grid-cols-12">
         <Box className="col-span-10">
           <CardHeader>
-            <Heading size="md">{title}</Heading>
+            <Heading size="md">
+              {title.length >= 47 ? title.substring(0, 44) + "..." : title}
+            </Heading>
             <small>
               Publicada em: {dateFormatted(new Date(date_published))}
             </small>
