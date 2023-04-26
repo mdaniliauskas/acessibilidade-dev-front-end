@@ -50,9 +50,34 @@ const TopicDetails = () => {
           <Box p={7}>
             <Preview text={topic.description} />
           </Box>
-          <Flex justify="flex-end">
-            <Heading size="sm">Autor: Luan Silva</Heading>
+          <Flex justify="flex-end" mb={2}>
+            <Heading size="sm">
+              Autor: {topic.author.first_name} {topic.author.last_name}
+            </Heading>
           </Flex>
+          <Divider />
+
+          <Heading size="md" my={5}>
+            Respostas{" "}
+            <Tag size="md" colorScheme="gray" borderRadius="full">
+              {topic.replies.length}
+            </Tag>
+          </Heading>
+          <Divider />
+
+          {topic.replies.map((r, i) => (
+            <div key={`${r.author.first_name}${i}`} mt={3}>
+              <Box p={7}>
+                <Preview text={r.description} />
+              </Box>
+              <Flex justify="flex-end" mb={2}>
+                <Heading size="sm">
+                  Autor: {r.author.first_name} {r.author.last_name}
+                </Heading>
+              </Flex>
+              <Divider />
+            </div>
+          ))}
         </>
       ) : null}
 
