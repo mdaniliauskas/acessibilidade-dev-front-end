@@ -30,12 +30,7 @@ const Navbar = () => {
 
   const matches = useMatches();
 
-  const activeTab = {
-    "/artigos": 0,
-    "/ferramentas": 1,
-    "/forum": 2,
-    "/noticias": 3,
-  };
+  const activeTab = ["artigos", "ferramentas", "forum", "noticias"];
 
   const handleSearchTerm = () => {
     console.log();
@@ -67,7 +62,7 @@ const Navbar = () => {
         <Flex pt={3} pr={2}>
           <Tabs
             flex={1}
-            index={matches.length > 1 ? activeTab[matches[1].pathname] : null}
+            index={activeTab.findIndex((a) => matches[1].pathname.includes(a))}
           >
             <TabList>
               <LinkRouter to="artigos">
