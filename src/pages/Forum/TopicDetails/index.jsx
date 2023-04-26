@@ -40,8 +40,10 @@ const TopicDetails = () => {
             Publicada em: {dateFormatted(new Date(topic.date_published))}
           </Text>
           <Box mt={3}>
-            {topic.tags.map((t) => (
-              <Tag m={2}>{t.tag.title.toUpperCase()}</Tag>
+            {topic.tags.map((t, i) => (
+              <Tag key={`${t}${i}`} m={2}>
+                {t.tag.title.toUpperCase()}
+              </Tag>
             ))}
           </Box>
           <Divider />
