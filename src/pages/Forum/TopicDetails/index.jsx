@@ -42,6 +42,24 @@ const TopicDetails = () => {
     console.log("submentendo resposta");
 
     setIsValidBodyReply(txtReply.length >= 20);
+
+    /**
+     * proximos passos
+     *
+     * validar se o texto é maior ou igual a 20
+     * se for, pegar o id do usuario logado, atraves do obj user do useAuth()
+     * e fazer a requisicao post para o endpoint de resposta
+     *
+     * caso seja menor, mostrar texto (codigo da linha 44)
+     *
+     * requisicao bem sucedida, ver como vem o body do json
+     * se vier com o obj completo da resposta, adicionar no array de respostas do topic,
+     * poupando uma requisicao para poder listar a nova resposta
+     * se não vier o obj completo, fazer a tela recarregar para que seja feita uma nova busca do topico completo
+     *
+     *
+     * requisicao mal sucedida, pedir para o usuario tentar novamente.
+     */
   };
 
   return (
@@ -54,7 +72,7 @@ const TopicDetails = () => {
             <Heading size="lg" mt={10}>
               {topic.title}
             </Heading>
-            <a href="#teste">
+            <a href="#nova-resposta">
               <CustomButton type="button">Nova Resposta</CustomButton>
             </a>
           </div>
@@ -104,7 +122,7 @@ const TopicDetails = () => {
             </div>
           ))}
 
-          <Box id="teste" mt={10}>
+          <Box id="nova-resposta" mt={10}>
             <Heading size="md">Sua Resposta</Heading>
             <Tabs my={10}>
               <TabList>
