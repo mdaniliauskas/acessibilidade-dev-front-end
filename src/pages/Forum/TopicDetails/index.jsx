@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useParams } from "react-router-dom";
 
@@ -11,15 +11,26 @@ import {
   Flex,
   Heading,
   Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Tag,
   Text,
 } from "@chakra-ui/react";
 import Preview from "../../../components/Markdown/Preview";
 import { dateFormatted } from "../../../utils/formatters/datetime";
 import SpinnerLoading from "../../../components/SpinnerLoading";
+import CustomButton from "../../../components/CustomButton";
+import Editor from "../../../components/Markdown/Editor";
 
 const TopicDetails = () => {
   const params = useParams();
+
+  const [txtReply, setTxtReply] = useState("");
+
+  const [isValidBodyReply, setIsValidBodyReply] = useState(true);
 
   const {
     data: { message: topic },
@@ -27,15 +38,26 @@ const TopicDetails = () => {
     isPending,
   } = useFetch(TOPIC_DETAILS + "/" + params.topicId);
 
+  const onSubmitReply = () => {
+    console.log("submentendo resposta");
+
+    setIsValidBodyReply(txtReply.length >= 20);
+  };
+
   return (
     <div className="md:container mx-auto">
       {isPending ? <SpinnerLoading /> : null}
 
       {!isPending && !error ? (
         <>
-          <Heading size="lg" mt={10}>
-            {topic.title}
-          </Heading>
+          <div className="flex mt-5 justify-between items-center">
+            <Heading size="lg" mt={10}>
+              {topic.title}
+            </Heading>
+            <a href="#teste">
+              <CustomButton type="button">Nova Resposta</CustomButton>
+            </a>
+          </div>
           <Text>
             Publicada em: {dateFormatted(new Date(topic.date_published))}
           </Text>
@@ -70,7 +92,10 @@ const TopicDetails = () => {
               <Box p={7}>
                 <Preview text={r.description} />
               </Box>
-              <Flex justify="flex-end" mb={2}>
+              <Flex justify="space-between" mb={2}>
+                <Text>
+                  Publicada em: {dateFormatted(new Date(r.date_published))}
+                </Text>
                 <Heading size="sm">
                   Autor: {r.author.first_name} {r.author.last_name}
                 </Heading>
@@ -78,6 +103,33 @@ const TopicDetails = () => {
               <Divider />
             </div>
           ))}
+
+          <Box id="teste" mt={10}>
+            <Heading size="md">Sua Resposta</Heading>
+            <Tabs my={10}>
+              <TabList>
+                <Tab>Editor</Tab>
+                <Tab>Visualização</Tab>
+              </TabList>
+              <TabPanels>
+                <TabPanel>
+                  <Editor text={txtReply} handleText={setTxtReply} />
+                </TabPanel>
+                <TabPanel>
+                  <Preview text={txtReply} />
+                </TabPanel>
+              </TabPanels>
+              {!isValidBodyReply ? (
+                <Text color="#F00">
+                  O texto deve ter no mínimo 20 caracteres!
+                </Text>
+              ) : null}
+            </Tabs>
+
+            <CustomButton type="button" onClick={() => onSubmitReply()}>
+              Postar Resposta
+            </CustomButton>
+          </Box>
         </>
       ) : null}
 

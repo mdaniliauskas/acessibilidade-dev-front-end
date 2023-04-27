@@ -4,7 +4,7 @@ import React from "react";
 
 const Preview = ({ text }) => {
   return (
-    <Card variant="outline">
+    <Card variant="outline" minHeight={200}>
       <CardBody>
         <MDEditor.Markdown source={text} />
       </CardBody>
