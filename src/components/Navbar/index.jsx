@@ -62,7 +62,11 @@ const Navbar = () => {
         <Flex pt={3} pr={2}>
           <Tabs
             flex={1}
-            index={activeTab.findIndex((a) => matches[1].pathname.includes(a))}
+            index={
+              matches.length > 1
+                ? activeTab.findIndex((a) => matches[1].pathname.includes(a))
+                : null
+            }
           >
             <TabList>
               <LinkRouter to="artigos">
