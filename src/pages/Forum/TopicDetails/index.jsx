@@ -3,14 +3,13 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 import useFetch from "../../../hooks/useFetch";
-import { TOPIC_DETAILS } from "../../../utils/constants/api";
+import { NEWREPLY, TOPIC_DETAILS } from "../../../utils/constants/api";
 import {
   Alert,
   Box,
   Divider,
   Flex,
   Heading,
-  Spinner,
   Tab,
   TabList,
   TabPanel,
@@ -24,8 +23,10 @@ import { dateFormatted } from "../../../utils/formatters/datetime";
 import SpinnerLoading from "../../../components/SpinnerLoading";
 import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const TopicDetails = () => {
+  const { user } = useAuth0();
   const params = useParams();
 
   const [txtReply, setTxtReply] = useState("");
@@ -38,28 +39,28 @@ const TopicDetails = () => {
     isPending,
   } = useFetch(TOPIC_DETAILS + "/" + params.topicId);
 
-  const onSubmitReply = () => {
-    console.log("submentendo resposta");
+  const onSubmitReply = async () => {
+    let isValid = txtReply.length >= 20;
+    setIsValidBodyReply(isValid);
 
-    setIsValidBodyReply(txtReply.length >= 20);
-
-    /**
-     * proximos passos
-     *
-     * validar se o texto é maior ou igual a 20
-     * se for, pegar o id do usuario logado, atraves do obj user do useAuth()
-     * e fazer a requisicao post para o endpoint de resposta
-     *
-     * caso seja menor, mostrar texto (codigo da linha 44)
-     *
-     * requisicao bem sucedida, ver como vem o body do json
-     * se vier com o obj completo da resposta, adicionar no array de respostas do topic,
-     * poupando uma requisicao para poder listar a nova resposta
-     * se não vier o obj completo, fazer a tela recarregar para que seja feita uma nova busca do topico completo
-     *
-     *
-     * requisicao mal sucedida, pedir para o usuario tentar novamente.
-     */
+    if (isValid) {
+      const res = await fetch(NEWREPLY, {
+        method: "POST",
+        body: JSON.stringify({
+          description: txtReply,
+          authorId: user.id,
+          topicId: topic.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          Accept: "application/json",
+        },
+      });
+      const { message } = await res.json();
+      topic.replies.push(message);
+      setTxtReply("");
+    }
   };
 
   return (
