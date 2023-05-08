@@ -1,18 +1,8 @@
-import {
-  Alert,
-  Box,
-  Flex,
-  Heading,
-  Tag,
-  TagLabel,
-  TagRightIcon,
-} from "@chakra-ui/react";
-import React from "react";
+import { Alert, Box, Heading, Tag, TagLabel } from "@chakra-ui/react";
+import React, { useState } from "react";
 
 import TextCard from "../../../components/TextCard";
 import useFetch from "../../../hooks/useFetch";
-
-import { Spinner } from "@chakra-ui/react";
 
 import { LIST_TOPICS } from "../../../utils/constants/api";
 
@@ -25,10 +15,15 @@ import SpinnerLoading from "../../../components/SpinnerLoading";
 
 const ListTopics = () => {
   const { data, error, isPending } = useFetch(LIST_TOPICS);
-
   const { isAuthenticated, user } = useAuth0();
 
   const navigate = useNavigate();
+
+  const [categorySelected, setCategorySelected] = useState(0);
+
+  const onFilterCategory = (category) => {
+    setCategorySelected(category);
+  };
 
   return (
     <div className="md:container mx-auto">
@@ -58,19 +53,53 @@ const ListTopics = () => {
       ) : (
         <>
           <div>
-            <Tag size="lg" rounded="full" px={5} bg="gray.400" as="button">
-              <TagLabel>Visual</TagLabel>
+            <Tag
+              size="lg"
+              rounded="full"
+              px={5}
+              bg={categorySelected == 0 ? "gray.400" : "gray.200"}
+              onClick={() => onFilterCategory(0)}
+              as="button"
+            >
+              <TagLabel>Todas</TagLabel>
               <Tag rounded="full" bg="gray.300" ml={3}>
                 10
               </Tag>
             </Tag>
-            <Tag size="lg" rounded="full" px={5} bg="gray.200">
-              <TagLabel>Visual</TagLabel>
+            <Tag
+              size="lg"
+              rounded="full"
+              px={5}
+              bg={categorySelected == 1 ? "gray.400" : "gray.200"}
+              onClick={() => onFilterCategory(1)}
+              as="button"
+            >
+              <TagLabel>Auditiva</TagLabel>
               <Tag rounded="full" bg="gray.300" ml={3}>
                 10
               </Tag>
             </Tag>
-            <Tag size="lg" rounded="full" px={5} bg="gray.200">
+            <Tag
+              size="lg"
+              rounded="full"
+              px={5}
+              bg={categorySelected == 2 ? "gray.400" : "gray.200"}
+              onClick={() => onFilterCategory(2)}
+              as="button"
+            >
+              <TagLabel>Motora</TagLabel>
+              <Tag rounded="full" bg="gray.300" ml={3}>
+                10
+              </Tag>
+            </Tag>
+            <Tag
+              size="lg"
+              rounded="full"
+              px={5}
+              bg={categorySelected == 3 ? "gray.400" : "gray.200"}
+              onClick={() => onFilterCategory(3)}
+              as="button"
+            >
               <TagLabel>Visual</TagLabel>
               <Tag rounded="full" bg="gray.300" ml={3}>
                 10

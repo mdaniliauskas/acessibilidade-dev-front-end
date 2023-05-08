@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import useFetch from "../../../hooks/useFetch";
 import { NEWREPLY, TOPIC_DETAILS } from "../../../utils/constants/api";
@@ -26,7 +26,7 @@ import Editor from "../../../components/Markdown/Editor";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const TopicDetails = () => {
-  const { user } = useAuth0();
+  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const params = useParams();
 
   const [txtReply, setTxtReply] = useState("");
@@ -73,9 +73,11 @@ const TopicDetails = () => {
             <Heading size="lg" mt={10}>
               {topic.title}
             </Heading>
-            <a href="#nova-resposta">
-              <CustomButton type="button">Nova Resposta</CustomButton>
-            </a>
+            {isAuthenticated && user.completedProfile ? (
+              <a href="#nova-resposta">
+                <CustomButton type="button">Nova Resposta</CustomButton>
+              </a>
+            ) : null}
           </div>
           <Text>
             Publicada em: {dateFormatted(new Date(topic.date_published))}
@@ -123,32 +125,40 @@ const TopicDetails = () => {
             </div>
           ))}
 
-          <Box id="nova-resposta" mt={10}>
-            <Heading size="md">Sua Resposta</Heading>
-            <Tabs my={10}>
-              <TabList>
-                <Tab>Editor</Tab>
-                <Tab>Visualização</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <Editor text={txtReply} handleText={setTxtReply} />
-                </TabPanel>
-                <TabPanel>
-                  <Preview text={txtReply} />
-                </TabPanel>
-              </TabPanels>
-              {!isValidBodyReply ? (
-                <Text color="#F00">
-                  O texto deve ter no mínimo 20 caracteres!
-                </Text>
-              ) : null}
-            </Tabs>
+          {isAuthenticated && user.completedProfile ? (
+            <Box id="nova-resposta" mt={10}>
+              <Heading size="md">Sua Resposta</Heading>
+              <Tabs my={10}>
+                <TabList>
+                  <Tab>Editor</Tab>
+                  <Tab>Visualização</Tab>
+                </TabList>
+                <TabPanels>
+                  <TabPanel>
+                    <Editor text={txtReply} handleText={setTxtReply} />
+                  </TabPanel>
+                  <TabPanel>
+                    <Preview text={txtReply} />
+                  </TabPanel>
+                </TabPanels>
+                {!isValidBodyReply ? (
+                  <Text color="#F00">
+                    O texto deve ter no mínimo 20 caracteres!
+                  </Text>
+                ) : null}
+              </Tabs>
 
-            <CustomButton type="button" onClick={() => onSubmitReply()}>
-              Postar Resposta
-            </CustomButton>
-          </Box>
+              <CustomButton type="button" onClick={() => onSubmitReply()}>
+                Postar Resposta
+              </CustomButton>
+            </Box>
+          ) : (
+            <span>
+              Você dele fazer
+              <Link onClick={() => loginWithRedirect()}> login </Link>
+              para responder esse tópico.
+            </span>
+          )}
         </>
       ) : null}
 
