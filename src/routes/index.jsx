@@ -12,6 +12,8 @@ import Register from "../pages/Register";
 import NewTopic from "../pages/Forum/NewTopic";
 import ListTopics from "../pages/Forum/ListTopics";
 import TopicDetails from "../pages/Forum/TopicDetails";
+import NewChat from "../pages/Chat/NewChat/index.jsx";
+import ChatDetails from "../pages/Chat/ChatDetails/index.jsx";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +27,9 @@ export default createBrowserRouter(
 
       <Route path="/noticias" element={<p>Noticias</p>} />
       <Route path="/completarCadastro" element={<Register />} />
+
+      <Route path="/chat/novo-chat" element={<NewChat />} />
+      <Route path="/chat/:chatId" element={<ChatDetails />} />
     </Route>
   )
 );
