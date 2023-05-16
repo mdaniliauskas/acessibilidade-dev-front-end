@@ -51,11 +51,11 @@ export default {
   descriptionChat: {
     minLength: {
       value: 20,
-      message: "O título não possui o mínimo de caracteres",
+      message: "A descrição não possui o mínimo de caracteres",
     },
     maxLength: {
-      value: 80,
-      message: "O título passou o maxímo de caracteres",
+      value: 150,
+      message: "A descrição passou do maxímo de caracteres",
     },
   },
 };

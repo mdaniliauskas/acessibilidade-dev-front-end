@@ -30,7 +30,7 @@ const Navbar = () => {
 
   const matches = useMatches();
 
-  const activeTab = ["artigos", "ferramentas", "forum", "noticias"];
+  const activeTab = ["artigos", "ferramentas", "forum", "noticias", "chat"];
 
   const handleSearchTerm = () => {
     console.log();
@@ -87,6 +87,11 @@ const Navbar = () => {
               <LinkRouter to="noticias">
                 <Tab color="yellow" fontWeight="bold">
                   Notícias
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="chat">
+                <Tab color="purple" fontWeight="bold">
+                  Discussões
                 </Tab>
               </LinkRouter>
             </TabList>

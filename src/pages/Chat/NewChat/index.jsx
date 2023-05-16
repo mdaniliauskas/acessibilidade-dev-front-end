@@ -45,7 +45,7 @@ function NewChat() {
         title: formData.title,
         description: formData.description,
         createdAt: TIMESTAMP(),
-        createdBy: user.email
+        createdBy: user.nickname
       } 
     };
     const res = await writeData(payload);
@@ -101,7 +101,7 @@ function NewChat() {
           />
           {!errors.description ? (
             <FormHelperText>
-              O campo deve possui no mínimo 20 e o maxímo 80 caracteres.
+              O campo deve possui no mínimo 20 e o maxímo 150 caracteres.
             </FormHelperText>
           ) : (
             <FormErrorMessage>{errors.description.message}</FormErrorMessage>

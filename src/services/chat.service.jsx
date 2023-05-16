@@ -25,7 +25,7 @@ export async function writeData(payload) {
   let refId = push(child(ref(db), path)).key;
 
   try {
-    await set(ref(db, path + refId), data);
+    await set(ref(db, path + "/" +refId), data);
     console.log(`referencia para ${path} criada com sucesso`)
     return {
       success: true,
@@ -53,6 +53,7 @@ export function subscription(path, callback) {
   subscriptions[path] = unsubCallback;
 }
 
-export async function unsubscription(path) {
-  await subscriptions[path]()
+export function unsubscription(path) {
+  console.log("desinscrevendo " + path)
+  subscriptions[path]()
 }
