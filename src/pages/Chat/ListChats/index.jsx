@@ -62,15 +62,14 @@ const ListChats = () => {
           <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
             {chatList.map(c => (
               <Box px={10} py={3} key={c.key}>
-                <Link to={`/chat/${c.key}}`}>
-                  <TextCard
-                    title={c.title}
-                    body={c.description}
-                    date_published={new Date(c.createdAt)}
-                    replies={10}
-                    author={c.createdBy}
-                  />
-                </Link>
+                <TextCard
+                  onClick={() => navigate(`/chat/${c.key}`, {replace: true, state: c})}
+                  title={c.title}
+                  body={c.description}
+                  date_published={new Date(c.createdAt)}
+                  replies={10}
+                  author={c.createdBy}
+                />
               </Box>
             ))}
           </div>

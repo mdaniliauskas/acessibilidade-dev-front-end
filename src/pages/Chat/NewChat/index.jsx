@@ -50,7 +50,8 @@ function NewChat() {
     };
     const res = await writeData(payload);
     if (res.success){
-      navigate(`/chat/${res.refId}}`, { replace: true });
+      const chatId = res.refId;
+      navigate(`/chat/${chatId}}`, { replace: true, state: {key: chatId, ...payload.data} });
     } else {
       console.log(res.error);
       setReqError(true);
