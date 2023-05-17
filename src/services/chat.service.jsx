@@ -40,7 +40,7 @@ export async function writeData(payload) {
   }
 }
 
-export function subscription(path, callback) {
+export function subscription(path, callback, opts = {onlyOnce : false}) {
   const unsubCallback = onValue(query(ref(db, path), orderByChild("createdAt")), (snapshot) => {
     let vet = [];
     snapshot.forEach((childSnapshot) => {
@@ -49,7 +49,7 @@ export function subscription(path, callback) {
       vet.push({key, ...value})
     })
     callback(vet);
-  });
+  }, opts);
   subscriptions[path] = unsubCallback;
 }
 

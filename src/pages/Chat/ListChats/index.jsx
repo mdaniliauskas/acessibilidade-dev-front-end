@@ -25,7 +25,7 @@ const ListChats = () => {
   }
 
   useEffect(() => {
-    subscription("chats", searchChats);
+    subscription("chats", searchChats, {onlyOnce: true});
 
     return function cleanup() {
       unsubscription("chats")
