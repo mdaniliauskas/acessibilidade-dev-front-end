@@ -26,7 +26,7 @@ function NewChat() {
   const {user} = useAuth0();
   const navigate = useNavigate();
   const [reqError, setReqError] = useState(false);
-  
+
   const {
     register,
     handleSubmit,
@@ -45,13 +45,13 @@ function NewChat() {
         title: formData.title,
         description: formData.description,
         createdAt: TIMESTAMP(),
-        createdBy: user.nickname
-      } 
+        createdBy: user.email,
+      }
     };
     const res = await writeData(payload);
-    if (res.success){
+    if (res.success) {
       const chatId = res.refId;
-      navigate(`/chat/${chatId}}`, { replace: true, state: {key: chatId, ...payload.data} });
+      navigate(`/chat/${chatId}`, {replace: true, state: {key: chatId, ...payload.data}});
     } else {
       console.log(res.error);
       setReqError(true);
@@ -110,11 +110,11 @@ function NewChat() {
         </FormControl>
         {reqError ? (
           <Alert status="error" mt={10}>
-            <AlertIcon />
+            <AlertIcon/>
             Houve um erro ao criar a sala, por favor, tente novamente!
           </Alert>
-        ): null}
-        
+        ) : null}
+
         <CustomButton className={styles.registerLabels}>Abrir discussão</CustomButton>
       </div>
     </form>

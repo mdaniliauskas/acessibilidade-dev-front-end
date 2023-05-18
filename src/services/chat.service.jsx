@@ -1,5 +1,5 @@
 import {initializeApp} from "firebase/app";
-import {child, getDatabase, onValue, orderByChild, push, query, ref, set, serverTimestamp} from "firebase/database";
+import {child, getDatabase, onValue, orderByChild, push, query, ref, remove, set, serverTimestamp} from "firebase/database";
 
 const CONFIG = {
   databaseURL: "https://acessibilidade-dev-chat-default-rtdb.firebaseio.com",
@@ -26,7 +26,6 @@ export async function writeData(payload) {
 
   try {
     await set(ref(db, path + "/" +refId), data);
-    console.log(`referencia para ${path} criada com sucesso`)
     return {
       success: true,
       refId
@@ -54,6 +53,22 @@ export function subscription(path, callback, opts = {onlyOnce : false}) {
 }
 
 export function unsubscription(path) {
-  console.log("desinscrevendo " + path)
   subscriptions[path]()
+}
+
+export async function removeData(path){
+  try {
+    await remove(ref(db, path));
+    return {
+      success: true,
+      path
+    };
+  } catch (e) {
+    console.error(e.message);
+    return {
+      success: false,
+      error: e.message
+    };
+  }
+
 }

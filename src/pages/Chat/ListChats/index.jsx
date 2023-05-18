@@ -19,7 +19,6 @@ const ListChats = () => {
   const [chatList, setChatList] = useState([]);
 
   const searchChats = (snapshot) => {
-    console.log(snapshot);
     setChatList(snapshot);
     setIsPending(false);
   }
@@ -47,16 +46,6 @@ const ListChats = () => {
 
       {isPending ? (
         <SpinnerLoading/>
-      ) : false ? (
-        (() => {
-          // console.error(error);
-          return (
-            <Alert status="error" mt={10}>
-              Houve um erro ao tentar busca o tópico, por favor, tente
-              novamente!
-            </Alert>
-          );
-        })()
       ) : (
         <>
           <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
