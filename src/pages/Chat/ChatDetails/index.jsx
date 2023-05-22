@@ -2,7 +2,14 @@ import React, {useEffect, useRef, useState} from "react"
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import {Box, Button, Heading, Textarea} from "@chakra-ui/react";
 import {LogOut, Send, X} from "react-feather";
-import {removeData, subscription, TIMESTAMP, unsubscription, writeData} from "../../../services/chat.service.jsx";
+import {
+    registerMember,
+    removeData,
+    subscription,
+    TIMESTAMP, unregisterMember,
+    unsubscription,
+    writeData
+} from "../../../services/chat.service.jsx";
 import {useAuth0} from "@auth0/auth0-react";
 import {dateTimeFormatted} from "../../../utils/formatters/datetime.js";
 
@@ -31,7 +38,7 @@ const ChatDetails = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     const payload = {
-      path: `chats/${chatId}/messages`,
+      path: `messages/${chatId}`,
       data: {
         author: user.nickname,
         message: textAreaRef.current.value,
@@ -52,10 +59,12 @@ const ChatDetails = () => {
   }
 
   useEffect(() => {
-    subscription(`chats/${chatId}/messages`, searchMessage);
 
+    subscription(`messages/${chatId}`, searchMessage);
+    registerMember(`members/${chatId}/${user.id}`)
     return function cleanup() {
-      unsubscription(`chats/${chatId}/messages`);
+      unsubscription(`messages/${chatId}`);
+      unregisterMember(`members/${chatId}/${user.id}`)
     }
   }, [])
 
@@ -66,9 +75,10 @@ const ChatDetails = () => {
         <Box className="flex my-5" justifyContent="space-between">
           <Heading as="h1" className="capitalize">{chatInfos.title}</Heading>
           <Box>
-            {chatInfos.createdBy === user.email ? (
+            {chatInfos.ownerId === user.id ? (
               <Button colorScheme='red' rightIcon={<X/>} type="button" onClick={() => {
                 removeData(`chats/${chatId}`);
+                removeData(`messages/${chatId}`);
                 navigate("/chat", {replace: true})
               }}>
                 Encerrar discussão

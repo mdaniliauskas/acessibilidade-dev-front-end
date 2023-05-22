@@ -45,7 +45,9 @@ function NewChat() {
         title: formData.title,
         description: formData.description,
         createdAt: TIMESTAMP(),
-        createdBy: user.email,
+        ownerId: user.id,
+        createdBy: user.nickname,
+        isOpen: true,
       }
     };
     const res = await writeData(payload);
