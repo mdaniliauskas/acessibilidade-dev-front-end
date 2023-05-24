@@ -15,6 +15,7 @@ import TopicDetails from "../pages/Forum/TopicDetails";
 import NewChat from "../pages/Chat/NewChat/index.jsx";
 import ChatDetails from "../pages/Chat/ChatDetails/index.jsx";
 import ListChats from "../pages/Chat/ListChats/index.jsx";
+import Chat from "../pages/OpenIA/Chat";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +33,8 @@ export default createBrowserRouter(
       <Route path="/chat" element={<ListChats />}/>
       <Route path="/chat/novo-chat" element={<NewChat />} />
       <Route path="/chat/:chatId" element={<ChatDetails />} />
+
+      <Route path="/openIA" element={<Chat />} />
     </Route>
   )
 );

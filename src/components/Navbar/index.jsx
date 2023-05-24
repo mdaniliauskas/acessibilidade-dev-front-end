@@ -94,6 +94,11 @@ const Navbar = () => {
                   Discussões
                 </Tab>
               </LinkRouter>
+              <LinkRouter to="openIA">
+                <Tab color="Orange" fontWeight="bold">
+                  Dúvidas
+                </Tab>
+              </LinkRouter>
             </TabList>
           </Tabs>
           <Spacer />
