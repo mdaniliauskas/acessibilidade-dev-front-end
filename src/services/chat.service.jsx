@@ -138,15 +138,33 @@ export async function unregisterMember(path) {
   }
 }
 
+async function getMembersList(chatId, opts = { onlyOnce: false }) {
+  return new Promise((resolve) => {
+    let vetMembers = [];
+    onValue(
+      query(ref(db, `members/${chatId}`)),
+      (snapshot) => {
+        let objMembers = snapshot.toJSON();
+        for (let key in objMembers) {
+          vetMembers.push(key);
+        }
+        resolve(vetMembers);
+      },
+      opts
+    );
+  });
+}
+
 export function getListChats(callback, opts = { onlyOnce: false }) {
   const path = "chats";
   const unsubCallback = onValue(
     query(ref(db, path), orderByChild("createdAt")),
-    (snapshot) => {
+    async (snapshot) => {
       let vet = [];
       let objs = snapshot.toJSON();
       for (let key in objs) {
-        vet.push({ key, ...objs[key] });
+        let members = await getMembersList(key);
+        vet.push({ key, ...objs[key], members: members.length });
       }
       callback(vet);
     },

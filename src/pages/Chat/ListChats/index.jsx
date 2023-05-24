@@ -59,7 +59,7 @@ const ListChats = () => {
                   title={c.title}
                   body={c.description}
                   date_published={new Date(c.createdAt)}
-                  replies={10}
+                  replies={c.members}
                   author={c.createdBy}
                 />
               </Box>
