@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Heading, Textarea } from "@chakra-ui/react";
+import { Alert, Box, Button, Heading, Textarea } from "@chakra-ui/react";
 import { LogOut, Send, X } from "react-feather";
 import {
   registerMember,
@@ -78,7 +78,7 @@ const ChatDetails = () => {
 
   return (
     <>
-      {isLoading || messageList.length === 0 ? (
+      {isLoading ? (
         <SpinnerLoading />
       ) : (
         <>
@@ -88,7 +88,7 @@ const ChatDetails = () => {
                 {chatInfo?.title}
               </Heading>
               <Box>
-                {chatInfo?.ownerId === user.id ? (
+                {chatInfo?.ownerId === user.id && chatInfo.isOpen ? (
                   <Button
                     colorScheme="red"
                     rightIcon={<X />}
@@ -134,29 +134,39 @@ const ChatDetails = () => {
                     <span className="capitalize">{chatInfo.title}</span>
                   </Heading>
                 </Box>
-                {messageList.length > 0 ? (
-                  messageList.map((m) => (
+                <Box>
+                  {messageList.map((m) => (
                     <Box
                       mx="30px"
                       my="5px"
+                      padding="15px"
                       borderBottom="1px"
                       borderTop="1px"
                       borderColor="gray.100"
-                      padding="15px"
                       key={m.key}
                     >
                       <Box className="flex" justifyContent="space-between">
                         <p>{m.author}</p>
                         <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                       </Box>
-                      <Box mt={2}>
+                      <Box>
                         <p>{m.message}</p>
                       </Box>
                     </Box>
-                  ))
-                ) : (
-                  <Box padding="20px"></Box>
-                )}
+                  ))}
+
+                  {!chatInfo.isOpen ? (
+                    <Heading
+                      as="h2"
+                      size="sm"
+                      textAlign="center"
+                      p="5"
+                      color="red"
+                    >
+                      A sala {chatInfo.title} foi encerrada.
+                    </Heading>
+                  ) : null}
+                </Box>
               </Box>
               <Box p={1}>
                 {/*            <Textarea h={heightTextArea} ref={textAreaRef} onChange={handleTextAreaRows} w="100%" placeholder="Conversar em <Nome da sala>"/>*/}
@@ -166,15 +176,16 @@ const ChatDetails = () => {
                   w="100%"
                   placeholder={`Conversar em ${chatInfo.title}`}
                   rows={rowsTextArea}
+                  isReadOnly={!chatInfo.isOpen}
                 />
                 <Button
                   mt={1}
                   aria-label="Enviar mensagem na sala <Nome da sala>"
                   rightIcon={<Send />}
                   onClick={handleSendMessage}
+                  isDisabled={!chatInfo.isOpen}
                 >
-                  {" "}
-                  Enviar{" "}
+                  Enviar
                 </Button>
               </Box>
             </Box>

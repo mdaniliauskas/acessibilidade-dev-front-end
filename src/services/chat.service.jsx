@@ -166,7 +166,7 @@ export function getListChats(callback, opts = { onlyOnce: false }) {
         let members = await getMembersList(key);
         vet.push({ key, ...objs[key], members: members.length });
       }
-      callback(vet);
+      callback(vet.filter((c) => c.isOpen));
     },
     opts
   );
