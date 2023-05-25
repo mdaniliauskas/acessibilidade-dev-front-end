@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Alert, Box, Button, Heading, Textarea } from "@chakra-ui/react";
+import { Alert, Box, Button, Heading, Text, Textarea } from "@chakra-ui/react";
 import { LogOut, Send, X } from "react-feather";
 import {
   registerMember,
@@ -41,7 +41,7 @@ const ChatDetails = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     let message = textAreaRef.current.value;
-    if(message.length >= 1) {
+    if (message.length >= 1) {
       const payload = {
         path: `messages/${chatId}`,
         data: {
@@ -69,14 +69,26 @@ const ChatDetails = () => {
 
   useEffect(() => {
     if (!isLoading) {
-      getListMessages(`${chatId}`, searchMessage);
       getChatDetails(`${chatId}`, searchChatInfo);
+      getListMessages(`${chatId}`, searchMessage);
       registerMember(`members/${chatId}/${user.id}`);
-      return function cleanup() {
-        unsubscription();
-        unregisterMember(`members/${chatId}/${user.id}`);
-      };
     }
+    return () => {
+      unsubscription();
+      unregisterMember(`members/${chatId}/${user.id}`);
+      const payload = {
+        path: `messages/${chatId}`,
+        data: {
+          message: `O usuário ${user.nickname} saiu da sala.`,
+          createdAt: TIMESTAMP(),
+        },
+      };
+      try {
+        writeData(payload);
+      } catch (e) {
+        console.error(e.message);
+      }
+    };
   }, [isLoading]);
 
   return (
@@ -138,25 +150,39 @@ const ChatDetails = () => {
                   </Heading>
                 </Box>
                 <Box>
-                  {messageList.map((m) => (
-                    <Box
-                      mx="30px"
-                      my="5px"
-                      padding="15px"
-                      borderBottom="1px"
-                      borderTop="1px"
-                      borderColor="gray.100"
-                      key={m.key}
-                    >
-                      <Box className="flex" justifyContent="space-between">
-                        <p>{m.author}</p>
-                        <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
+                  {messageList.map((m) =>
+                    m.author ? (
+                      <Box
+                        mx="30px"
+                        my="5px"
+                        padding="15px"
+                        borderBottom="1px"
+                        borderTop="1px"
+                        borderColor="gray.100"
+                        key={m.key}
+                      >
+                        <Box className="flex" justifyContent="space-between">
+                          <p>{m.author}</p>
+                          <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
+                        </Box>
+                        <Box>
+                          <p>{m.message}</p>
+                        </Box>
                       </Box>
-                      <Box>
-                        <p>{m.message}</p>
+                    ) : (
+                      <Box
+                        mx="30px"
+                        my="5px"
+                        padding="15px"
+                        borderColor="gray.100"
+                        key={m.key}
+                      >
+                        <Box className="flex" justifyContent="center">
+                          <Text color="gray">{m.message}</Text>
+                        </Box>
                       </Box>
-                    </Box>
-                  ))}
+                    )
+                  )}
 
                   {!chatInfo.isOpen ? (
                     <Heading

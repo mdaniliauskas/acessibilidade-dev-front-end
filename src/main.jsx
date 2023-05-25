@@ -19,10 +19,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       redirect_uri: window.location.origin,
     }}
   >
-    <React.StrictMode>
-      <ChakraProvider>
-        <RouterProvider router={routes} />
-      </ChakraProvider>
-    </React.StrictMode>
+    {/*<React.StrictMode> */}
+    <ChakraProvider>
+      <RouterProvider router={routes} />
+    </ChakraProvider>
+    {/*</React.StrictMode>*/}
   </Auth0Provider>
 );
