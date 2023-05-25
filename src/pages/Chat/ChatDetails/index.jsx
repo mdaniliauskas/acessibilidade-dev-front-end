@@ -40,19 +40,22 @@ const ChatDetails = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    const payload = {
-      path: `messages/${chatId}`,
-      data: {
-        author: user.nickname,
-        message: textAreaRef.current.value,
-        createdAt: TIMESTAMP(),
-      },
-    };
-    try {
-      await writeData(payload);
-      textAreaRef.current.value = "";
-    } catch (e) {
-      console.error(e.message);
+    let message = textAreaRef.current.value;
+    if(message.length >= 1) {
+      const payload = {
+        path: `messages/${chatId}`,
+        data: {
+          author: user.nickname,
+          message: message,
+          createdAt: TIMESTAMP(),
+        },
+      };
+      try {
+        await writeData(payload);
+        textAreaRef.current.value = "";
+      } catch (e) {
+        console.error(e.message);
+      }
     }
   };
 
