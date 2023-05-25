@@ -46,7 +46,7 @@ const ChatDetails = () => {
         path: `messages/${chatId}`,
         data: {
           author: user.nickname,
-          message: message,
+          message: message.split("\n").join("<br/>"),
           createdAt: TIMESTAMP(),
         },
       };
@@ -65,6 +65,14 @@ const ChatDetails = () => {
 
   const searchChatInfo = (info) => {
     setChatInfo(info);
+  };
+
+  const renderMessage = (idHtmlElemt, message) => {
+    const elemtHtml = document.querySelector(`#${idHtmlElemt}`);
+    if (elemtHtml) {
+      elemtHtml.innerHTML = message;
+    }
+    return null;
   };
 
   useEffect(() => {
@@ -166,7 +174,8 @@ const ChatDetails = () => {
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
                         <Box>
-                          <p>{m.message}</p>
+                          <p id={`message${m.key}`}></p>
+                          {renderMessage(`message${m.key}`, m.message)}
                         </Box>
                       </Box>
                     ) : (
