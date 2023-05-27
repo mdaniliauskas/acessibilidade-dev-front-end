@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Heading, Textarea } from "@chakra-ui/react";
+import { Alert, Box, Button, Heading, Text, Textarea } from "@chakra-ui/react";
 import { LogOut, Send, X } from "react-feather";
 import {
   registerMember,
@@ -40,19 +40,22 @@ const ChatDetails = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    const payload = {
-      path: `messages/${chatId}`,
-      data: {
-        author: user.nickname,
-        message: textAreaRef.current.value,
-        createdAt: TIMESTAMP(),
-      },
-    };
-    try {
-      await writeData(payload);
-      textAreaRef.current.value = "";
-    } catch (e) {
-      console.error(e.message);
+    let message = textAreaRef.current.value;
+    if (message.length >= 1) {
+      const payload = {
+        path: `messages/${chatId}`,
+        data: {
+          author: user.nickname,
+          message: message.split("\n").join("<br/>"),
+          createdAt: TIMESTAMP(),
+        },
+      };
+      try {
+        await writeData(payload);
+        textAreaRef.current.value = "";
+      } catch (e) {
+        console.error(e.message);
+      }
     }
   };
 
@@ -64,21 +67,41 @@ const ChatDetails = () => {
     setChatInfo(info);
   };
 
+  const renderMessage = (idHtmlElemt, message) => {
+    const elemtHtml = document.querySelector(`#${idHtmlElemt}`);
+    if (elemtHtml) {
+      elemtHtml.innerHTML = message;
+    }
+    return null;
+  };
+
   useEffect(() => {
     if (!isLoading) {
-      getListMessages(`${chatId}`, searchMessage);
       getChatDetails(`${chatId}`, searchChatInfo);
+      getListMessages(`${chatId}`, searchMessage);
       registerMember(`members/${chatId}/${user.id}`);
-      return function cleanup() {
-        unsubscription();
-        unregisterMember(`members/${chatId}/${user.id}`);
-      };
     }
+    return () => {
+      unsubscription();
+      unregisterMember(`members/${chatId}/${user.id}`);
+      const payload = {
+        path: `messages/${chatId}`,
+        data: {
+          message: `O usuário ${user.nickname} saiu da sala.`,
+          createdAt: TIMESTAMP(),
+        },
+      };
+      try {
+        writeData(payload);
+      } catch (e) {
+        console.error(e.message);
+      }
+    };
   }, [isLoading]);
 
   return (
     <>
-      {isLoading || messageList.length === 0 ? (
+      {isLoading ? (
         <SpinnerLoading />
       ) : (
         <>
@@ -88,7 +111,7 @@ const ChatDetails = () => {
                 {chatInfo?.title}
               </Heading>
               <Box>
-                {chatInfo?.ownerId === user.id ? (
+                {chatInfo?.ownerId === user.id && chatInfo.isOpen ? (
                   <Button
                     colorScheme="red"
                     rightIcon={<X />}
@@ -134,29 +157,54 @@ const ChatDetails = () => {
                     <span className="capitalize">{chatInfo.title}</span>
                   </Heading>
                 </Box>
-                {messageList.length > 0 ? (
-                  messageList.map((m) => (
-                    <Box
-                      mx="30px"
-                      my="5px"
-                      borderBottom="1px"
-                      borderTop="1px"
-                      borderColor="gray.100"
-                      padding="15px"
-                      key={m.key}
+                <Box>
+                  {messageList.map((m) =>
+                    m.author ? (
+                      <Box
+                        mx="30px"
+                        my="5px"
+                        padding="15px"
+                        borderBottom="1px"
+                        borderTop="1px"
+                        borderColor="gray.100"
+                        key={m.key}
+                      >
+                        <Box className="flex" justifyContent="space-between">
+                          <p>{m.author}</p>
+                          <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
+                        </Box>
+                        <Box>
+                          <p id={`message${m.key}`}></p>
+                          {renderMessage(`message${m.key}`, m.message)}
+                        </Box>
+                      </Box>
+                    ) : (
+                      <Box
+                        mx="30px"
+                        my="5px"
+                        padding="15px"
+                        borderColor="gray.100"
+                        key={m.key}
+                      >
+                        <Box className="flex" justifyContent="center">
+                          <Text color="gray">{m.message}</Text>
+                        </Box>
+                      </Box>
+                    )
+                  )}
+
+                  {!chatInfo.isOpen ? (
+                    <Heading
+                      as="h2"
+                      size="sm"
+                      textAlign="center"
+                      p="5"
+                      color="red"
                     >
-                      <Box className="flex" justifyContent="space-between">
-                        <p>{m.author}</p>
-                        <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
-                      </Box>
-                      <Box mt={2}>
-                        <p>{m.message}</p>
-                      </Box>
-                    </Box>
-                  ))
-                ) : (
-                  <Box padding="20px"></Box>
-                )}
+                      A sala {chatInfo.title} foi encerrada.
+                    </Heading>
+                  ) : null}
+                </Box>
               </Box>
               <Box p={1}>
                 {/*            <Textarea h={heightTextArea} ref={textAreaRef} onChange={handleTextAreaRows} w="100%" placeholder="Conversar em <Nome da sala>"/>*/}
@@ -166,15 +214,16 @@ const ChatDetails = () => {
                   w="100%"
                   placeholder={`Conversar em ${chatInfo.title}`}
                   rows={rowsTextArea}
+                  isReadOnly={!chatInfo.isOpen}
                 />
                 <Button
                   mt={1}
                   aria-label="Enviar mensagem na sala <Nome da sala>"
                   rightIcon={<Send />}
                   onClick={handleSendMessage}
+                  isDisabled={!chatInfo.isOpen}
                 >
-                  {" "}
-                  Enviar{" "}
+                  Enviar
                 </Button>
               </Box>
             </Box>

@@ -12,6 +12,8 @@ import SpinnerLoading from "../../../components/SpinnerLoading";
 import {
   getListChats,
   unsubscription,
+  TIMESTAMP,
+  writeData,
 } from "../../../services/chat.service.jsx";
 
 const ListChats = () => {
@@ -55,7 +57,22 @@ const ListChats = () => {
             {chatList.map((c) => (
               <Box px={10} py={3} key={c.key}>
                 <TextCard
-                  onClick={() => navigate(`/chat/${c.key}`, { replace: true })}
+                  onClick={async () => {
+                      const payload = {
+                        path: `messages/${c.key}`,
+                        data: {
+                          message: `O usuário ${user.nickname} entrou na sala.`,
+                          createdAt: TIMESTAMP(),
+                        },
+                      };
+                      try {
+                        await writeData(payload);
+                      } catch (e) {
+                        console.error(e.message);
+                      }
+                      navigate(`/chat/${c.key}`, { replace: true });
+                    }
+                  }
                   title={c.title}
                   body={c.description}
                   date_published={new Date(c.createdAt)}
