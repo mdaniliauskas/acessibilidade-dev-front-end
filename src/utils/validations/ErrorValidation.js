@@ -38,4 +38,24 @@ export default {
       message: "O título não possui o mínimo de caracteres",
     },
   },
+  titleChat: {
+    minLength: {
+      value: 5,
+      message: "O título não possui o mínimo de caracteres",
+    },
+    maxLength: {
+      value: 30,
+      message: "O título passou o maxímo de caracteres",
+    },
+  },
+  descriptionChat: {
+    minLength: {
+      value: 20,
+      message: "A descrição não possui o mínimo de caracteres",
+    },
+    maxLength: {
+      value: 150,
+      message: "A descrição passou do maxímo de caracteres",
+    },
+  },
 };
