@@ -31,28 +31,24 @@ const Navbar = () => {
 
   const matches = useMatches();
 
-  const activeTab = ["artigos", "ferramentas", "forum", "noticias", "chat"];
-
-  const handleSearchTerm = () => {
-    console.log();
-  };
+  const activeTab = ["ferramentas", "forum", "chat", "openIA"];
 
   return (
     <>
       <Box className="container-fluid">
         <Box className="row mt-2">
-          <Heading as="h4" size="lg" className="col-12 text-center">
+          <Heading as="h4" size="lg" className="col-12 text-center" style={{marginBottom: "-40px" }}>
             Acessibilidade Dev
           </Heading>
         </Box>
         <Box className="row mb-1 justify-content-end align-items-center">
-          <Box className="col text-end d-none d-sm-block">
+          <Box className="text-end d-none d-sm-none d-md-none d-lg-block" style={{width: "fit-content"}}>
             {isAuthenticated ? (
             <Text as="p" size="sm" >
               Olá, {user.nickname}
             </Text>
           ) : (
-            <Link className="d-inline">
+            <Link style={{textDecoration: "none"}}>
               <Text as="p" size="sm" onClick={() => loginWithRedirect()}>
                 Olá, faça Login/Cadastro
               </Text>
@@ -65,50 +61,49 @@ const Navbar = () => {
         </Box>
         <Divider orientation="horizontal" />
         <Box className="row">
-          <Tabs className="col-5"
+          <Tabs className="d-none d-sm-none d-md-flex col-5 align-items-end"
             index={
               matches.length > 1
                 ? activeTab.findIndex((a) => matches[1].pathname.includes(a))
                 : null
             }
           >
-            <TabList className="d-none d-sm-none d-md-flex col-5">
+            <TabList style={{width: "fit-content"}}  >
               <LinkRouter to="ferramentas">
-                <Tab color="green" fontWeight="bold">
+                <Tab color="#5A9A08" fontWeight="bold">
                   Ferramentas
                 </Tab>
               </LinkRouter>
               <LinkRouter to="forum">
-                <Tab color="blue" fontWeight="bold">
+                <Tab color="#FF0000" fontWeight="bold">
                   Fórum
                 </Tab>
               </LinkRouter>
               <LinkRouter to="chat">
-                <Tab color="purple" fontWeight="bold">
+                <Tab color="#201CFE" fontWeight="bold">
                   Discussões
                 </Tab>
               </LinkRouter>
               <LinkRouter to="openIA">
-                <Tab color="Orange" fontWeight="bold">
+                <Tab color="#EFC222" fontWeight="bold">
                   Dúvidas
                 </Tab>
               </LinkRouter>
             </TabList>
           </Tabs>
-          <Box className="offset-md-2 col-md-5">
+          <Box className="offset-md-2 col-md-5 my-2">
             <InputGroup>
               <InputLeftAddon>
-                <Select variant="flushed">
-                  <option value="Artigos">Artigos</option>
+                <Select variant="flushed" style={{cursor: "pointer"}}>
                   <option value="Ferramentas">Ferramentas</option>
                   <option value="Fórum">Fórum</option>
-                  <option value="Notícias">Notícias</option>
                 </Select>
               </InputLeftAddon>
               <Input
                 type="text"
                 name="searchTerm"
                 value={searchTerm}
+                style={{cursor: "pointer"}}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <InputRightElement>
