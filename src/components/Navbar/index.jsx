@@ -20,6 +20,7 @@ import {
   Tabs,
   TabList,
   Link,
+  Text,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Outlet, Link as LinkRouter, useMatches } from "react-router-dom";
@@ -38,42 +39,40 @@ const Navbar = () => {
 
   return (
     <>
-      <Box w="100%" bg="gray.400">
-        <Flex justify="center" align="center">
-          <Heading as="h4" size="lg" marginLeft={5}>
+      <Box className="container-fluid">
+        <Box className="row mt-2">
+          <Heading as="h4" size="lg" className="col-12 text-center">
             Acessibilidade Dev
           </Heading>
-          <Spacer />
-          {isAuthenticated ? (
-            <Heading as="h4" size="sm">
+        </Box>
+        <Box className="row mb-1 justify-content-end align-items-center">
+          <Box className="col text-end d-none d-sm-block">
+            {isAuthenticated ? (
+            <Text as="p" size="sm" >
               Olá, {user.nickname}
-            </Heading>
+            </Text>
           ) : (
-            <Link>
-              <Heading as="h4" size="sm" onClick={() => loginWithRedirect()}>
+            <Link className="d-inline">
+              <Text as="p" size="sm" onClick={() => loginWithRedirect()}>
                 Olá, faça Login/Cadastro
-              </Heading>
+              </Text>
             </Link>
-          )}
-
-          <MenuSideBar />
-        </Flex>
+            )}
+          </Box>
+            <Box style={{width: "fit-content"}}>
+              <MenuSideBar />
+            </Box>
+        </Box>
         <Divider orientation="horizontal" />
-        <Flex pt={3} pr={2}>
-          <Tabs
-            flex={1}
+        <Box className="row">
+          <Tabs className="col-5"
             index={
               matches.length > 1
                 ? activeTab.findIndex((a) => matches[1].pathname.includes(a))
                 : null
             }
           >
-            <TabList>
-              <LinkRouter to="artigos">
-                <Tab color="red" fontWeight="bold">
-                  Artigos
-                </Tab>
-              </LinkRouter>
+            <TabList className="d-none d-sm-none d-md-flex col-5">
               <LinkRouter to="ferramentas">
                 <Tab color="green" fontWeight="bold">
                   Ferramentas
@@ -84,20 +83,19 @@ const Navbar = () => {
                   Fórum
                 </Tab>
               </LinkRouter>
-              <LinkRouter to="noticias">
-                <Tab color="yellow" fontWeight="bold">
-                  Notícias
-                </Tab>
-              </LinkRouter>
               <LinkRouter to="chat">
                 <Tab color="purple" fontWeight="bold">
                   Discussões
                 </Tab>
               </LinkRouter>
+              <LinkRouter to="openIA">
+                <Tab color="Orange" fontWeight="bold">
+                  Dúvidas
+                </Tab>
+              </LinkRouter>
             </TabList>
           </Tabs>
-          <Spacer />
-          <Box flex={2}>
+          <Box className="offset-md-2 col-md-5">
             <InputGroup>
               <InputLeftAddon>
                 <Select variant="flushed">
@@ -114,13 +112,14 @@ const Navbar = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <InputRightElement>
-                <Button variant="outline" p={2}>
-                  <Search color="#fff" size={48} />
+                <Button colorScheme='gray' variant='ghost' p={2}>
+                  <Search size={48} />
                 </Button>
               </InputRightElement>
             </InputGroup>
           </Box>
-        </Flex>
+        </Box>
+        <Divider orientation="horizontal" />
       </Box>
       <Outlet />
     </>
