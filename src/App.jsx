@@ -1,21 +1,11 @@
-import React, {useState} from 'react'
-import './App.css'
-//import RegisterPage from './pages/Register/'
-import LoginForm from './pages/Login/LoginForm'
-import useFetch from './hooks/useFetch';
-
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+// rotas
+import routes from "./routes";
 
 function App() {
-  const URL = `https://rickandmortyapi.com/api/character`;
-  
-  const { data, isPending, error } = useFetch(`${URL}/204`, );
-
-
   return (
-    <div>
-      <LoginForm/>
-      {/* <RegisterPage/> */}
-    </div>
-  )  
+      <RouterProvider router={routes} />
+  );
 }
 export default App;
