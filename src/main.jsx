@@ -6,10 +6,9 @@ import "./index.css";
 
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ChakraProvider } from "@chakra-ui/react";
-import { RouterProvider } from "react-router-dom";
+// Import all of Bootstrap's CSS
+import "bootstrap/dist/css/bootstrap.min.css";
 
-// rotas
-import routes from "./routes";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Auth0Provider
@@ -20,9 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     }}
   >
     {/*<React.StrictMode> */}
-    <ChakraProvider>
-      <RouterProvider router={routes} />
-    </ChakraProvider>
+      <ChakraProvider>
+        <App/>
+      </ChakraProvider>
     {/*</React.StrictMode>*/}
   </Auth0Provider>
 );

@@ -26,8 +26,8 @@ const ListTopics = () => {
   };
 
   return (
-    <div className="md:container mx-auto">
-      <div className="flex mt-5 justify-between items-center">
+    <div className="container">
+      <div>
         <Heading>Fórum</Heading>
         {isAuthenticated && user.completedProfile ? (
           <CustomButton
