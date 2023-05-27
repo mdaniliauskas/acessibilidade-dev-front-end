@@ -1,5 +1,5 @@
-import { Alert, Box, Heading, Tag, TagLabel } from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Alert, Box, Heading} from "@chakra-ui/react";
+import React from "react";
 
 import TextCard from "../../../components/TextCard";
 import useFetch from "../../../hooks/useFetch";
@@ -12,6 +12,7 @@ import CustomButton from "../../../components/CustomButton";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import SpinnerLoading from "../../../components/SpinnerLoading";
+import CategoryFilter from "../../../components/CategoryFilter";
 
 const ListTopics = () => {
   const { data, error, isPending } = useFetch(LIST_TOPICS);
@@ -19,16 +20,10 @@ const ListTopics = () => {
 
   const navigate = useNavigate();
 
-  const [categorySelected, setCategorySelected] = useState(0);
-
-  const onFilterCategory = (category) => {
-    setCategorySelected(category);
-  };
-
   return (
-    <div className="container">
-      <div>
-        <Heading>Fórum</Heading>
+    <Box className="container">
+      <Box className="row justify-content-between py-3">
+        <Heading as="h2" color="#696666" style={{width: "fit-content"}}>Fórum</Heading>
         {isAuthenticated && user.completedProfile ? (
           <CustomButton
             onClick={() => navigate("/forum/novo-topico", { replace: true })}
@@ -36,7 +31,7 @@ const ListTopics = () => {
             Novo Tópico
           </CustomButton>
         ) : null}
-      </div>
+      </Box>
 
       {isPending ? (
         <SpinnerLoading />
@@ -52,63 +47,12 @@ const ListTopics = () => {
         })()
       ) : (
         <>
-          <div>
-            <Tag
-              size="lg"
-              rounded="full"
-              px={5}
-              bg={categorySelected == 0 ? "gray.400" : "gray.200"}
-              onClick={() => onFilterCategory(0)}
-              as="button"
-            >
-              <TagLabel>Todas</TagLabel>
-              <Tag rounded="full" bg="gray.300" ml={3}>
-                10
-              </Tag>
-            </Tag>
-            <Tag
-              size="lg"
-              rounded="full"
-              px={5}
-              bg={categorySelected == 1 ? "gray.400" : "gray.200"}
-              onClick={() => onFilterCategory(1)}
-              as="button"
-            >
-              <TagLabel>Auditiva</TagLabel>
-              <Tag rounded="full" bg="gray.300" ml={3}>
-                10
-              </Tag>
-            </Tag>
-            <Tag
-              size="lg"
-              rounded="full"
-              px={5}
-              bg={categorySelected == 2 ? "gray.400" : "gray.200"}
-              onClick={() => onFilterCategory(2)}
-              as="button"
-            >
-              <TagLabel>Motora</TagLabel>
-              <Tag rounded="full" bg="gray.300" ml={3}>
-                10
-              </Tag>
-            </Tag>
-            <Tag
-              size="lg"
-              rounded="full"
-              px={5}
-              bg={categorySelected == 3 ? "gray.400" : "gray.200"}
-              onClick={() => onFilterCategory(3)}
-              as="button"
-            >
-              <TagLabel>Visual</TagLabel>
-              <Tag rounded="full" bg="gray.300" ml={3}>
-                10
-              </Tag>
-            </Tag>
-          </div>
-          <div className="grid gap-2 md:grid-cols-2 sm:grid-cols-1">
+          <Box>
+            <CategoryFilter/>
+          </Box>
+          <Box className="row pt-3 justify-content-center">
             {data.message.map((t) => (
-              <Box px={10} py={3} key={t.id}>
+              <Box className="col-lg-9 col-xxl-6 p-2" key={t.id}>
                 <Link to={`/forum/topico/${t.id}`}>
                   <TextCard
                     title={t.title}
@@ -116,14 +60,15 @@ const ListTopics = () => {
                     date_published={t.date_published}
                     replies={t.replies}
                     author={t.author}
+                    votos={t.votes}
                   />
                 </Link>
               </Box>
             ))}
-          </div>
+          </Box>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 
