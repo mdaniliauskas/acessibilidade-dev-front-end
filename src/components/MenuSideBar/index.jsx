@@ -27,7 +27,7 @@ const index = () => {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme="white" onClick={onOpen}>
+      <Button ref={btnRef} colorScheme='gray' variant='ghost' onClick={onOpen}>
         <Menu />
       </Button>
       <Drawer
