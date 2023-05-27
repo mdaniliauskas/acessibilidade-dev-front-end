@@ -14,7 +14,11 @@ import {
 } from "../../../services/chat.service.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { dateTimeFormatted } from "../../../utils/formatters/datetime.js";
+
 import SpinnerLoading from "../../../components/SpinnerLoading";
+import Preview from "../../../components/Markdown/Preview";
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 const ChatDetails = () => {
   const { chatId } = useParams();
@@ -26,6 +30,8 @@ const ChatDetails = () => {
   /*  const [heightTextArea, setHeightTextArea] = useState("");*/
   const [messageList, setMessageList] = useState([]);
   const [chatInfo, setChatInfo] = useState({});
+
+  
 
   const handleTextAreaRows = () => {
     let height = parseInt(textAreaRef.current.scrollHeight);
@@ -46,7 +52,8 @@ const ChatDetails = () => {
         path: `messages/${chatId}`,
         data: {
           author: user.nickname,
-          message: message.split("\n").join("<br/>"),
+          // message: message.split("\n").join("<br/>"),
+          message: message,
           createdAt: TIMESTAMP(),
         },
       };
@@ -67,13 +74,13 @@ const ChatDetails = () => {
     setChatInfo(info);
   };
 
-  const renderMessage = (idHtmlElemt, message) => {
-    const elemtHtml = document.querySelector(`#${idHtmlElemt}`);
-    if (elemtHtml) {
-      elemtHtml.innerHTML = message;
-    }
-    return null;
-  };
+  // const renderMessage = (idHtmlElemt, message) => {
+  //   const elemtHtml = document.querySelector(`#${idHtmlElemt}`);
+  //   if (elemtHtml) {
+  //     elemtHtml.innerHTML = message;
+  //   }
+  //   return null;
+  // };
 
   useEffect(() => {
     if (!isLoading) {
@@ -174,8 +181,7 @@ const ChatDetails = () => {
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
                         <Box>
-                          <p id={`message${m.key}`}></p>
-                          {renderMessage(`message${m.key}`, m.message)}
+                          <MDEditor.Markdown source={m.message} rehypePlugins={[rehypeSanitize]}/>
                         </Box>
                       </Box>
                     ) : (
