@@ -35,8 +35,8 @@ const Navbar = () => {
 
   return (
     <>
-      <Box className="container-fluid">
-        <Box className="row mt-2">
+      <Box className="container-fluid bg-white px-0" >
+        <Box className="row pt-2">
           <Heading as="h4" size="lg" className="col-12 text-center" style={{marginBottom: "-40px" }}>
             Acessibilidade Dev
           </Heading>
@@ -93,7 +93,7 @@ const Navbar = () => {
           </Tabs>
           <Box className="offset-md-2 col-md-5 my-2">
             <InputGroup>
-              <InputLeftAddon>
+              <InputLeftAddon bgColor="#B8B6B6">
                 <Select variant="flushed" style={{cursor: "pointer"}}>
                   <option value="Ferramentas">Ferramentas</option>
                   <option value="Fórum">Fórum</option>
@@ -116,7 +116,9 @@ const Navbar = () => {
         </Box>
         <Divider orientation="horizontal" />
       </Box>
-      <Outlet />
+      <Box> 
+        <Outlet/>
+      </Box>
     </>
   );
 };
