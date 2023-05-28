@@ -3,6 +3,7 @@ import { Menu } from "react-feather";
 import CustomButton from "../CustomButton";
 
 import {
+  Box,
   Button,
   Drawer,
   DrawerBody, //centro afastado do outro
@@ -14,6 +15,9 @@ import {
   Link,
   Text,
   useDisclosure,
+  Divider,
+  Heading,
+  AbsoluteCenter,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -27,7 +31,7 @@ const index = () => {
 
   return (
     <>
-      <Button ref={btnRef} colorScheme='gray' variant='ghost' onClick={onOpen}>
+      <Button ref={btnRef} color="#8A8A8A" variant="ghost" onClick={onOpen}>
         <Menu />
       </Button>
       <Drawer
@@ -37,13 +41,19 @@ const index = () => {
         finalFocusRef={btnRef}
       >
         <DrawerOverlay />
-        <DrawerContent>
+        <DrawerContent bgColor="#DDDDDD" color="#696666">
           <DrawerHeader>
             {isAuthenticated ? <Text>{user.nickname}</Text> : <Text>Menu</Text>}
             <DrawerCloseButton size="lg" />
           </DrawerHeader>
 
           <DrawerBody as="b" textAlign="center">
+            <Box position="relative" className="px-1 py-3 mt-3">
+              <Divider borderColor="#696666" />
+              <AbsoluteCenter bg="#DDD" px="4">
+                Meus Dados
+              </AbsoluteCenter>
+            </Box>
             {isAuthenticated ? (
               <>
                 <Link>Minhas notícias</Link>
@@ -71,7 +81,28 @@ const index = () => {
               </>
             )}
 
-            <Link>Sobre o projeto</Link>
+            <Box position="relative" className="px-1 py-3 mt-3">
+              <Divider borderColor="#696666" />
+              <AbsoluteCenter bg="#DDD" px="4">
+                Seções
+              </AbsoluteCenter>
+            </Box>
+            <LinkRouter to="/forum">Forum</LinkRouter>
+            <br />
+            <LinkRouter to="/ferramentas">Ferramentas</LinkRouter>
+            <br />
+            <LinkRouter to="/chat">Discussões</LinkRouter>
+            <br />
+            <LinkRouter to="/openIA">Dúvidas</LinkRouter>
+
+            <Box position="relative" className="px-1 py-3 mt-3">
+              <Divider borderColor="#696666" />
+              <AbsoluteCenter bg="#DDD" px="4">
+                Sobre
+              </AbsoluteCenter>
+            </Box>
+
+            <Link>Projeto</Link>
             <br />
             <Link>Ajuda</Link>
           </DrawerBody>

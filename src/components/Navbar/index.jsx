@@ -35,40 +35,49 @@ const Navbar = () => {
 
   return (
     <>
-      <Box className="container-fluid bg-white px-0" >
+      <Box className="bg-white container-fluid ps-0">
         <Box className="row pt-2">
-          <Heading as="h4" size="lg" className="col-12 text-center" style={{marginBottom: "-40px" }}>
+          <Heading
+            as="h4"
+            size="lg"
+            className="col-12 text-center"
+            style={{ marginBottom: "-40px" }}
+          >
             Acessibilidade Dev
           </Heading>
         </Box>
         <Box className="row mb-1 justify-content-end align-items-center">
-          <Box className="text-end d-none d-sm-none d-md-none d-lg-block" style={{width: "fit-content"}}>
+          <Box
+            className="text-end d-none d-sm-none d-md-none d-lg-block"
+            style={{ width: "fit-content" }}
+          >
             {isAuthenticated ? (
-            <Text as="p" size="sm" >
-              Olá, {user.nickname}
-            </Text>
-          ) : (
-            <Link style={{textDecoration: "none"}}>
-              <Text as="p" size="sm" onClick={() => loginWithRedirect()}>
-                Olá, faça Login/Cadastro
+              <Text as="p" size="sm">
+                Olá, {user.nickname}
               </Text>
-            </Link>
+            ) : (
+              <Link style={{ textDecoration: "none" }}>
+                <Text as="p" size="sm" onClick={() => loginWithRedirect()}>
+                  Olá, faça Login/Cadastro
+                </Text>
+              </Link>
             )}
           </Box>
-            <Box style={{width: "fit-content"}}>
-              <MenuSideBar />
-            </Box>
+          <Box style={{ width: "fit-content" }}>
+            <MenuSideBar />
+          </Box>
         </Box>
         <Divider orientation="horizontal" />
-        <Box className="row">
-          <Tabs className="d-none d-sm-none d-md-flex col-5 align-items-end"
+        <Box className="row justify-content-center justify-content-lg-between">
+          <Tabs
+            className="d-none d-sm-none d-md-none d-lg-flex col-auto align-items-end"
             index={
               matches.length > 1
                 ? activeTab.findIndex((a) => matches[1].pathname.includes(a))
                 : null
             }
           >
-            <TabList style={{width: "fit-content"}}  >
+            <TabList style={{ width: "fit-content" }}>
               <LinkRouter to="ferramentas">
                 <Tab color="#5A9A08" fontWeight="bold">
                   Ferramentas
@@ -91,10 +100,10 @@ const Navbar = () => {
               </LinkRouter>
             </TabList>
           </Tabs>
-          <Box className="offset-md-2 col-md-5 my-2">
+          <Box className="col-lg-6 my-2 ms-2">
             <InputGroup>
               <InputLeftAddon bgColor="#B8B6B6">
-                <Select variant="flushed" style={{cursor: "pointer"}}>
+                <Select variant="flushed" style={{ cursor: "pointer" }}>
                   <option value="Ferramentas">Ferramentas</option>
                   <option value="Fórum">Fórum</option>
                 </Select>
@@ -103,11 +112,11 @@ const Navbar = () => {
                 type="text"
                 name="searchTerm"
                 value={searchTerm}
-                style={{cursor: "pointer"}}
+                style={{ cursor: "pointer" }}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
               <InputRightElement>
-                <Button colorScheme='gray' variant='ghost' p={2}>
+                <Button colorScheme="gray" variant="ghost" p={2}>
                   <Search size={48} />
                 </Button>
               </InputRightElement>
@@ -115,9 +124,42 @@ const Navbar = () => {
           </Box>
         </Box>
         <Divider orientation="horizontal" />
+        <Box className="row">
+          <Tabs
+            className="d-none d-sm-flex d-lg-none justify-content-center"
+            index={
+              matches.length > 1
+                ? activeTab.findIndex((a) => matches[1].pathname.includes(a))
+                : null
+            }
+          >
+            <TabList style={{ width: "fit-content" }}>
+              <LinkRouter to="ferramentas">
+                <Tab color="#5A9A08" fontWeight="bold">
+                  Ferramentas
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="forum">
+                <Tab color="#FF0000" fontWeight="bold">
+                  Fórum
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="chat">
+                <Tab color="#201CFE" fontWeight="bold">
+                  Discussões
+                </Tab>
+              </LinkRouter>
+              <LinkRouter to="openIA">
+                <Tab color="#EFC222" fontWeight="bold">
+                  Dúvidas
+                </Tab>
+              </LinkRouter>
+            </TabList>
+          </Tabs>
+        </Box>
       </Box>
-      <Box> 
-        <Outlet/>
+      <Box>
+        <Outlet />
       </Box>
     </>
   );
