@@ -1,24 +1,31 @@
-import { Alert, Box, Heading} from "@chakra-ui/react";
-import React from "react";
-
-import TextCard from "../../../components/TextCard";
-import useFetch from "../../../hooks/useFetch";
-
-import { LIST_TOPICS } from "../../../utils/constants/api";
-
+import React, {useEffect, useState} from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-import CustomButton from "../../../components/CustomButton";
-
+import { Alert, Box, Heading} from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import SpinnerLoading from "../../../components/SpinnerLoading";
-import CategoryFilter from "../../../components/CategoryFilter";
+
+import { TextCard, CustomButton, SpinnerLoading, CategoryFilter } from "../../../components/";
+
+import { getListTopics } from "../../../services/forum.service";
 
 const ListTopics = () => {
-  const { data, error, isPending } = useFetch(LIST_TOPICS);
-  const { isAuthenticated, user } = useAuth0();
+  const [error, setError] = useState(false)
+  const [listTopics, setListTopics] = useState([])
+  const { isAuthenticated, user } = useAuth0(); 
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const {success, data} = await getListTopics();
+      if(success) {
+        setListTopics(data);
+      } else {
+        console.error(e);
+        setError(e);  
+      }
+    })()
+  }, [])
 
   return (
     <Box className="container">
@@ -33,7 +40,7 @@ const ListTopics = () => {
         ) : null}
       </Box>
 
-      {isPending ? (
+      {listTopics.length === 0 ? (
         <SpinnerLoading />
       ) : error ? (
         (() => {
@@ -51,7 +58,7 @@ const ListTopics = () => {
             <CategoryFilter/>
           </Box>
           <Box className="row pt-3 justify-content-center">
-            {data.message.map((t) => (
+            {listTopics.message.map((t) => (
               <Box className="col-lg-9 col-xxl-6 p-2" key={t.id}>
                 <Link to={`/forum/topico/${t.id}`}>
                   <TextCard
