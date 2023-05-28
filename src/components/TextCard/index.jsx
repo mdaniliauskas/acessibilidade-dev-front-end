@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./styles.module.css";
-import {MessageSquare} from "react-feather";  
+import {CheckSquare, MessageSquare, XSquare} from "react-feather";  
 
 import {
   Box,
@@ -14,7 +14,7 @@ import {
 
 import {dateFormatted} from "../../utils/formatters/datetime";
 
-function TextCard({title, body, date_published, replies, author, votos, ...rest}) {
+function TextCard({title, body, date_published, replies, author, votos, status, ...rest}) {
   return (
       <Card bg="#B8B7B7" className="p-3" {...rest} style={{maxWidth: "100%"}}>
         <CardHeader className="p-1">
@@ -22,22 +22,34 @@ function TextCard({title, body, date_published, replies, author, votos, ...rest}
               {title.length >= 47 ? title.substring(0, 44) + "..." : title}
             </Heading>
         </CardHeader>
-      <CardBody className="row p-1 justify-content-between">
-        <Box className="col-auto my-auto  ">
-                  {typeof author == "object" ? (
-          <>
+      <CardBody className="row p-1 justify-content-between align-items-end">
+        <Box className="col-auto ">
+                  {typeof author == "object" ? ( // se for um objeto é o author do topico caso contrario é do chat
             <Text className="text-white" fontWeight="bold">{`${author.first_name} ${author.last_name}`}</Text>
-            <Text className="text-white" fontSize="sm">{author.specialist_area}</Text>
-          </>
+          
         ) : (
             <Text className="text-white" fontWeight="bold">{`${author}`}</Text>
             )}
         </Box>
-        <Box className="col-auto">
-          <Box position="relative">
-            <MessageSquare className="text-white" width="50" height="50"/>
-            <span className={styles.comment+" text-white"}>{replies}</span>
-          </Box>
+        <Box className="col-auto text-start">
+          <Text className="text-white" fontWeight="bold">
+            Respostas: {replies}
+            
+            </Text>
+          <Text className="text-white" fontWeight="bold">
+            {!status ? (
+              <Box className="d-flex align-items-center">
+                Em aberto
+                <MessageSquare className="text-white d-inline ms-3" width="24" height="24"/>
+              </Box>
+
+            ):(
+                <Box className="d-flex align-items-center">
+                  Resolvido
+                  <CheckSquare className="text-white d-inline ms-3" width="24" height="24"/>
+                </Box>
+            )}
+          </Text>
         </Box>
         </CardBody>
         <CardFooter className="p-1">

@@ -68,6 +68,7 @@ const ListTopics = () => {
                     replies={t.replies}
                     author={t.author}
                     votos={t.votes}
+                    status={t.status}
                   />
                 </Link>
               </Box>
