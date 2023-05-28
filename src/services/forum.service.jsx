@@ -1,18 +1,19 @@
 import { LIST_TOPICS } from "../utils/constants/api";
 
+let listTopics = [];
 
 export async function getListTopics() {
   try {
-    const res = await fetch(LIST_TOPICS);
-    const listTopics = await res.json();
+    const res = await (await fetch(LIST_TOPICS)).json();
+    if (!res.success) throw new Error(res.message);
     return {
       success: true,
-      data: listTopics
-    }
+      data: res.message,
+    };
   } catch (e) {
     return {
       success: false,
-      data: e.message
-    }
-  };
+      data: e.message,
+    };
+  }
 }
