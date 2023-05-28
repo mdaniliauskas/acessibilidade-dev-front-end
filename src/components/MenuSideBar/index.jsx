@@ -87,13 +87,21 @@ const index = () => {
                 Seções
               </AbsoluteCenter>
             </Box>
-            <LinkRouter to="/forum">Forum</LinkRouter>
+            <LinkRouter onClick={onClose} to="/forum">
+              Fórum
+            </LinkRouter>
             <br />
-            <LinkRouter to="/ferramentas">Ferramentas</LinkRouter>
+            <LinkRouter onClick={onClose} to="/ferramentas">
+              Ferramentas
+            </LinkRouter>
             <br />
-            <LinkRouter to="/chat">Discussões</LinkRouter>
+            <LinkRouter onClick={onClose} to="/chat">
+              Sala Virtual
+            </LinkRouter>
             <br />
-            <LinkRouter to="/openIA">Dúvidas</LinkRouter>
+            <LinkRouter onClick={onClose} to="/openIA">
+              Dúvidas
+            </LinkRouter>
 
             <Box position="relative" className="px-1 py-3 mt-3">
               <Divider borderColor="#696666" />

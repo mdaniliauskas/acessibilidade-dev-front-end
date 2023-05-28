@@ -90,7 +90,7 @@ const Navbar = () => {
               </LinkRouter>
               <LinkRouter to="chat">
                 <Tab color="#201CFE" fontWeight="bold">
-                  Discussões
+                  Sala Virtual
                 </Tab>
               </LinkRouter>
               <LinkRouter to="openIA">
@@ -146,7 +146,7 @@ const Navbar = () => {
               </LinkRouter>
               <LinkRouter to="chat">
                 <Tab color="#201CFE" fontWeight="bold">
-                  Discussões
+                  Sala Virtual
                 </Tab>
               </LinkRouter>
               <LinkRouter to="openIA">
