@@ -1,14 +1,14 @@
 import { Card, CardBody } from "@chakra-ui/react";
 import MDEditor from "@uiw/react-md-editor";
 import React from "react";
+import rehypeSanitize from "rehype-sanitize";
 
-const Preview = ({ text }) => {
+const Preview = ({ text, minHeight = 200}) => {
+  
   return (
-    <Card variant="outline" minHeight={200}>
-      <CardBody>
-        <MDEditor.Markdown source={text} />
-      </CardBody>
-    </Card>
+        <MDEditor value={text} hideToolbar={true} preview="preview" previewOptions={{
+          rehypePlugins: [[rehypeSanitize]] 
+        }} />
   );
 };
 

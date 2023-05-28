@@ -14,7 +14,11 @@ import {
 } from "../../../services/chat.service.jsx";
 import { useAuth0 } from "@auth0/auth0-react";
 import { dateTimeFormatted } from "../../../utils/formatters/datetime.js";
+
 import SpinnerLoading from "../../../components/SpinnerLoading";
+import Preview from "../../../components/Markdown/Preview";
+import MDEditor from "@uiw/react-md-editor";
+import rehypeSanitize from "rehype-sanitize";
 
 const ChatDetails = () => {
   const { chatId } = useParams();
@@ -22,41 +26,48 @@ const ChatDetails = () => {
   const { user, isLoading } = useAuth0();
   const navigate = useNavigate();
 
-  const [rowsTextArea, setRowsTextArea] = useState(1);
-  /*  const [heightTextArea, setHeightTextArea] = useState("");*/
+  const [heightTextArea, setHeightTextArea] = useState(24);
   const [messageList, setMessageList] = useState([]);
   const [chatInfo, setChatInfo] = useState({});
 
-  const handleTextAreaRows = () => {
-    let height = parseInt(textAreaRef.current.scrollHeight);
-    let bottom = textAreaRef;
-    let lineHeight = parseInt(
-      window.getComputedStyle(textAreaRef.current).lineHeight
-    );
-    const newRowsTextArea = Math.floor(height / lineHeight);
-    //setHeightTextArea(newRowsTextArea * lineHeight + "px")
-    setRowsTextArea(Math.floor(height / lineHeight));
+  const sanitizeConfig = {
+    allowedTags: ["br"],
   };
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
+  const checkShortcut = (e) => {
+    if (!e.shiftKey && e.keyCode === 13) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleTextAreaRows = (e) => {
+    let lineCount = e.target.value.split("\n").length;
+    setHeightTextArea(lineCount * 24);
+  };
+
+  const handleSendMessage = async () => {
     let message = textAreaRef.current.value;
-    if (message.length >= 1) {
+
+    if (message.trim().length >= 1) {
       const payload = {
         path: `messages/${chatId}`,
         data: {
           author: user.nickname,
-          message: message.split("\n").join("<br/>"),
+          message: message.split("\n").join("<br>"),
           createdAt: TIMESTAMP(),
         },
       };
       try {
         await writeData(payload);
-        textAreaRef.current.value = "";
+        textAreaRef.current.value = null;
+        setHeightTextArea(24);
       } catch (e) {
         console.error(e.message);
       }
     }
+    setHeightTextArea(24);
+    textAreaRef.current.value = "";
   };
 
   const searchMessage = (snapshot) => {
@@ -65,14 +76,6 @@ const ChatDetails = () => {
 
   const searchChatInfo = (info) => {
     setChatInfo(info);
-  };
-
-  const renderMessage = (idHtmlElemt, message) => {
-    const elemtHtml = document.querySelector(`#${idHtmlElemt}`);
-    if (elemtHtml) {
-      elemtHtml.innerHTML = message;
-    }
-    return null;
   };
 
   useEffect(() => {
@@ -174,8 +177,17 @@ const ChatDetails = () => {
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
                         <Box>
-                          <p id={`message${m.key}`}></p>
-                          {renderMessage(`message${m.key}`, m.message)}
+                          <MDEditor.Markdown
+                            source={m.message}
+                            rehypePlugins={
+                              ([rehypeSanitize],
+                              [
+                                {
+                                  allowedTags: ["br"], // permite o br para poder realizar as quebras de linhas
+                                },
+                              ])
+                            }
+                          />
                         </Box>
                       </Box>
                     ) : (
@@ -206,25 +218,40 @@ const ChatDetails = () => {
                   ) : null}
                 </Box>
               </Box>
-              <Box p={1}>
-                {/*            <Textarea h={heightTextArea} ref={textAreaRef} onChange={handleTextAreaRows} w="100%" placeholder="Conversar em <Nome da sala>"/>*/}
-                <Textarea
-                  ref={textAreaRef}
-                  onChange={handleTextAreaRows}
-                  w="100%"
-                  placeholder={`Conversar em ${chatInfo.title}`}
-                  rows={rowsTextArea}
-                  isReadOnly={!chatInfo.isOpen}
-                />
-                <Button
-                  mt={1}
-                  aria-label="Enviar mensagem na sala <Nome da sala>"
-                  rightIcon={<Send />}
-                  onClick={handleSendMessage}
-                  isDisabled={!chatInfo.isOpen}
+              <Box className="p-2">
+                <Box
+                  id="chatContainer"
+                  className="px-3 py-1 border rounded border-light-subtle border-1 row"
                 >
-                  Enviar
-                </Button>
+                  <textarea
+                    id="textmessage"
+                    className="m-0 p-0 overflow-y-scroll col-11"
+                    style={{
+                      maxHeight: 200,
+                      height: heightTextArea,
+                      outline: "none",
+                      resize: "none",
+                    }}
+                    rows="1"
+                    tabIndex={0}
+                    onChange={handleTextAreaRows}
+                    onKeyDown={checkShortcut}
+                    placeholder={`Conversar em ${chatInfo.title}`}
+                    isReadOnly={!chatInfo.isOpen}
+                    ref={textAreaRef}
+                  />
+                  <Button
+                    aria-label={`Enviar mensagem na sala ${chatInfo.title}`}
+                    onClick={handleSendMessage}
+                    isDisabled={!chatInfo.isOpen}
+                    bgColor="white"
+                    _hover="white"
+                    className="col-1 p-0 align-self-end"
+                    h="24px"
+                  >
+                    <Send />
+                  </Button>
+                </Box>
               </Box>
             </Box>
           </Box>
