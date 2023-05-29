@@ -2,11 +2,11 @@ export default {
   names: {
     minLength: {
       value: 2,
-      message: "O campo não possui o mínimo de caracteres.",
+      message: "O campo não possui o mínimo de 2 caracteres.",
     },
     maxLength: {
       value: 60,
-      message: "O campo ultrapassa o limite de caracteres.",
+      message: "O campo ultrapassa o limite de 60 caracteres.",
     },
   },
   email: {
@@ -16,17 +16,17 @@ export default {
     },
     minLength: {
       value: 4,
-      message: "O campo não possui o mínimo de caracteres.",
+      message: "O campo não possui o mínimo de 4 caracteres.",
     },
     maxLength: {
       value: 40,
-      message: "O campo ultrapassa o limite de caracteres.",
+      message: "O campo ultrapassa o limite de 40 caracteres.",
     },
   },
   password: {
     pattern: {
       value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/,
-      message: "A senha está fora do padrão sugerido.",
+      message: "A senha não preenche os requisitos necessários.",
     },
   },
   filled: {
@@ -35,27 +35,27 @@ export default {
   title: {
     minLength: {
       value: 20,
-      message: "O título não possui o mínimo de caracteres",
+      message: "O título não possui o mínimo de 20 caracteres",
     },
   },
   titleChat: {
     minLength: {
       value: 5,
-      message: "O título não possui o mínimo de caracteres",
+      message: "O título não possui o mínimo de 5 caracteres",
     },
     maxLength: {
       value: 30,
-      message: "O título passou o maxímo de caracteres",
+      message: "O título ultrapossou o maxímo de 30 caracteres",
     },
   },
   descriptionChat: {
     minLength: {
       value: 20,
-      message: "A descrição não possui o mínimo de caracteres",
+      message: "A descrição não possui o mínimo de 20 caracteres",
     },
     maxLength: {
       value: 150,
-      message: "A descrição passou do maxímo de caracteres",
+      message: "A descrição ultrapassou o maxímo de 150 caracteres",
     },
   },
 };
