@@ -11,7 +11,10 @@ import styles from "./styles.module.css";
 import errorValidation from "../../../utils/validations/ErrorValidation";
 
 import {
+  Box,
   Flex,
+  Card,
+  CardBody,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -37,6 +40,7 @@ const NewTopicForm = () => {
   const { user } = useAuth0();
 
   const [mdText, setMdText] = useState("");
+  const [isInvalidMD, setIsInvalidMD] = useState(false);
 
   const [tags, setTags] = useState([]);
 
@@ -52,7 +56,18 @@ const NewTopicForm = () => {
     },
   });
 
+  const handleTextMD = (newValue) => {
+    if (newValue.trim().length >= 20) {
+      setIsInvalidMD(false);
+    }
+    setMdText(newValue);
+  };
+
   const onSubmit = async (formData) => {
+    if (mdText.trim().length < 20) {
+      setIsInvalidMD(true);
+      return;
+    }
     const body = {
       title: formData.title,
       description: mdText,
@@ -61,7 +76,6 @@ const NewTopicForm = () => {
       tags,
     };
 
-    console.log(body);
     const res = await fetch(NEWTOPIC, {
       method: "POST",
       headers: {
@@ -79,59 +93,78 @@ const NewTopicForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="md:container mx-auto">
+      <Box className="container pb-5">
         <Heading mt={10}>Novo tópico</Heading>
-
-        <br></br>
-        <FormControl isRequired isInvalid={errors.title}>
-          <FormLabel htmlFor="title" className={styles.registerLabels}>
-            Título
-          </FormLabel>
-          <Input
-            id="title"
-            placeholder="Digite o título do tópico"
-            isInvalid={errors.title ? true : false}
-            {...register("title", {
-              ...errorValidation.title,
-              ...errorValidation.filled,
-            })}
-          />
-          {!errors.title ? (
-            <FormHelperText>
-              O campo deve possui no mínimo 20 de caracteres.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-          )}
-        </FormControl>
-
+        <br />
+        <Card>
+          <CardBody className="shadow bg-white rounded">
+            <FormControl isRequired isInvalid={errors.title}>
+              <FormLabel htmlFor="title" className={styles.registerLabels}>
+                Título
+              </FormLabel>
+              <Input
+                id="title"
+                placeholder="Digite o título do tópico"
+                isInvalid={errors.title ? true : false}
+                {...register("title", {
+                  ...errorValidation.title,
+                  ...errorValidation.filled,
+                })}
+                className="bg-white"
+              />
+              {!errors.title ? (
+                <FormHelperText>
+                  O campo deve possuir no mínimo 20 caracteres.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              )}
+            </FormControl>
+          </CardBody>
+        </Card>
         <Tabs my={10}>
           <TabList>
             <Tab>Editor</Tab>
             <Tab>Visualização</Tab>
           </TabList>
-          <TabPanels>
+          <TabPanels className="shadow bg-white rounded">
             <TabPanel>
-              <Editor text={mdText} handleText={setMdText} />
+              <FormControl isRequired isInvalid={isInvalidMD}>
+                <FormLabel htmlFor="title" className={styles.registerLabels}>
+                  Descrição
+                </FormLabel>
+                <Editor text={mdText} handleText={handleTextMD} />
+                {!isInvalidMD ? (
+                  <FormHelperText>
+                    O campo deve possuir no mínimo 20 caracteres.
+                  </FormHelperText>
+                ) : (
+                  <FormErrorMessage>
+                    O descrição do tópico não possui o mínimo de 20 caracteres
+                  </FormErrorMessage>
+                )}
+              </FormControl>
             </TabPanel>
             <TabPanel>
               <Preview text={mdText} />
             </TabPanel>
           </TabPanels>
         </Tabs>
-
-        <InputTags onAddTag={setTags} tags={tags} textLabel={"Tags"} />
-
-        <Flex justify={"space-between"} my={10}>
+        <Box className="shadow bg-white rounded">
+          <InputTags onAddTag={setTags} tags={tags} textLabel={"Tags"} />
+        </Box>
+        <Box className="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-5 shadow bg-white rounded py-4 px-4">
           <FormControl isRequired isInvalid={errors.category}>
             <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
             <Select
               size={"md"}
-              w={280}
               id="SelectOption"
+              maxWidth="510px"
+              width="100%"
               {...register("category", {
                 ...errorValidation.filled,
               })}
+              className="bg-white"
               placeholder="Selecione uma categoria"
             >
               <option value="1">Deficiência Auditiva</option>
@@ -142,9 +175,9 @@ const NewTopicForm = () => {
               <FormErrorMessage>{errors.category.message}</FormErrorMessage>
             ) : null}
           </FormControl>
-          <CustomButton>Publicar</CustomButton>
-        </Flex>
-      </div>
+          <CustomButton className="mt-4 mt-sm-0 ms-sm-5">Publicar</CustomButton>
+        </Box>
+      </Box>
     </form>
   );
 };

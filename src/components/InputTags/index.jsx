@@ -42,12 +42,21 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
       <CardBody>
         <FormControl isRequired isInvalid={isInvalidTagsAmount}>
           <FormLabel htmlFor="tags">{textLabel}</FormLabel>
-          <Input type="text" {...register("tags")} onKeyUp={handleInput} />
+          <Input
+            type="text"
+            placeholder="Exemplo: Javascript<Espaço>"
+            {...register("tags")}
+            onKeyUp={handleInput}
+          />
           {!isInvalidTagsAmount ? (
-            <FormHelperText>Texto para informar sobre o campo</FormHelperText>
+            <FormHelperText>
+              Adicione tags das tecnologias relacionadas ao tópico. Ex: React
+              JS, JavaScript etc.
+            </FormHelperText>
           ) : (
             <FormErrorMessage>
-              Texto para informar o erro de obrigatoriedade de campo
+              Adicione tags das tecnologias relacionadas ao tópico. Ex: React
+              JS, JavaScript etc.
             </FormErrorMessage>
           )}
         </FormControl>

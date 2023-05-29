@@ -1,36 +1,35 @@
-import {useForm} from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
-
-import styles from "./styles.module.css";
-
 import errorValidation from "../../../utils/validations/ErrorValidation";
-
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
+import { TIMESTAMP, writeData } from "../../../services/chat.service.jsx";
 
 import {
-  Alert, AlertIcon,
+  Alert,
+  AlertIcon,
+  Box,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
   Heading,
   Input,
-  Textarea
+  Textarea,
 } from "@chakra-ui/react";
-import {useAuth0} from "@auth0/auth0-react";
 
-import {TIMESTAMP, writeData} from "../../../services/chat.service.jsx";
-import {useState} from "react";
+import styles from "./styles.module.css";
 
 function NewChat() {
-  const {user} = useAuth0();
+  const { user } = useAuth0();
   const navigate = useNavigate();
   const [reqError, setReqError] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formState: {errors},
+    formState: { errors },
   } = useForm({
     defaultValues: {
       title: "",
@@ -48,25 +47,24 @@ function NewChat() {
         ownerId: user.id,
         createdBy: user.nickname,
         isOpen: true,
-      }
+      },
     };
     const res = await writeData(payload);
     if (res.success) {
       const chatId = res.refId;
-      navigate(`/chat/${chatId}`, {replace: true});
+      navigate(`/chat/${chatId}`, { replace: true });
     } else {
       console.log(res.error);
       setReqError(true);
     }
-
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="md:container mx-auto">
-        <div className="flex my-5 justify-between items-center">
+    <Box className="container">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box className="">
           <Heading as="h1">Criar nova sala</Heading>
-        </div>
+        </Box>
         <FormControl isRequired isInvalid={errors.title}>
           <FormLabel htmlFor="title" className={styles.registerLabels}>
             Nome da sala
@@ -112,14 +110,16 @@ function NewChat() {
         </FormControl>
         {reqError ? (
           <Alert status="error" mt={10}>
-            <AlertIcon/>
+            <AlertIcon />
             Houve um erro ao criar a sala, por favor, tente novamente!
           </Alert>
         ) : null}
 
-        <CustomButton className={styles.registerLabels}>Abrir discussão</CustomButton>
-      </div>
-    </form>
+        <CustomButton className={styles.registerLabels}>
+          Abrir discussão
+        </CustomButton>
+      </form>
+    </Box>
   );
 }
 
