@@ -17,12 +17,15 @@ import ChatDetails from "../pages/Chat/ChatDetails/index.jsx";
 import ListChats from "../pages/Chat/ListChats/index.jsx";
 import Chat from "../pages/OpenIA/Chat";
 import Tools from "../pages/Tools";
+import NewTool from "../pages/Tools/NewTool";
 
 export default createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Navbar />}>
       <Route path="/artigos" element={<p>Artigos</p>} />
+      
       <Route path="/ferramentas" element={<Tools />} />
+      <Route path="/ferramentas/nova-ferramenta" element={<NewTool />} />
 
       <Route path="/forum" element={<ListTopics />} />
       <Route path="/forum/novo-topico" element={<NewTopic />} />

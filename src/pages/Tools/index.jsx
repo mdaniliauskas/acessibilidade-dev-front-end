@@ -23,13 +23,21 @@ const Tools = () => {
   const [categorySelected, setCategorySelected] = useState(0);
 
     return (
-        <Box className="container">      
-        <Heading as="h2" color="#696666" style={{ width: "fit-content" }}>
-          Catálogo de Ferramentas
-        </Heading>
+        <Box className="container">   
+            <Box className="row justify-content-between py-3">   
+                <Heading as="h2" color="#696666" style={{ width: "fit-content" }}>
+                Catálogo de Ferramentas
+                </Heading>
+                {isAuthenticated && user.completedProfile ? (
+                <CustomButton
+                    onClick={() => navigate("/ferramentas/nova-ferramenta", { replace: true })}
+                >
+                    Nova Ferramenta
+                </CustomButton>
+                ) : null}
+            </Box>
         </Box>
     );
-
 };
 
 

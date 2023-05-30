@@ -7,3 +7,4 @@ export const LIST_TOPICS = NEWTOPIC;
 export const TOPIC_DETAILS = LIST_TOPICS;
 export const NEWREPLY = BASE_URL + "/reply";
 export const LIST_TOOLS = BASE_URL + "/tool";
+export const NEWTOOL = BASE_URL + "/tool";
