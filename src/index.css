@@ -2,3 +2,11 @@
   background: #eee;
   min-height: 100vh;
 }
+
+.title-color {
+  color: #696666;
+}
+
+hr {
+  border-color: #696666 !important;
+}
