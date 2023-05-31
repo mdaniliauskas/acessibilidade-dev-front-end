@@ -93,13 +93,13 @@ const NewTopicForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Box className="container pb-5">
-        <Heading mt={10}>Novo tópico</Heading>
+      <Box className="container pt-5">
+        <Heading className="title-color">Novo tópico</Heading>
         <br />
         <Card>
           <CardBody className="shadow bg-white rounded">
             <FormControl isRequired isInvalid={errors.title}>
-              <FormLabel htmlFor="title" className={styles.registerLabels}>
+              <FormLabel htmlFor="title" className="title-color">
                 Título
               </FormLabel>
               <Input
@@ -130,7 +130,7 @@ const NewTopicForm = () => {
           <TabPanels className="shadow bg-white rounded">
             <TabPanel>
               <FormControl isRequired isInvalid={isInvalidMD}>
-                <FormLabel htmlFor="title" className={styles.registerLabels}>
+                <FormLabel htmlFor="title" className="title-color">
                   Descrição
                 </FormLabel>
                 <Editor text={mdText} handleText={handleTextMD} />
@@ -155,7 +155,7 @@ const NewTopicForm = () => {
         </Box>
         <Box className="d-flex flex-column flex-sm-row justify-content-between align-items-center mt-5 shadow bg-white rounded py-4 px-4">
           <FormControl isRequired isInvalid={errors.category}>
-            <FormLabel className={styles.registerLabels}>Categoria</FormLabel>
+            <FormLabel className="title-color">Categoria</FormLabel>
             <Select
               size={"md"}
               id="SelectOption"

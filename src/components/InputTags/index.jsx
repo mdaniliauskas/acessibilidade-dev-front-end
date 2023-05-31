@@ -41,7 +41,9 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
     <Card>
       <CardBody>
         <FormControl isRequired isInvalid={isInvalidTagsAmount}>
-          <FormLabel htmlFor="tags">{textLabel}</FormLabel>
+          <FormLabel className="title-color" htmlFor="tags">
+            {textLabel}
+          </FormLabel>
           <Input
             type="text"
             placeholder="Exemplo: Javascript<Espaço>"

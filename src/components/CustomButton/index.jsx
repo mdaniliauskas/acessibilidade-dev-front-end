@@ -5,8 +5,8 @@ import styles from "./styles.module.css";
 function CustomButton({
   type = "submit",
   children,
-  bg = "green",
-  bgHover = "green.600",
+  bg = "#14AE5C",
+  bgHover = "#0f8044",
   ...rest
 }) {
   return (

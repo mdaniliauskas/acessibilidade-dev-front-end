@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <>
-      <Box className="bg-white container-fluid ps-0">
+      <Box className="bg-white container-fluid ps-0 shadow-sm">
         <Box className="row pt-2">
           <Heading
             as="h4"
@@ -46,7 +46,7 @@ const Navbar = () => {
             Acessibilidade Dev
           </Heading>
         </Box>
-        <Box className="row mb-1 justify-content-end align-items-center">
+        <Box className="row mb-1 justify-content-end align-items-center border-bottom">
           <Box
             className="text-end d-none d-sm-none d-md-none d-lg-block"
             style={{ width: "fit-content" }}
@@ -67,7 +67,6 @@ const Navbar = () => {
             <MenuSideBar />
           </Box>
         </Box>
-        <Divider orientation="horizontal" />
         <Box className="row justify-content-center justify-content-lg-between">
           <Tabs
             className="d-none d-sm-none d-md-none d-lg-flex col-auto align-items-end"
@@ -123,7 +122,6 @@ const Navbar = () => {
             </InputGroup>
           </Box>
         </Box>
-        <Divider orientation="horizontal" />
         <Box className="row">
           <Tabs
             className="d-none d-sm-flex d-lg-none justify-content-center"
