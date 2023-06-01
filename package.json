@@ -17,10 +17,12 @@
     "bootstrap": "^5.2.3",
     "firebase": "^9.22.0",
     "framer-motion": "^9.0.4",
+    "lineicons-react": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.43.1",
+    "react-icons": "^4.9.0",
     "react-router-dom": "^6.10.0",
     "react-svg": "^16.1.2",
     "rehype-sanitize": "^5.0.1"
