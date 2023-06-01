@@ -67,7 +67,7 @@ const Navbar = () => {
             <MenuSideBar />
           </Box>
         </Box>
-        <Box className="row justify-content-center justify-content-lg-between">
+        <Box className="row justify-content-center ps-2 ps-lg-0 justify-content-lg-between">
           <Tabs
             className="d-none d-sm-none d-md-none d-lg-flex col-auto align-items-end"
             index={
@@ -99,7 +99,7 @@ const Navbar = () => {
               </LinkRouter>
             </TabList>
           </Tabs>
-          <Box className="col-lg-6 my-2 ms-2">
+          <Box className="col-lg-6 my-2">
             <InputGroup>
               <InputLeftAddon bgColor="#B8B6B6">
                 <Select variant="flushed" style={{ cursor: "pointer" }}>
