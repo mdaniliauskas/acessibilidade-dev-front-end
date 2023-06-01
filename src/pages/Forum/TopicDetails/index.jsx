@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 
 import { Link, useParams } from "react-router-dom";
 
-import { NEWREPLY, TOPIC_DETAILS } from "../../../utils/constants/api";
+import {
+  NEWREPLY,
+  TOPIC_DETAILS,
+  UPDATE_VOTES,
+} from "../../../utils/constants/api";
 import {
   Alert,
+  Badge,
   Box,
   Divider,
   Flex,
@@ -24,7 +29,13 @@ import CustomButton from "../../../components/CustomButton";
 import Editor from "../../../components/Markdown/Editor";
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { getTopicDetails } from "../../../services/forum.service";
+import {
+  closeTopic,
+  getTopicDetails,
+  voteTopic,
+} from "../../../services/forum.service";
+import { Triangle } from "react-feather";
+import { TbTriangleFilled, TbTriangleInvertedFilled } from "react-icons/tb";
 
 const TopicDetails = () => {
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
@@ -61,7 +72,17 @@ const TopicDetails = () => {
   };
 
   const handleCloseTopic = async () => {
-    // tratar o fechamento do fórum
+    const { success } = await closeTopic(topic.id);
+    if (success) {
+      setTopic({ ...topic, status: !topic.status });
+    }
+  };
+
+  const handleVotes = async (vote) => {
+    const { success } = await voteTopic(topic.id, vote);
+    if (success) {
+      setTopic({ ...topic, votes: topic.votes + vote });
+    }
   };
 
   useEffect(() => {
@@ -86,6 +107,15 @@ const TopicDetails = () => {
               <Box className="row">
                 <Heading className="title-color px-0" as="h2" size="lg">
                   {topic.title}
+                  {topic.status ? (
+                    <Badge
+                      bgColor="#14AE5C"
+                      color="#fff"
+                      className="p-2 ms-1 rounded"
+                    >
+                      Resolvido
+                    </Badge>
+                  ) : null}
                 </Heading>
               </Box>
               <Box className="row">
@@ -131,7 +161,29 @@ const TopicDetails = () => {
           </Box>
           <Divider />
           <Box p={7}>
-            <Preview text={topic.description} />
+            <Box className="row">
+              <Box className=" col-auto d-flex flex-column align-items-center">
+                <TbTriangleFilled
+                  fontSize={36}
+                  onClick={() => handleVotes(1)}
+                  className="title-color"
+                  style={{ cursor: "pointer" }}
+                />
+                <Text fontSize="3xl" className="title-color">
+                  {topic.votes}
+                </Text>
+
+                <TbTriangleInvertedFilled
+                  fontSize={36}
+                  className="title-color"
+                  onClick={() => handleVotes(-1)}
+                  style={{ cursor: "pointer" }}
+                />
+              </Box>
+              <Box className="col-11">
+                <Preview text={topic.description} />
+              </Box>
+            </Box>
           </Box>
           <Flex justify="flex-end" mb={2}>
             <Heading className="title-color" size="sm">
@@ -145,7 +197,7 @@ const TopicDetails = () => {
             <Tag
               size="md"
               bgColor="#909090"
-              className="text-white"
+              className="text-white ms-2"
               borderRadius="full"
             >
               {topic.replies.length}
