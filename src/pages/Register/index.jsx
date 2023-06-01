@@ -7,7 +7,7 @@ function RegisterPage() {
   const [porcentage, setPorcentage] = useState(0);
 
   return (
-    <div>
+    <div className='container pt-5'>
       <Heading>Cadastro</Heading>
       <ProgressBar number={porcentage} />
       <RegisterForm handlePorcentage={(p) => setPorcentage(p)} />
