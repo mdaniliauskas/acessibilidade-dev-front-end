@@ -23,12 +23,16 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
 
   const handleInput = (e) => {
     let tag = e.target.value.toUpperCase().trim();
-    if (e.keyCode !== 32) return false;
-
-    if (!tags.includes(tag) && tag !== "") {
-      onAddTag([...tags, tag]);
+    if (
+      e.keyCode === 32 ||
+      e.target.value.charCodeAt(e.target.value.length - 1) === 32
+    ) {
+      if (!tags.includes(tag) && tag !== "") {
+        onAddTag([...tags, tag]);
+      }
+      e.target.value = " ";
     }
-    e.target.value = " ";
+    return false;
   };
 
   const onDeleteTag = (elemt) => {
