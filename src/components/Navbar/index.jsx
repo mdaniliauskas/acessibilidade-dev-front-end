@@ -83,17 +83,17 @@ const Navbar = () => {
                 </Tab>
               </LinkRouter>
               <LinkRouter to="forum">
-                <Tab color="#FF0000" fontWeight="bold">
+                <Tab color="#C05746" fontWeight="bold">
                   Fórum
                 </Tab>
               </LinkRouter>
               <LinkRouter to="chat">
-                <Tab color="#201CFE" fontWeight="bold">
+                <Tab color="#0070BB" fontWeight="bold">
                   Sala Virtual
                 </Tab>
               </LinkRouter>
               <LinkRouter to="openIA">
-                <Tab color="#EFC222" fontWeight="bold">
+                <Tab color="#EEA243" fontWeight="bold">
                   Dúvidas
                 </Tab>
               </LinkRouter>
@@ -138,12 +138,12 @@ const Navbar = () => {
                 </Tab>
               </LinkRouter>
               <LinkRouter to="forum">
-                <Tab color="#FF0000" fontWeight="bold">
+                <Tab color="#C05746" fontWeight="bold">
                   Fórum
                 </Tab>
               </LinkRouter>
               <LinkRouter to="chat">
-                <Tab color="#201CFE" fontWeight="bold">
+                <Tab color="#0070BB" fontWeight="bold">
                   Sala Virtual
                 </Tab>
               </LinkRouter>

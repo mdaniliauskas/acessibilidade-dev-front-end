@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-
-//titulo
-import { Heading } from "@chakra-ui/react";
-
-import { NEWTOPIC } from "../../../utils/constants/api";
-
-import styles from "./styles.module.css";
-
 import errorValidation from "../../../utils/validations/ErrorValidation";
-
 import {
   Box,
-  Flex,
   Card,
   CardBody,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  Heading,
   Input,
   Tab,
   Tabs,
@@ -27,24 +18,25 @@ import {
   TabPanels,
   Select,
 } from "@chakra-ui/react";
-import CustomButton from "../../../components/CustomButton";
-import Editor from "../../../components/Markdown/Editor";
-import Preview from "../../../components/Markdown/Preview";
-import InputTags from "../../../components/InputTags";
+
+import { CustomButton, Editor, Preview, InputTags } from "../../../components";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-import { useNavigate } from "react-router-dom";
-
-const NewTopicForm = () => {
+const UpdateTopicForm = () => {
   const { user } = useAuth0();
 
   const [mdText, setMdText] = useState("");
+
   const [isInvalidMD, setIsInvalidMD] = useState(false);
 
   const [tags, setTags] = useState([]);
 
   const navigate = useNavigate();
+  const {
+    state: { id, title, description, tags: oldTags, category },
+  } = useLocation();
 
   const {
     register,
@@ -52,7 +44,8 @@ const NewTopicForm = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      title: "",
+      title,
+      category: 1,
     },
   });
 
@@ -91,10 +84,15 @@ const NewTopicForm = () => {
     }
   };
 
+  useEffect(() => {
+    setTags(oldTags.map((to) => to.tag.title));
+    setMdText(description);
+  }, []);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Box className="container py-5">
-        <Heading className="title-color">Novo tópico</Heading>
+        <Heading className="title-color">Editar tópico</Heading>
         <br />
         <Card>
           <CardBody className="shadow bg-white rounded">
@@ -182,4 +180,4 @@ const NewTopicForm = () => {
   );
 };
 
-export default NewTopicForm;
+export default UpdateTopicForm;

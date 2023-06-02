@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import {
   NEWREPLY,
@@ -46,6 +46,8 @@ const TopicDetails = () => {
 
   const [error, setError] = useState(false);
   const [topic, setTopic] = useState({});
+
+  const navigate = useNavigate();
 
   const onSubmitReply = async () => {
     let isValid = txtReply.length >= 20;
@@ -132,16 +134,34 @@ const TopicDetails = () => {
                   </CustomButton>
                 </a>
                 {topic.authorId === user.id && !topic.status ? (
-                  <Box className="row mt-3">
-                    <CustomButton
-                      bg="#0070BB"
-                      bgHover="#00568F"
-                      className="w-100"
-                      type="button"
-                      onClick={handleCloseTopic}
-                    >
-                      Encerrar Tópico
-                    </CustomButton>
+                  <Box className="col">
+                    <Box className="row mt-3">
+                      <CustomButton
+                        bg="#C05746"
+                        bgHover="#984134"
+                        className="w-100"
+                        type="button"
+                        onClick={handleCloseTopic}
+                      >
+                        Encerrar Tópico
+                      </CustomButton>
+                    </Box>
+                    <Box className="row mt-3">
+                      <CustomButton
+                        bg="#0070BB"
+                        bgHover="#00568F"
+                        className="w-100"
+                        type="button"
+                        onClick={() =>
+                          navigate("/forum/editar-topico/" + topic.id, {
+                            replace: true,
+                            state: topic,
+                          })
+                        }
+                      >
+                        Editar Tópico
+                      </CustomButton>
+                    </Box>
                   </Box>
                 ) : null}
               </Box>
