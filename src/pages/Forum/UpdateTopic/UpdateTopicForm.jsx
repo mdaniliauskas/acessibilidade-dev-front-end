@@ -39,8 +39,6 @@ const UpdateTopicForm = () => {
     state: { id, title, description, tags: oldTags, categoryId },
   } = useLocation();
 
-  console.log(categoryId);
-
   const {
     register,
     handleSubmit, //Esta função receberá os dados do formulário se a validação do formulário for bem sucedida.
@@ -83,12 +81,12 @@ const UpdateTopicForm = () => {
     const data = await res.json();
 
     if (data.success) {
-      navigate("/forum", { replace: true });
+      navigate("/forum/topico/" + id, { replace: true });
     }
   };
 
   useEffect(() => {
-    setTags(oldTags.map((to) => to.tag.title));
+    setTags(oldTags.map((to) => to.tag.title.toUpperCase().trim()));
     setMdText(description);
   }, []);
 
