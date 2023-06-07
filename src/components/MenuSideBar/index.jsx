@@ -42,35 +42,9 @@ const index = () => {
       >
         <DrawerOverlay />
         <DrawerContent bgColor="#DDDDDD" color="#696666">
-          <DrawerHeader>
-            {isAuthenticated ? <Text>{user.nickname}</Text> : <Text>Menu</Text>}
-            <DrawerCloseButton size="lg" />
-          </DrawerHeader>
-
-          <DrawerBody as="b" textAlign="center">
-            <Box position="relative" className="px-1 py-3 mt-3">
-              <Divider borderColor="#696666" />
-              <AbsoluteCenter bg="#DDD" px="4">
-                Meus Dados
-              </AbsoluteCenter>
-            </Box>
+          <DrawerHeader className="d-flex align-items-start">
             {isAuthenticated ? (
-              <>
-                <Link>Minhas notícias</Link>
-                <br />
-                <Link>Minhas ferramentas</Link>
-                <br />
-                <Link>Minhas perguntas</Link>
-                <br />
-                {!user.completedProfile ? (
-                  <>
-                    <LinkRouter to="/completarCadastro">
-                      Completar cadastro
-                    </LinkRouter>
-                    <br />
-                  </>
-                ) : null}
-              </>
+              <Text>{user.nickname}</Text>
             ) : (
               <>
                 <br />
@@ -80,7 +54,10 @@ const index = () => {
                 <br />
               </>
             )}
+            <DrawerCloseButton size="lg" />
+          </DrawerHeader>
 
+          <DrawerBody as="b" textAlign="center">
             <Box position="relative" className="px-1 py-3 mt-3">
               <Divider borderColor="#696666" />
               <AbsoluteCenter bg="#DDD" px="4">

@@ -37,7 +37,7 @@ const ListTopics = () => {
 
   return (
     <Box className="container py-5">
-      <Box className="row justify-content-between">
+      <Box className="row justify-content-between mb-4 mb-sm-2">
         <Heading as="h2" color="#696666" style={{ width: "fit-content" }}>
           Fórum
         </Heading>
