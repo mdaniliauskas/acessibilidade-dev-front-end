@@ -23,6 +23,7 @@ import { CustomButton, Editor, Preview, InputTags } from "../../../components";
 
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { UPDATETOPIC } from "../../../utils/constants/api";
 
 const UpdateTopicForm = () => {
   const { user } = useAuth0();
@@ -35,8 +36,10 @@ const UpdateTopicForm = () => {
 
   const navigate = useNavigate();
   const {
-    state: { id, title, description, tags: oldTags, category },
+    state: { id, title, description, tags: oldTags, categoryId },
   } = useLocation();
+
+  console.log(categoryId);
 
   const {
     register,
@@ -45,7 +48,7 @@ const UpdateTopicForm = () => {
   } = useForm({
     defaultValues: {
       title,
-      category: 1,
+      category: categoryId,
     },
   });
 
@@ -69,8 +72,8 @@ const UpdateTopicForm = () => {
       tags,
     };
 
-    const res = await fetch(NEWTOPIC, {
-      method: "POST",
+    const res = await fetch(UPDATETOPIC + "/" + id, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",

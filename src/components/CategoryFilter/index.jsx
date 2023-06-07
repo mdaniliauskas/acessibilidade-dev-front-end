@@ -14,14 +14,14 @@ function CategoryFilter({ categories, state, setState }) {
   };
   return (
     <Box className="row g-3 justify-content-center justify-content-xxl-start">
-      {categories.map((categoryObj, index) => (
-        <Box key={index} className="col-auto">
+      {categories.map((categoryObj) => (
+        <Box key={categoryObj.categoryId} className="col-auto">
           <CategoryTag
             name={categoriesTitle[categoryObj.categoryId]}
             value={categoryObj._count}
             selected={state}
             callback={onFilterCategory}
-            index={index}
+            index={categoryObj.categoryId}
           />
         </Box>
       ))}

@@ -23,6 +23,8 @@ const ListTopics = () => {
 
   const [categorySelected, setCategorySelected] = useState(0);
 
+  console.log(categorySelected);
+
   useEffect(() => {
     (async () => {
       const { success, data } = await getListTopics();
