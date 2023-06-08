@@ -1,0 +1,18 @@
+.chat-container {
+  height: calc(100vh - 89px);
+}
+
+/* .chat-options {
+  height: 10%;
+} */
+
+.chat-messages {
+  height: 55%;
+  overflow-y: scroll;
+  scroll-snap-align: end;
+  scroll-behavior: smooth;
+}
+
+.send-message {
+  height: 25%;
+}
