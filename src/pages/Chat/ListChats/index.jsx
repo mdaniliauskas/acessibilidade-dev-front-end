@@ -39,7 +39,7 @@ const ListChats = () => {
   return (
     <div className="container py-5">
       <div className="row justify-content-between">
-        <div className="col-auto">
+        <div className="col-auto title-color">
           <Heading>Salas de discussão</Heading>
         </div>
         <div className="col-auto">

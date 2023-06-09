@@ -31,7 +31,7 @@ const Navbar = () => {
 
   const matches = useMatches();
 
-  const activeTab = ["ferramentas", "forum", "chat", "openIA"];
+  const activeTab = ["forum", "chat", "openIA"];
 
   return (
     <>
@@ -51,23 +51,18 @@ const Navbar = () => {
             }
           >
             <TabList style={{ width: "fit-content" }}>
-              <LinkRouter to="ferramentas">
-                <Tab color="#5A9A08" fontWeight="bold">
-                  Ferramentas
-                </Tab>
-              </LinkRouter>
               <LinkRouter to="forum">
-                <Tab color="#C05746" fontWeight="bold">
+                <Tab color="#0070BB" fontWeight="bold">
                   Fórum
                 </Tab>
               </LinkRouter>
               <LinkRouter to="chat">
-                <Tab color="#0070BB" fontWeight="bold">
+                <Tab color="#C05746" fontWeight="bold">
                   Sala Virtual
                 </Tab>
               </LinkRouter>
               <LinkRouter to="openIA">
-                <Tab color="#EEA243" fontWeight="bold">
+                <Tab color="#5A9A08" fontWeight="bold">
                   Dúvidas
                 </Tab>
               </LinkRouter>
