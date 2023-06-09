@@ -95,7 +95,7 @@ const index = () => {
           <DrawerFooter justifyContent="center">
             {isAuthenticated ? (
               <CustomButton
-                onClick={logout}
+                onClick={() => logout({ returnTo: window.location.origin })}
                 type="button"
                 bg="red"
                 bgHover="red.500"
