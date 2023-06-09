@@ -68,10 +68,6 @@ const index = () => {
               Fórum
             </LinkRouter>
             <br />
-            <LinkRouter onClick={onClose} to="/ferramentas">
-              Ferramentas
-            </LinkRouter>
-            <br />
             <LinkRouter onClick={onClose} to="/chat">
               Sala Virtual
             </LinkRouter>
@@ -79,17 +75,6 @@ const index = () => {
             <LinkRouter onClick={onClose} to="/openIA">
               Dúvidas
             </LinkRouter>
-
-            <Box position="relative" className="px-1 py-3 mt-3">
-              <Divider borderColor="#696666" />
-              <AbsoluteCenter bg="#DDD" px="4">
-                Sobre
-              </AbsoluteCenter>
-            </Box>
-
-            <Link>Projeto</Link>
-            <br />
-            <Link>Ajuda</Link>
           </DrawerBody>
 
           <DrawerFooter justifyContent="center">
