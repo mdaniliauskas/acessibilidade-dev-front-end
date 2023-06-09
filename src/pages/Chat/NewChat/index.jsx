@@ -10,6 +10,8 @@ import {
   Alert,
   AlertIcon,
   Box,
+  Card,
+  CardBody,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -60,54 +62,67 @@ function NewChat() {
   };
 
   return (
-    <Box className="container">
+    <Box className="container py-5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box className="">
-          <Heading as="h1">Criar nova sala</Heading>
+        <Box className="mb-3">
+          <Heading as="h1" className="title-color">
+            Criar nova sala
+          </Heading>
         </Box>
-        <FormControl isRequired isInvalid={errors.title}>
-          <FormLabel htmlFor="title" className={styles.registerLabels}>
-            Nome da sala
-          </FormLabel>
-          <Input
-            id="title"
-            placeholder="Digite o nome da sala de discussão."
-            isInvalid={errors.title ? true : false}
-            {...register("title", {
-              ...errorValidation.titleChat,
-              ...errorValidation.filled,
-            })}
-          />
-          {!errors.title ? (
-            <FormHelperText>
-              O campo deve possui no mínimo 5 e o maxímo 30 de caracteres.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>{errors.title.message}</FormErrorMessage>
-          )}
-        </FormControl>
+        <Card className="mb-3">
+          <CardBody className="shadow bg-white rounded">
+            <FormControl isRequired ishufflednvalid={errors.title}>
+              <FormLabel className="title-color" htmlFor="title">
+                Nome da sala
+              </FormLabel>
+              <Input
+                id="title"
+                placeholder="Digite o nome da sala de discussão."
+                isInvalid={errors.title ? true : false}
+                {...register("title", {
+                  ...errorValidation.titleChat,
+                  ...errorValidation.filled,
+                })}
+              />
+              {!errors.title ? (
+                <FormHelperText>
+                  O campo deve possui no mínimo 5 e o maxímo 30 de caracteres.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>{errors.title.message}</FormErrorMessage>
+              )}
+            </FormControl>
+          </CardBody>
+        </Card>
 
-        <FormControl isRequired isInvalid={errors.description}>
-          <FormLabel htmlFor="description" className={styles.registerLabels}>
-            Uma breve descrição
-          </FormLabel>
-          <Textarea
-            id="description"
-            placeholder="Dê uma breve descrição do objetivo dessa sala de discussão."
-            isInvalid={errors.description ? true : false}
-            {...register("description", {
-              ...errorValidation.descriptionChat,
-              ...errorValidation.filled,
-            })}
-          />
-          {!errors.description ? (
-            <FormHelperText>
-              O campo deve possui no mínimo 20 e o maxímo 150 caracteres.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>{errors.description.message}</FormErrorMessage>
-          )}
-        </FormControl>
+        <Card className="mb-3">
+          <CardBody className="shadow bg-white rounded">
+            <FormControl isRequired isInvalid={errors.description}>
+              <FormLabel htmlFor="description" className="title-color">
+                Uma breve descrição
+              </FormLabel>
+              <Textarea
+                id="description"
+                placeholder="Dê uma breve descrição do objetivo dessa sala de discussão."
+                isInvalid={errors.description ? true : false}
+                {...register("description", {
+                  ...errorValidation.descriptionChat,
+                  ...errorValidation.filled,
+                })}
+              />
+              {!errors.description ? (
+                <FormHelperText>
+                  O campo deve possui no mínimo 20 e o maxímo 150 caracteres.
+                </FormHelperText>
+              ) : (
+                <FormErrorMessage>
+                  {errors.description.message}
+                </FormErrorMessage>
+              )}
+            </FormControl>
+          </CardBody>
+        </Card>
+
         {reqError ? (
           <Alert status="error" mt={10}>
             <AlertIcon />
