@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Heading, Text } from "@chakra-ui/react";
+import {
+  AbsoluteCenter,
+  Box,
+  Button,
+  Divider,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { LogOut, Send, X } from "react-feather";
 import {
   registerMember,
@@ -82,7 +89,21 @@ const ChatDetails = () => {
     setChatInfo(info);
   };
 
+  const getHeightScreen = () => {
+    const heightScreen = document.querySelector("html").clientHeight;
+    const heightNavbar = document.querySelector("#navbar").clientHeight;
+
+    console.log("screen", heightScreen);
+    console.log("navbar", heightNavbar);
+
+    document.querySelector(".chat-container").style.height = `${
+      heightScreen - heightNavbar
+    }px`;
+    console.log(document.querySelector(".chat-container").style.height);
+  };
+
   useEffect(() => {
+    getHeightScreen();
     if (!isLoading) {
       getChatDetails(`${chatId}`, searchChatInfo);
       getListMessages(`${chatId}`, searchMessage);
@@ -114,16 +135,17 @@ const ChatDetails = () => {
       ) : (
         <Box>
           <Box className="container py-sm-5 chat-container">
-            <Box className="row justify-content-center justify-content-sm-between h-auto mb-4">
-              <Box className="col-10 col-sm-auto">
+            <Box className="chat-options row justify-content-center justify-content-md-between h-auto mb-4">
+              <Box className="col-10 col-md-12 col-xxl-auto">
                 <Heading as="h1" className="capitalize">
                   {chatInfo?.title}
                 </Heading>
               </Box>
 
-              <Box className="col-auto">
+              <Box className="col-10 col-md-12 col-xxl-auto mt-3 mt-xxl-0">
                 {chatInfo?.ownerId === user.id && chatInfo.isOpen ? (
                   <Button
+                    className="m-1 col-12 col-md-4 col-lg-auto"
                     colorScheme="red"
                     rightIcon={<X />}
                     type="button"
@@ -143,9 +165,9 @@ const ChatDetails = () => {
                   </Button>
                 ) : null}
                 <Button
+                  className="m-1 col-12 col-md-4  col-lg-auto"
                   colorScheme="facebook"
                   rightIcon={<LogOut />}
-                  ml="15px"
                   type="Button"
                   onClick={() => navigate("/chat", { replace: true })}
                 >
@@ -158,18 +180,18 @@ const ChatDetails = () => {
               className="row justify-content-center chat-messages"
               ref={chatMessages}
             >
-              <Box className="col-11 bg-white p-4 border rounded ">
-                <Box>
+              <Box className="col-11 col-md bg-white p-4 border rounded ">
+                <Box className="mb-3">
                   <Heading as="h2" size="md">
-                    Seja bem-vindo a{" "}
+                    Seja bem-vindo a
                     <span className="capitalize">{chatInfo.title}</span>
                   </Heading>
                 </Box>
                 <Box>
+                  <hr />
                   {messageList.map((m, index) => {
                     if (index === messageList.length - 1) {
                       // Executar ação após o término do map
-                      console.log("Executou o map");
                       setTimeout(() => {
                         if (chatMessages.current) {
                           chatMessages.current.scrollTop =
@@ -179,11 +201,11 @@ const ChatDetails = () => {
                     }
                     return m.author ? (
                       <Box>
-                        <Box>
+                        <Box className="d-flex mt-1 justify-content-between">
                           <p>{m.author}</p>
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
-                        <Box>
+                        <Box className="p-1">
                           <MDEditor.Markdown
                             source={m.message}
                             rehypePlugins={
@@ -196,12 +218,22 @@ const ChatDetails = () => {
                             }
                           />
                         </Box>
+                        <hr />
                       </Box>
                     ) : (
-                      <Box key={m.key}>
-                        <Box>
-                          <Text>{m.message}</Text>
-                        </Box>
+                      <Box
+                        key={m.key}
+                        position="relative"
+                        className="px-1 py-3 mt-1"
+                      >
+                        <Divider borderColor="#eee" />
+                        <AbsoluteCenter
+                          bg="#fff"
+                          className="title-color"
+                          px="4"
+                        >
+                          {m.message}
+                        </AbsoluteCenter>
                       </Box>
                     );
                   })}
@@ -213,7 +245,7 @@ const ChatDetails = () => {
               </Box>
             </Box>
             <Box className="row justify-content-center send-message h-auto rounded">
-              <Box className=" col-11 p-3 ">
+              <Box className=" col-11 col-md p-3 ">
                 <Box
                   id="chatContainer"
                   className="px-3 py-1 border rounded border-light-subtle border-1 row bg-white"
