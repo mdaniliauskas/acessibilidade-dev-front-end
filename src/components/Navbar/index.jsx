@@ -35,7 +35,7 @@ const Navbar = () => {
 
   return (
     <>
-      <Box className="bg-white container-fluid ps-0 shadow-sm ">
+      <Box className="bg-white container-fluid ps-0 shadow-sm " id="navbar">
         <Box className="row pt-2 border-bottom">
           <Heading as="h4" size="lg" className="col-12 text-center">
             Acessibilidade Dev

@@ -1,0 +1,46 @@
+/* .chat-container {
+  height: calc(100vh - 89px);
+} */
+
+.chat-options {
+  height: auto;
+}
+
+.chat-messages {
+  height: 50%;
+  overflow-y: scroll;
+  scroll-snap-align: end;
+  scroll-behavior: smooth;
+}
+
+.send-message {
+  height: auto;
+}
+
+/* xs */
+@media only screen and (max-width: 575px) {
+  .chat-options h1 {
+    font-size: 20px;
+  }
+}
+
+/* sm */
+
+/* @media only screen and (min-width: 576px) and (max-width: 767px) {
+  .chat-options {
+    height: 10%;
+  }
+  .chat-messages {
+    height: 70%;
+  }
+  .send-message {
+    height: 20%;
+  }
+} */
+
+/* md and highest */
+@media only screen and (min-width: 768px) {
+  .chat-messages {
+    height: 75%;
+  }
+}

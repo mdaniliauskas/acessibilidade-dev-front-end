@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Alert, Box, Button, Heading, Text, Textarea } from "@chakra-ui/react";
+import {
+  AbsoluteCenter,
+  Box,
+  Button,
+  Divider,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { LogOut, Send, X } from "react-feather";
 import {
   registerMember,
@@ -16,17 +23,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { dateTimeFormatted } from "../../../utils/formatters/datetime.js";
 
 import SpinnerLoading from "../../../components/SpinnerLoading";
-import Preview from "../../../components/Markdown/Preview";
 import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
+
+import "./style.css";
 
 const ChatDetails = () => {
   const { chatId } = useParams();
   const textAreaRef = useRef();
+  const chatMessages = useRef(null);
   const { user, isLoading } = useAuth0();
   const navigate = useNavigate();
 
-  const [heightTextArea, setHeightTextArea] = useState(24);
+  const [heightTextArea, setHeightTextArea] = useState(24 * 3);
   const [messageList, setMessageList] = useState([]);
   const [chatInfo, setChatInfo] = useState({});
 
@@ -43,7 +52,7 @@ const ChatDetails = () => {
 
   const handleTextAreaRows = (e) => {
     let lineCount = e.target.value.split("\n").length;
-    setHeightTextArea(lineCount * 24);
+    // setHeightTextArea(lineCount * 24);
   };
 
   const handleSendMessage = async () => {
@@ -61,13 +70,15 @@ const ChatDetails = () => {
       try {
         await writeData(payload);
         textAreaRef.current.value = null;
-        setHeightTextArea(24);
       } catch (e) {
         console.error(e.message);
       }
     }
-    setHeightTextArea(24);
     textAreaRef.current.value = "";
+
+    if (chatMessages.current) {
+      chatMessages.current.scrollTop = chatMessages.current.scrollHeight;
+    }
   };
 
   const searchMessage = (snapshot) => {
@@ -78,12 +89,27 @@ const ChatDetails = () => {
     setChatInfo(info);
   };
 
+  const getHeightScreen = () => {
+    const heightScreen = document.querySelector("html").clientHeight;
+    const heightNavbar = document.querySelector("#navbar").clientHeight;
+
+    console.log("screen", heightScreen);
+    console.log("navbar", heightNavbar);
+
+    document.querySelector(".chat-container").style.height = `${
+      heightScreen - heightNavbar
+    }px`;
+    console.log(document.querySelector(".chat-container").style.height);
+  };
+
   useEffect(() => {
+    getHeightScreen();
     if (!isLoading) {
       getChatDetails(`${chatId}`, searchChatInfo);
       getListMessages(`${chatId}`, searchMessage);
       registerMember(`members/${chatId}/${user.id}`);
     }
+
     return () => {
       unsubscription();
       unregisterMember(`members/${chatId}/${user.id}`);
@@ -107,15 +133,19 @@ const ChatDetails = () => {
       {isLoading ? (
         <SpinnerLoading />
       ) : (
-        <>
-          <Box className="md:container mx-auto">
-            <Box className="flex my-5" justifyContent="space-between">
-              <Heading as="h1" className="capitalize">
-                {chatInfo?.title}
-              </Heading>
-              <Box>
+        <Box>
+          <Box className="container py-sm-5 chat-container">
+            <Box className="chat-options row justify-content-center justify-content-md-between h-auto mb-4">
+              <Box className="col-10 col-md-12 col-xxl-auto">
+                <Heading as="h1" className="capitalize">
+                  {chatInfo?.title}
+                </Heading>
+              </Box>
+
+              <Box className="col-10 col-md-12 col-xxl-auto mt-3 mt-xxl-0">
                 {chatInfo?.ownerId === user.id && chatInfo.isOpen ? (
                   <Button
+                    className="m-1 col-12 col-md-4 col-lg-auto"
                     colorScheme="red"
                     rightIcon={<X />}
                     type="button"
@@ -135,9 +165,9 @@ const ChatDetails = () => {
                   </Button>
                 ) : null}
                 <Button
+                  className="m-1 col-12 col-md-4  col-lg-auto"
                   colorScheme="facebook"
                   rightIcon={<LogOut />}
-                  ml="15px"
                   type="Button"
                   onClick={() => navigate("/chat", { replace: true })}
                 >
@@ -147,36 +177,35 @@ const ChatDetails = () => {
             </Box>
 
             <Box
-              border="1px"
-              borderColor="gray.100"
-              borderRadius="xl"
-              padding="15px"
-              my="5px"
+              className="row justify-content-center chat-messages"
+              ref={chatMessages}
             >
-              <Box>
-                <Box mx="30px" mt="5px" mb="15px">
+              <Box className="col-11 col-md bg-white p-4 border rounded ">
+                <Box className="mb-3">
                   <Heading as="h2" size="md">
-                    Seja bem-vindo a{" "}
+                    Seja bem-vindo a
                     <span className="capitalize">{chatInfo.title}</span>
                   </Heading>
                 </Box>
                 <Box>
-                  {messageList.map((m) =>
-                    m.author ? (
-                      <Box
-                        mx="30px"
-                        my="5px"
-                        padding="15px"
-                        borderBottom="1px"
-                        borderTop="1px"
-                        borderColor="gray.100"
-                        key={m.key}
-                      >
-                        <Box className="flex" justifyContent="space-between">
+                  <hr />
+                  {messageList.map((m, index) => {
+                    if (index === messageList.length - 1) {
+                      // Executar ação após o término do map
+                      setTimeout(() => {
+                        if (chatMessages.current) {
+                          chatMessages.current.scrollTop =
+                            chatMessages.current.scrollHeight;
+                        }
+                      }, 100);
+                    }
+                    return m.author ? (
+                      <Box>
+                        <Box className="d-flex mt-1 justify-content-between">
                           <p>{m.author}</p>
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
-                        <Box>
+                        <Box className="p-1">
                           <MDEditor.Markdown
                             source={m.message}
                             rehypePlugins={
@@ -189,50 +218,47 @@ const ChatDetails = () => {
                             }
                           />
                         </Box>
+                        <hr />
                       </Box>
                     ) : (
                       <Box
-                        mx="30px"
-                        my="5px"
-                        padding="15px"
-                        borderColor="gray.100"
                         key={m.key}
+                        position="relative"
+                        className="px-1 py-3 mt-1"
                       >
-                        <Box className="flex" justifyContent="center">
-                          <Text color="gray">{m.message}</Text>
-                        </Box>
+                        <Divider borderColor="#eee" />
+                        <AbsoluteCenter
+                          bg="#fff"
+                          className="title-color"
+                          px="4"
+                        >
+                          {m.message}
+                        </AbsoluteCenter>
                       </Box>
-                    )
-                  )}
+                    );
+                  })}
 
                   {!chatInfo.isOpen ? (
-                    <Heading
-                      as="h2"
-                      size="sm"
-                      textAlign="center"
-                      p="5"
-                      color="red"
-                    >
-                      A sala {chatInfo.title} foi encerrada.
-                    </Heading>
+                    <Heading>A sala {chatInfo.title} foi encerrada.</Heading>
                   ) : null}
                 </Box>
               </Box>
-              <Box className="p-2">
+            </Box>
+            <Box className="row justify-content-center send-message h-auto rounded">
+              <Box className=" col-11 col-md p-3 ">
                 <Box
                   id="chatContainer"
-                  className="px-3 py-1 border rounded border-light-subtle border-1 row"
+                  className="px-3 py-1 border rounded border-light-subtle border-1 row bg-white"
                 >
                   <textarea
                     id="textmessage"
-                    className="m-0 p-0 overflow-y-scroll col-11"
+                    className="m-0 p-0 overflow-y-scroll col"
                     style={{
                       maxHeight: 200,
                       height: heightTextArea,
                       outline: "none",
                       resize: "none",
                     }}
-                    rows="1"
                     tabIndex={0}
                     onChange={handleTextAreaRows}
                     onKeyDown={checkShortcut}
@@ -246,7 +272,7 @@ const ChatDetails = () => {
                     isDisabled={!chatInfo.isOpen}
                     bgColor="white"
                     _hover="white"
-                    className="col-1 p-0 align-self-end"
+                    className="col-auto p-0 align-self-center"
                     h="24px"
                   >
                     <Send />
@@ -255,12 +281,10 @@ const ChatDetails = () => {
               </Box>
             </Box>
           </Box>
-        </>
+        </Box>
       )}
     </>
   );
 };
-
-// scrollHeight / lineHeight
 
 export default ChatDetails;
