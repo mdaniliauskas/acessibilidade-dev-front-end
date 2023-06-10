@@ -92,6 +92,13 @@ const Navbar = () => {
         </Box>
       </Box>
       <Box>
+        {!isAuthenticated ? (
+          <div className="alert alert-warning m-1">
+            Para ter acesso a todas as funcionalidades do Portal Acessibilidade
+            Dev é preciso estar logado!{" "}
+            <Link onClick={() => loginWithRedirect()}>Realizar login.</Link>
+          </div>
+        ) : null}
         <Outlet />
       </Box>
     </>
