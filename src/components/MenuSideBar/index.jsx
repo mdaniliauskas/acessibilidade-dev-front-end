@@ -58,6 +58,20 @@ const index = () => {
           </DrawerHeader>
 
           <DrawerBody as="b" textAlign="center">
+            {isAuthenticated && !user.completedProfile ? (
+              <>
+                <Box position="relative" className="px-1 py-3 mt-3">
+                  <Divider borderColor="#696666" />
+                  <AbsoluteCenter bg="#DDD" px="4">
+                    Perfil
+                  </AbsoluteCenter>
+                </Box>
+                <LinkRouter onClick={onClose} to="/completarCadastro">
+                  Completar cadastro
+                </LinkRouter>
+                <br />
+              </>
+            ) : null}
             <Box position="relative" className="px-1 py-3 mt-3">
               <Divider borderColor="#696666" />
               <AbsoluteCenter bg="#DDD" px="4">
