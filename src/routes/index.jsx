@@ -17,7 +17,7 @@ import ChatDetails from "../pages/Chat/ChatDetails/index.jsx";
 import ListChats from "../pages/Chat/ListChats/index.jsx";
 import Chat from "../pages/OpenIA/Chat";
 import UpdateTopic from "../pages/Forum/UpdateTopic";
-import PrivateRoute from "./PrivateRoute";
+import LoginRedirect from "../pages/LoginRedirect";
 
 export default createBrowserRouter(
   createRoutesFromElements(
@@ -27,36 +27,22 @@ export default createBrowserRouter(
       <Route path="/noticias" element={<p>Noticias</p>} />
 
       <Route path="/forum" element={<ListTopics />} />
-      <Route
-        path="/forum/novo-topico"
-        element={
-          <PrivateRoute>
-            <NewTopic />
-          </PrivateRoute>
-        }
-      />
+
+      {/* Rota privada */}
+      <Route path="/forum/novo-topico" element={<NewTopic />} />
+
       <Route path="/forum/topico/:topicId" element={<TopicDetails />} />
       <Route path="/forum/editar-topico/:topicId" element={<UpdateTopic />} />
 
       <Route path="/completarCadastro" element={<Register />} />
 
       <Route path="/chat" element={<ListChats />} />
-      <Route
-        path="/chat/novo-chat"
-        element={
-          <PrivateRoute>
-            <NewChat />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/chat/:chatId"
-        element={
-          <PrivateRoute>
-            <ChatDetails />
-          </PrivateRoute>
-        }
-      />
+
+      {/* Rota privada */}
+      <Route path="/chat/novo-chat" element={<NewChat />} />
+
+      {/* Rota privada */}
+      <Route path="/chat/:chatId" element={<ChatDetails />} />
 
       <Route path="/openIA" element={<Chat />} />
     </Route>
