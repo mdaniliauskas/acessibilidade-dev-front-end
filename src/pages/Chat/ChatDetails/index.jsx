@@ -93,13 +93,9 @@ const ChatDetails = () => {
     const heightScreen = document.querySelector("html").clientHeight;
     const heightNavbar = document.querySelector("#navbar").clientHeight;
 
-    console.log("screen", heightScreen);
-    console.log("navbar", heightNavbar);
-
     document.querySelector(".chat-container").style.height = `${
       heightScreen - heightNavbar
     }px`;
-    console.log(document.querySelector(".chat-container").style.height);
   };
 
   useEffect(() => {
@@ -116,7 +112,7 @@ const ChatDetails = () => {
       const payload = {
         path: `messages/${chatId}`,
         data: {
-          message: `O usuário ${user.nickname} saiu da sala.`,
+          message: `${user.nickname} saiu da sala.`,
           createdAt: TIMESTAMP(),
         },
       };
@@ -200,12 +196,12 @@ const ChatDetails = () => {
                       }, 100);
                     }
                     return m.author ? (
-                      <Box>
-                        <Box className="d-flex mt-1 justify-content-between">
+                      <Box key={m.key} className="mt-3">
+                        <Box className="d-flex justify-content-between">
                           <p>{m.author}</p>
                           <p>{dateTimeFormatted(new Date(m.createdAt))}</p>
                         </Box>
-                        <Box className="p-1">
+                        <Box className="p-1 pb-3">
                           <MDEditor.Markdown
                             source={m.message}
                             rehypePlugins={
@@ -218,22 +214,18 @@ const ChatDetails = () => {
                             }
                           />
                         </Box>
-                        <hr />
+                      </Box>
+                    ) : m.message.includes(user.nickname) ? (
+                      <Box key={m.key} className="px-1 py-3 mt-1">
+                        <Text className="title-color text-center">
+                          {m.message.split(user.nickname).join("Você")}
+                        </Text>
                       </Box>
                     ) : (
-                      <Box
-                        key={m.key}
-                        position="relative"
-                        className="px-1 py-3 mt-1"
-                      >
-                        <Divider borderColor="#eee" />
-                        <AbsoluteCenter
-                          bg="#fff"
-                          className="title-color"
-                          px="4"
-                        >
+                      <Box key={m.key} className="px-1 py-3 mt-1">
+                        <Text className="title-color text-center">
                           {m.message}
-                        </AbsoluteCenter>
+                        </Text>
                       </Box>
                     );
                   })}
