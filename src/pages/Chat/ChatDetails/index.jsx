@@ -263,7 +263,7 @@ const ChatDetails = () => {
                     onChange={handleTextAreaRows}
                     onKeyDown={checkShortcut}
                     placeholder={`Conversar em ${chatInfo.title}`}
-                    isReadOnly={!chatInfo.isOpen}
+                    readOnly={!chatInfo.isOpen}
                     ref={textAreaRef}
                   />
                   <Button
