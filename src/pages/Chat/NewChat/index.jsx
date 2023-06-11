@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import CustomButton from "../../../components/CustomButton";
 import errorValidation from "../../../utils/validations/ErrorValidation";
 import { useNavigate } from "react-router-dom";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { TIMESTAMP, writeData } from "../../../services/chat.service.jsx";
 
 import {
@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 
 import styles from "./styles.module.css";
+import LoginRedirect from "../../LoginRedirect";
 
 function NewChat() {
   const { user } = useAuth0();
@@ -138,4 +139,6 @@ function NewChat() {
   );
 }
 
-export default NewChat;
+export default withAuthenticationRequired(NewChat, {
+  onRedirecting: () => <LoginRedirect />,
+});

@@ -19,7 +19,7 @@ import {
   unsubscription,
   writeData,
 } from "../../../services/chat.service.jsx";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { dateTimeFormatted } from "../../../utils/formatters/datetime.js";
 
 import SpinnerLoading from "../../../components/SpinnerLoading";
@@ -27,6 +27,7 @@ import MDEditor from "@uiw/react-md-editor";
 import rehypeSanitize from "rehype-sanitize";
 
 import "./style.css";
+import LoginRedirect from "../../LoginRedirect/index.jsx";
 
 const ChatDetails = () => {
   const { chatId } = useParams();
@@ -287,4 +288,6 @@ const ChatDetails = () => {
   );
 };
 
-export default ChatDetails;
+export default withAuthenticationRequired(ChatDetails, {
+  onRedirecting: () => <LoginRedirect />,
+});
