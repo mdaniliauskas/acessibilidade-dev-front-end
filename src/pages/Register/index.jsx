@@ -5,12 +5,12 @@ import { Heading } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 function RegisterPage() {
-  const [porcentage, setPorcentage] = useState(0);
+  const [porcentage, setPorcentage] = useState(100);
   const { user } = useAuth0();
 
   return (
-    <div className="container pt-5">
-      <Heading>Cadastro</Heading>
+    <div className="container py-5">
+      <Heading className="title-color">Cadastro</Heading>
       {user.completedProfile ? (
         <div className="">
           <Heading size="md" as="h2">
