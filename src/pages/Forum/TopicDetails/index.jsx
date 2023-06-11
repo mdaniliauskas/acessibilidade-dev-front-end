@@ -280,9 +280,10 @@ const TopicDetails = () => {
             </Box>
           ) : (
             <span>
-              Você dele fazer
-              <Link onClick={() => loginWithRedirect()}> login </Link>
-              para responder esse tópico.
+              <Link onClick={() => loginWithRedirect()}>
+                Você deve fazer login ou completar o seu cadastro para poder
+                responder os tópicos.
+              </Link>
             </span>
           )}
         </>
