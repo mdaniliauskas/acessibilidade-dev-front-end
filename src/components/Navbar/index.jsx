@@ -23,14 +23,19 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Outlet, Link as LinkRouter, useMatches } from "react-router-dom";
+import {
+  Outlet,
+  Link as LinkRouter,
+  useMatches,
+  useNavigate,
+} from "react-router-dom";
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { user, isAuthenticated, loginWithRedirect } = useAuth0();
 
   const matches = useMatches();
-
+  const navigate = useNavigate();
   const activeTab = ["forum", "chat", "openIA"];
 
   return (
@@ -92,11 +97,17 @@ const Navbar = () => {
         </Box>
       </Box>
       <Box>
-        {!isAuthenticated ? (
+        {!isAuthenticated || !user?.completedProfile ? (
           <div className="alert alert-warning m-1">
             Para ter acesso a todas as funcionalidades do Portal Acessibilidade
-            Dev é preciso estar logado!{" "}
-            <Link onClick={() => loginWithRedirect()}>Realizar login.</Link>
+            Dev é preciso estar logado e ter completado seu cadastro,{" "}
+            {!user?.completedProfile && isAuthenticated ? (
+              <Link onClick={() => navigate("/completarCadastro")}>
+                Completar cadastro.
+              </Link>
+            ) : (
+              <Link onClick={() => loginWithRedirect()}>Realizar login.</Link>
+            )}
           </div>
         ) : null}
         <Outlet />
