@@ -86,7 +86,8 @@ const Chat = () => {
                   <Text className="title-color">{result}</Text>
                 ) : status === 400 ? (
                   <Text className="title-color">
-                    Está dúvida não é sobre acessibilidade digital!
+                    Por favor, reformule sua pergunta, parece que sua duvida não
+                    é sobre acessibilidade!
                   </Text>
                 ) : (
                   <Text className="title-color">

@@ -135,7 +135,11 @@ const UpdateTopicForm = () => {
                 <Editor text={mdText} handleText={handleTextMD} />
                 {!isInvalidMD ? (
                   <FormHelperText>
-                    O campo deve possuir no mínimo 20 caracteres.
+                    O campo deve possuir no mínimo 20 caracteres.{" "}
+                    <i>
+                      Observação: Para adicionar uma quebra de linha é
+                      necessário 2 espaços no final da linha.
+                    </i>
                   </FormHelperText>
                 ) : (
                   <FormErrorMessage>

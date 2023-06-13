@@ -134,7 +134,7 @@ const ChatDetails = () => {
           <Box className="container py-sm-5 chat-container">
             <Box className="chat-options row justify-content-center justify-content-md-between h-auto mb-4">
               <Box className="col-10 col-md-12 col-xxl-auto">
-                <Heading as="h1" className="capitalize">
+                <Heading as="h1" className="title-color capitalize">
                   {chatInfo?.title}
                 </Heading>
               </Box>
@@ -179,8 +179,8 @@ const ChatDetails = () => {
             >
               <Box className="col-11 col-md bg-white p-4 border rounded ">
                 <Box className="mb-3">
-                  <Heading as="h2" size="md">
-                    Seja bem-vindo a
+                  <Heading className="title-color" as="h2" size="md">
+                    Seja bem-vindo a{" "}
                     <span className="capitalize">{chatInfo.title}</span>
                   </Heading>
                 </Box>
@@ -205,14 +205,12 @@ const ChatDetails = () => {
                         <Box className="p-1 pb-3">
                           <MDEditor.Markdown
                             source={m.message}
-                            rehypePlugins={
-                              ([rehypeSanitize],
-                              [
-                                {
-                                  allowedTags: ["br"], // permite o br para poder realizar as quebras de linhas
-                                },
-                              ])
-                            }
+                            rehypePlugins={[
+                              rehypeSanitize,
+                              {
+                                allowedTags: ["br"], // permite o br para poder realizar as quebras de linhas
+                              },
+                            ]}
                           />
                         </Box>
                       </Box>
@@ -232,7 +230,12 @@ const ChatDetails = () => {
                   })}
 
                   {!chatInfo.isOpen ? (
-                    <Heading>A sala {chatInfo.title} foi encerrada.</Heading>
+                    <>
+                      <hr />
+                      <Heading className="title-color py-3" size="md">
+                        A sala {chatInfo.title} foi encerrada!
+                      </Heading>
+                    </>
                   ) : null}
                 </Box>
               </Box>

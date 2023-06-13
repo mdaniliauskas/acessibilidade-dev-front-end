@@ -23,6 +23,9 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
 
   const handleInput = (e) => {
     let tag = e.target.value.toUpperCase().trim();
+    if (e.keyCode === 13) {
+      e.preventDefault();
+    }
     if (
       e.keyCode === 32 ||
       e.target.value.charCodeAt(e.target.value.length - 1) === 32
@@ -39,12 +42,10 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
     onAddTag(tags.filter((t) => t !== elemt));
   };
 
-  const isInvalidTagsAmount = isTouched && tags.length < 1;
-
   return (
     <Card>
       <CardBody>
-        <FormControl isRequired isInvalid={isInvalidTagsAmount}>
+        <FormControl>
           <FormLabel className="title-color" htmlFor="tags">
             {textLabel}
           </FormLabel>
@@ -54,17 +55,10 @@ const InputTags = ({ textLabel, onAddTag, tags }) => {
             {...register("tags")}
             onKeyUp={handleInput}
           />
-          {!isInvalidTagsAmount ? (
-            <FormHelperText>
-              Adicione tags das tecnologias relacionadas ao tópico. Ex: React
-              JS, JavaScript etc.
-            </FormHelperText>
-          ) : (
-            <FormErrorMessage>
-              Adicione tags das tecnologias relacionadas ao tópico. Ex: React
-              JS, JavaScript etc.
-            </FormErrorMessage>
-          )}
+          <FormHelperText>
+            Adicione tags das tecnologias relacionadas ao tópico. Ex: ReactJS,
+            JavaScript etc.
+          </FormHelperText>
         </FormControl>
         <Flex>
           {tags.map((t, index) => (

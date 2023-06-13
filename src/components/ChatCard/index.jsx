@@ -19,7 +19,7 @@ function ChatCard({
   ...rest
 }) {
   return (
-    <Card bg="#B8B7B7" {...rest}>
+    <Card bg="#B8B7B7" {...rest} style={{ cursor: "pointer" }}>
       <Box className="row px-3">
         <Box className="col-lg-8">
           <CardHeader className="px-0">
